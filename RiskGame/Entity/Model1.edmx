@@ -1,0 +1,398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="GameBattle">
+          <Key>
+            <PropertyRef Name="GameBattleId" />
+          </Key>
+          <Property Name="GameBattleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameRoomId" Type="int" Nullable="false" />
+          <Property Name="RiskId" Type="int" Nullable="false" />
+          <Property Name="RiskOptionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameRoom">
+          <Key>
+            <PropertyRef Name="GameRoomId" />
+          </Key>
+          <Property Name="GameRoomId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameRoomName" Type="nvarchar(max)" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Risk">
+          <Key>
+            <PropertyRef Name="RiskId" />
+          </Key>
+          <Property Name="RiskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RiskName" Type="nvarchar(max)" />
+          <Property Name="RiskDetail" Type="nvarchar(max)" />
+          <Property Name="RiskType" Type="int" />
+        </EntityType>
+        <EntityType Name="RiskOption">
+          <Key>
+            <PropertyRef Name="RiskOptionId" />
+          </Key>
+          <Property Name="RiskOptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RiskId" Type="int" />
+          <Property Name="RiskLevel" Type="int" />
+          <Property Name="ActionEffectType" Type="int" />
+          <Property Name="ActionEffectValue" Type="int" />
+        </EntityType>
+        <EntityType Name="UserGameBattle">
+          <Key>
+            <PropertyRef Name="UserGameBattleId" />
+          </Key>
+          <Property Name="UserGameBattleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameBattleId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" />
+          <Property Name="LastName" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_GameBattle_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="GameBattle" Type="Self.GameBattle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="GameRoomId" />
+            </Principal>
+            <Dependent Role="GameBattle">
+              <PropertyRef Name="GameRoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameBattle_Risk">
+          <End Role="Risk" Type="Self.Risk" Multiplicity="1" />
+          <End Role="GameBattle" Type="Self.GameBattle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risk">
+              <PropertyRef Name="RiskId" />
+            </Principal>
+            <Dependent Role="GameBattle">
+              <PropertyRef Name="RiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RiskOption_Risk">
+          <End Role="Risk" Type="Self.Risk" Multiplicity="0..1" />
+          <End Role="RiskOption" Type="Self.RiskOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risk">
+              <PropertyRef Name="RiskId" />
+            </Principal>
+            <Dependent Role="RiskOption">
+              <PropertyRef Name="RiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserGameBattle_GameBattle">
+          <End Role="GameBattle" Type="Self.GameBattle" Multiplicity="1" />
+          <End Role="UserGameBattle" Type="Self.UserGameBattle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameBattle">
+              <PropertyRef Name="GameBattleId" />
+            </Principal>
+            <Dependent Role="UserGameBattle">
+              <PropertyRef Name="GameBattleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserGameBattle_User">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserGameBattle" Type="Self.UserGameBattle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserGameBattle">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="GameBattle" EntityType="Self.GameBattle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GameRoom" EntityType="Self.GameRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Risk" EntityType="Self.Risk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RiskOption" EntityType="Self.RiskOption" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserGameBattle" EntityType="Self.UserGameBattle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_GameBattle_GameRoom" Association="Self.FK_GameBattle_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRoom" />
+            <End Role="GameBattle" EntitySet="GameBattle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameBattle_Risk" Association="Self.FK_GameBattle_Risk">
+            <End Role="Risk" EntitySet="Risk" />
+            <End Role="GameBattle" EntitySet="GameBattle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RiskOption_Risk" Association="Self.FK_RiskOption_Risk">
+            <End Role="Risk" EntitySet="Risk" />
+            <End Role="RiskOption" EntitySet="RiskOption" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGameBattle_GameBattle" Association="Self.FK_UserGameBattle_GameBattle">
+            <End Role="GameBattle" EntitySet="GameBattle" />
+            <End Role="UserGameBattle" EntitySet="UserGameBattle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGameBattle_User" Association="Self.FK_UserGameBattle_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserGameBattle" EntitySet="UserGameBattle" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserGameBattles" Relationship="Model.FK_UserGameBattle_User" FromRole="Users" ToRole="UserGameBattle" />
+        </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Risks" EntityType="Model.Risk" />
+          <EntitySet Name="RiskOptions" EntityType="Model.RiskOption" />
+          <AssociationSet Name="FK_RiskOption_Risk" Association="Model.FK_RiskOption_Risk">
+            <End Role="Risk" EntitySet="Risks" />
+            <End Role="RiskOption" EntitySet="RiskOptions" />
+          </AssociationSet>
+          <EntitySet Name="GameBattles" EntityType="Model.GameBattle" />
+          <EntitySet Name="GameRooms" EntityType="Model.GameRoom" />
+          <EntitySet Name="UserGameBattles" EntityType="Model.UserGameBattle" />
+          <AssociationSet Name="FK_GameBattle_GameRoom" Association="Model.FK_GameBattle_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRooms" />
+            <End Role="GameBattle" EntitySet="GameBattles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameBattle_Risk" Association="Model.FK_GameBattle_Risk">
+            <End Role="Risk" EntitySet="Risks" />
+            <End Role="GameBattle" EntitySet="GameBattles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGameBattle_GameBattle" Association="Model.FK_UserGameBattle_GameBattle">
+            <End Role="GameBattle" EntitySet="GameBattles" />
+            <End Role="UserGameBattle" EntitySet="UserGameBattles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGameBattle_User" Association="Model.FK_UserGameBattle_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserGameBattle" EntitySet="UserGameBattles" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Risk">
+          <Key>
+            <PropertyRef Name="RiskId" />
+          </Key>
+          <Property Name="RiskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RiskName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RiskDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RiskType" Type="Int32" />
+          <NavigationProperty Name="RiskOptions" Relationship="Model.FK_RiskOption_Risk" FromRole="Risk" ToRole="RiskOption" />
+          <NavigationProperty Name="GameBattles" Relationship="Model.FK_GameBattle_Risk" FromRole="Risk" ToRole="GameBattle" />
+        </EntityType>
+        <EntityType Name="RiskOption">
+          <Key>
+            <PropertyRef Name="RiskOptionId" />
+          </Key>
+          <Property Name="RiskOptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RiskId" Type="Int32" />
+          <Property Name="RiskLevel" Type="Int32" />
+          <Property Name="ActionEffectType" Type="Int32" />
+          <Property Name="ActionEffectValue" Type="Int32" />
+          <NavigationProperty Name="Risk" Relationship="Model.FK_RiskOption_Risk" FromRole="RiskOption" ToRole="Risk" />
+        </EntityType>
+        <Association Name="FK_RiskOption_Risk">
+          <End Type="Model.Risk" Role="Risk" Multiplicity="0..1" />
+          <End Type="Model.RiskOption" Role="RiskOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risk">
+              <PropertyRef Name="RiskId" />
+            </Principal>
+            <Dependent Role="RiskOption">
+              <PropertyRef Name="RiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GameBattle">
+          <Key>
+            <PropertyRef Name="GameBattleId" />
+          </Key>
+          <Property Name="GameBattleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameRoomId" Type="Int32" Nullable="false" />
+          <Property Name="RiskId" Type="Int32" Nullable="false" />
+          <Property Name="RiskOptionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GameRoom" Relationship="Model.FK_GameBattle_GameRoom" FromRole="GameBattle" ToRole="GameRoom" />
+          <NavigationProperty Name="Risk" Relationship="Model.FK_GameBattle_Risk" FromRole="GameBattle" ToRole="Risk" />
+          <NavigationProperty Name="UserGameBattles" Relationship="Model.FK_UserGameBattle_GameBattle" FromRole="GameBattle" ToRole="UserGameBattle" />
+        </EntityType>
+        <EntityType Name="GameRoom">
+          <Key>
+            <PropertyRef Name="GameRoomId" />
+          </Key>
+          <Property Name="GameRoomId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameRoomName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GameBattles" Relationship="Model.FK_GameBattle_GameRoom" FromRole="GameRoom" ToRole="GameBattle" />
+        </EntityType>
+        <EntityType Name="UserGameBattle">
+          <Key>
+            <PropertyRef Name="UserGameBattleId" />
+          </Key>
+          <Property Name="UserGameBattleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameBattleId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GameBattle" Relationship="Model.FK_UserGameBattle_GameBattle" FromRole="UserGameBattle" ToRole="GameBattle" />
+          <NavigationProperty Name="User" Relationship="Model.FK_UserGameBattle_User" FromRole="UserGameBattle" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_GameBattle_GameRoom">
+          <End Type="Model.GameRoom" Role="GameRoom" Multiplicity="1" />
+          <End Type="Model.GameBattle" Role="GameBattle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="GameRoomId" />
+            </Principal>
+            <Dependent Role="GameBattle">
+              <PropertyRef Name="GameRoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameBattle_Risk">
+          <End Type="Model.Risk" Role="Risk" Multiplicity="1" />
+          <End Type="Model.GameBattle" Role="GameBattle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risk">
+              <PropertyRef Name="RiskId" />
+            </Principal>
+            <Dependent Role="GameBattle">
+              <PropertyRef Name="RiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserGameBattle_GameBattle">
+          <End Type="Model.GameBattle" Role="GameBattle" Multiplicity="1" />
+          <End Type="Model.UserGameBattle" Role="UserGameBattle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameBattle">
+              <PropertyRef Name="GameBattleId" />
+            </Principal>
+            <Dependent Role="UserGameBattle">
+              <PropertyRef Name="GameBattleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserGameBattle_User">
+          <End Type="Model.Users" Role="Users" Multiplicity="1" />
+          <End Type="Model.UserGameBattle" Role="UserGameBattle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserGameBattle">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Model.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Risks">
+            <EntityTypeMapping TypeName="Model.Risk">
+              <MappingFragment StoreEntitySet="Risk">
+                <ScalarProperty Name="RiskType" ColumnName="RiskType" />
+                <ScalarProperty Name="RiskDetail" ColumnName="RiskDetail" />
+                <ScalarProperty Name="RiskName" ColumnName="RiskName" />
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RiskOptions">
+            <EntityTypeMapping TypeName="Model.RiskOption">
+              <MappingFragment StoreEntitySet="RiskOption">
+                <ScalarProperty Name="ActionEffectValue" ColumnName="ActionEffectValue" />
+                <ScalarProperty Name="ActionEffectType" ColumnName="ActionEffectType" />
+                <ScalarProperty Name="RiskLevel" ColumnName="RiskLevel" />
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+                <ScalarProperty Name="RiskOptionId" ColumnName="RiskOptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameBattles">
+            <EntityTypeMapping TypeName="Model.GameBattle">
+              <MappingFragment StoreEntitySet="GameBattle">
+                <ScalarProperty Name="RiskOptionId" ColumnName="RiskOptionId" />
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+                <ScalarProperty Name="GameRoomId" ColumnName="GameRoomId" />
+                <ScalarProperty Name="GameBattleId" ColumnName="GameBattleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameRooms">
+            <EntityTypeMapping TypeName="Model.GameRoom">
+              <MappingFragment StoreEntitySet="GameRoom">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="GameRoomName" ColumnName="GameRoomName" />
+                <ScalarProperty Name="GameRoomId" ColumnName="GameRoomId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserGameBattles">
+            <EntityTypeMapping TypeName="Model.UserGameBattle">
+              <MappingFragment StoreEntitySet="UserGameBattle">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="GameBattleId" ColumnName="GameBattleId" />
+                <ScalarProperty Name="UserGameBattleId" ColumnName="UserGameBattleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

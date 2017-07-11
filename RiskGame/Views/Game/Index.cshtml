@@ -1,0 +1,82 @@
+﻿@model RiskGame.Models.RiskDataModel
+
+@{
+    Layout = "";
+    ViewBag.Title = "Game Page";
+    ViewBag.CountDown = DateTime.Now.AddMinutes(5.05);
+}
+
+<div class="jumbotron">
+    <h1>Game Start</h1>
+    @ViewBag.Money
+    <div id="countdown"></div>
+
+    @using (Html.BeginForm("OpenRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <td><b>Name</b></td>
+                    <td><b>Level 1</b></td>
+                    <td><b>Level 2</b></td>
+                    <td><b>Level 3</b></td>
+                </tr>
+            </thead>
+            <tbody>
+               
+                    @foreach (var item in Model.RiskData)
+                {
+                        <tr>
+                            <td>
+                                @item.Name
+                            </td>
+                            @foreach (var op in item.RiskOption)
+                            {
+
+                            <td>
+                                @Html.RadioButton("riskoption"+ item.RiskId, op.ActionEffectValue) @Html.Raw("Protect -") @op.ActionEffectValue
+                            </td>
+                            }
+                        </tr>
+                    }
+                      
+            </tbody>
+        </table>
+
+        <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+    }
+
+</div>
+
+<script>
+    var end = new Date('@ViewBag.CountDown'); // viewbag
+        var _second = 1000;
+        var _minute = _second * 60;
+        var _hour = _minute * 60;
+        var _day = _hour * 24;
+        var timer;
+
+        function showRemaining() {
+            var now = new Date();
+            var distance = end - now;
+            if (distance < 0) {
+
+                clearInterval(timer);
+                document.getElementById('countdown').innerHTML = 'EXPIRED!';
+                //go to next page auto
+                $("#submit").click();
+
+                return;
+            }
+          //  var days = Math.floor(distance / _day);
+          //  var hours = Math.floor((distance % _day) / _hour);
+            var minutes = Math.floor((distance % _hour) / _minute);
+            var seconds = Math.floor((distance % _minute) / _second);
+
+          //  document.getElementById('countdown').innerHTML = days + 'days ';
+          //  document.getElementById('countdown').innerHTML += hours + 'hrs ';
+            document.getElementById('countdown').innerHTML = minutes + 'mins ';
+            document.getElementById('countdown').innerHTML += seconds + 'secs';
+        }
+        timer = setInterval(showRemaining, 1000);
+</script>

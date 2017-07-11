@@ -1,0 +1,50 @@
+﻿CREATE TABLE [dbo].[RiskOption](
+	[RiskOptionId] [int] IDENTITY(1,1) NOT NULL,
+	[RiskId] [int] NULL,
+	[RiskLevel] [int] NULL,
+	[ActionEffectType] [int] NULL,
+	[ActionEffectValue] [int] NULL,
+    CONSTRAINT [PK_RiskOption] PRIMARY KEY CLUSTERED ([RiskOptionId] ASC),
+    CONSTRAINT [FK_RiskOption_Risk] FOREIGN KEY ([RiskId]) REFERENCES [dbo].[Risk] ([RiskId])
+)
+
+Create Table [dbo].[GameRoom](
+GameRoomId [int] IDENTITY(1,1) NOT NULL,
+GameRoomName [Nvarchar](Max),
+StartDate DateTime NULL,
+[EndDate] DATETIME NULL,
+[CreateDate] DATETIME NULL,
+UserId [int] Not NULL,
+CONSTRAINT [PK_GameRoom] PRIMARY KEY CLUSTERED ([GameRoomId] ASC)
+)
+
+Create Table [dbo].[GameBattle](
+GameBattleId [int] IDENTITY(1,1) NOT NULL,
+GameRoomId [int] NOT NULL,
+RiskId [int] NOT NULL,
+RiskOptionId [int] NOT NULL,
+
+CONSTRAINT [PK_GameBattle] PRIMARY KEY CLUSTERED ([GameBattleId] ASC),
+ CONSTRAINT [FK_GameBattle_GameRoom] FOREIGN KEY ([GameRoomId]) REFERENCES [dbo].[GameRoom] ([GameRoomId]),
+  CONSTRAINT [FK_GameBattle_Risk] FOREIGN KEY ([RiskId]) REFERENCES [dbo].[Risk] ([RiskId])
+)
+
+Create Table [dbo].[UserGameBattle]( 
+UserGameBattleId [int] IDENTITY(1,1) NOT NULL,
+GameBattleId [int]  NOT NULL,
+UserId [int] Not NULL,
+CONSTRAINT [PK_UserGameBattle] PRIMARY KEY CLUSTERED ([UserGameBattleId] ASC),
+ CONSTRAINT [FK_UserGameBattle_GameBattle] FOREIGN KEY ([GameBattleId]) REFERENCES [dbo].[GameBattle] ([GameBattleId]),
+  CONSTRAINT [FK_UserGameBattle_User] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users] ([UserId])
+)
+
+
+SET IDENTITY_INSERT [dbo].[RiskOption] ON 
+
+INSERT [dbo].[RiskOption] ( [RiskId], [RiskLevel], [ActionEffectType], [ActionEffectValue]) VALUES ( 1, 1, 1, 100)
+INSERT [dbo].[RiskOption] ( [RiskId], [RiskLevel], [ActionEffectType], [ActionEffectValue]) VALUES ( 1, 2, 1, 200)
+INSERT [dbo].[RiskOption] ([RiskId], [RiskLevel], [ActionEffectType], [ActionEffectValue]) VALUES ( 1, 3, 1, 300)
+INSERT [dbo].[RiskOption] ( [RiskId], [RiskLevel], [ActionEffectType], [ActionEffectValue]) VALUES ( 2, 1, 1, 500)
+INSERT [dbo].[RiskOption] ( [RiskId], [RiskLevel], [ActionEffectType], [ActionEffectValue]) VALUES ( 2, 2, 1, 1000)
+INSERT [dbo].[RiskOption] ( [RiskId], [RiskLevel], [ActionEffectType], [ActionEffectValue]) VALUES ( 2, 3, 1, 1500)
+SET IDENTITY_INSERT [dbo].[RiskOption] OFF
