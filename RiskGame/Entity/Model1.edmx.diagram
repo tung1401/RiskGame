@@ -7,10 +7,10 @@
       <Diagram DiagramId="89793de1a2634777b0e2413cd458caaf" Name="Diagram1">
         <EntityTypeShape EntityType="Model.Users" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Risk" Width="1.5" PointX="3.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Model.RiskOption" Width="1.5" PointX="6" PointY="4.625" />
+        <EntityTypeShape EntityType="Model.RiskOption" Width="1.5" PointX="1.625" PointY="3.25" />
         <AssociationConnector Association="Model.FK_RiskOption_Risk" />
         <EntityTypeShape EntityType="Model.GameBattle" Width="1.5" PointX="6" PointY="0.75" />
-        <EntityTypeShape EntityType="Model.GameRoom" Width="1.5" PointX="3.75" PointY="5" />
+        <EntityTypeShape EntityType="Model.GameRoom" Width="1.5" PointX="4.375" PointY="4" />
         <EntityTypeShape EntityType="Model.UserGameBattle" Width="1.5" PointX="8.25" PointY="1" />
         <AssociationConnector Association="Model.FK_GameBattle_GameRoom" />
         <AssociationConnector Association="Model.FK_GameBattle_Risk" />

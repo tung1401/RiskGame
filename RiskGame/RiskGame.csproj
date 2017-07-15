@@ -407,6 +407,7 @@
     <Content Include="Views\Game\OpenRisk.cshtml" />
     <Content Include="Views\GameStart\Index.cshtml" />
     <Content Include="Views\GameStart\OpenRisk.cshtml" />
+    <Content Include="Views\Shared\_LayoutGame.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

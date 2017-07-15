@@ -12,5 +12,7 @@ namespace KPI.Services.Interface
         //IEnumerable<Risk> GetAllRisk();
         //IEnumerable<Risk> GetRiskByType(int type);
         //IEnumerable<Risk> GetRiskById(int id);
+
+        IEnumerable<GameBattle> GetAllGameBattle();
     }
 }

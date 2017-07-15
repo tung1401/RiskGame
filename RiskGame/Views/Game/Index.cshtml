@@ -1,13 +1,13 @@
 ﻿@model RiskGame.Models.RiskDataModel
 
 @{
-    Layout = "";
+    Layout = "~/Views/Shared/_LayoutGame.cshtml";
     ViewBag.Title = "Game Page";
     ViewBag.CountDown = DateTime.Now.AddMinutes(5.05);
 }
 
 <div class="jumbotron">
-    <h1>Game Start</h1>
+    <h1>Game Battle</h1>
     @ViewBag.Money
     <div id="countdown"></div>
 
@@ -48,7 +48,7 @@
 
 </div>
 
-<script>
+<script type="text/javascript">
     var end = new Date('@ViewBag.CountDown'); // viewbag
         var _second = 1000;
         var _minute = _second * 60;

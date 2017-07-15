@@ -33,6 +33,9 @@ Create Table [dbo].[UserGameBattle](
 UserGameBattleId [int] IDENTITY(1,1) NOT NULL,
 GameBattleId [int]  NOT NULL,
 UserId [int] Not NULL,
+
+
+
 CONSTRAINT [PK_UserGameBattle] PRIMARY KEY CLUSTERED ([UserGameBattleId] ASC),
  CONSTRAINT [FK_UserGameBattle_GameBattle] FOREIGN KEY ([GameBattleId]) REFERENCES [dbo].[GameBattle] ([GameBattleId]),
   CONSTRAINT [FK_UserGameBattle_User] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users] ([UserId])

@@ -23,6 +23,11 @@ namespace KPI.Services.Service
             _userGameBattle = userGameBattle;
         }
 
+        public IEnumerable<GameBattle> GetAllGameBattle()
+        {
+            return _gameBattle.GetAll();
+        }
+
         //
         //public IEnumerable<Risk> GetAllRisk()
         //{
