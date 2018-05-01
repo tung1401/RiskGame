@@ -10,7 +10,7 @@
 
 
 Create Table [dbo].[GameRoom](
-GameRoomId [int] IDENTITY(1,1) NOT NULL,
+GameRoomId [int] IDENTITY(1,1) NOT NULL, 
 GameRoomName [Nvarchar](Max),
 Goal  [int] not NULL,
 SoftwareType  [int] not NULL,
@@ -27,7 +27,7 @@ Active [bit] NULL,
 CONSTRAINT [PK_GameRoom] PRIMARY KEY CLUSTERED ([GameRoomId] ASC),
  CONSTRAINT [FK_GameRoom_User] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users] ([UserId]),
 )
-
+s
 Create Table [dbo].[GameBattle](
 GameBattleId [int] IDENTITY(1,1) NOT NULL,
 GameRoomId [int] NOT NULL,
