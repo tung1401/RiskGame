@@ -8,20 +8,30 @@
     CONSTRAINT [FK_RiskOption_Risk] FOREIGN KEY ([RiskId]) REFERENCES [dbo].[Risk] ([RiskId])
 )
 
+
 Create Table [dbo].[GameRoom](
 GameRoomId [int] IDENTITY(1,1) NOT NULL,
 GameRoomName [Nvarchar](Max),
+Goal  [int] not NULL,
+SoftwareType  [int] not NULL,
+[Multiplayer] [int] not NULL,
+[MoneyValue] [int] not NULL,
+[ProjectValue] [int] not Null,
+[TeamValue] [int] not Null,
 StartDate DateTime NULL,
 [EndDate] DATETIME NULL,
 [CreateDate] DATETIME NULL,
 UserId [int] Not NULL,
-CONSTRAINT [PK_GameRoom] PRIMARY KEY CLUSTERED ([GameRoomId] ASC)
+Active [bit] NULL,
+
+CONSTRAINT [PK_GameRoom] PRIMARY KEY CLUSTERED ([GameRoomId] ASC),
+ CONSTRAINT [FK_GameRoom_User] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users] ([UserId]),
 )
 
 Create Table [dbo].[GameBattle](
 GameBattleId [int] IDENTITY(1,1) NOT NULL,
 GameRoomId [int] NOT NULL,
-RiskId [int] NOT NULL,
+RiskId [int] NOT NULL, 
 RiskOptionId [int] NOT NULL,
 
 CONSTRAINT [PK_GameBattle] PRIMARY KEY CLUSTERED ([GameBattleId] ASC),
@@ -42,6 +52,30 @@ CONSTRAINT [PK_UserGameBattle] PRIMARY KEY CLUSTERED ([UserGameBattleId] ASC),
 )
 
 
+Create Table [dbo].[UserGameRoom](
+UserGameRoomId [int] IDENTITY(1,1) NOT NULL,
+GameRoomId [int] NOT NULL,
+UserId [int] NOT NULL,
+PlayerName [Nvarchar](Max),
+JobType [int] NULL,
+[MoneyValue] [int] not NULL,
+[ProjectValue] [int] not Null,
+[TeamValue] [int] not Null,
+JoinDate DATETIME NULL,
+Active [bit] NULL,
+GameFinished [bit] NULL
+
+CONSTRAINT [PK_UserGameRoom] PRIMARY KEY CLUSTERED ([UserGameRoomId] ASC),
+  CONSTRAINT [FK_UserGameRoom_User] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users] ([UserId]),
+    CONSTRAINT [FK_UserGameRoom_GameRoom] FOREIGN KEY ([GameRoomId]) REFERENCES [dbo].[GameRoom] ([GameRoomId])
+)
+
+
+
+
+
+
+
 SET IDENTITY_INSERT [dbo].[RiskOption] ON 
 
 INSERT [dbo].[RiskOption] ( [RiskId], [RiskLevel], [ActionEffectType], [ActionEffectValue]) VALUES ( 1, 1, 1, 100)
@@ -51,3 +85,8 @@ INSERT [dbo].[RiskOption] ( [RiskId], [RiskLevel], [ActionEffectType], [ActionEf
 INSERT [dbo].[RiskOption] ( [RiskId], [RiskLevel], [ActionEffectType], [ActionEffectValue]) VALUES ( 2, 2, 1, 1000)
 INSERT [dbo].[RiskOption] ( [RiskId], [RiskLevel], [ActionEffectType], [ActionEffectValue]) VALUES ( 2, 3, 1, 1500)
 SET IDENTITY_INSERT [dbo].[RiskOption] OFF
+
+
+INSERT [dbo].[GameBattle] ([GameBattleId], [GameRoomId], [RiskId], [RiskOptionId], [Ratio], [Turn], [ActionEffectType], [ActionEffectValue]) VALUES (1, 1, 1, 1, 1, NULL, NULL, NULL)
+INSERT [dbo].[GameBattle] ([GameBattleId], [GameRoomId], [RiskId], [RiskOptionId], [Ratio], [Turn], [ActionEffectType], [ActionEffectValue]) VALUES (2, 1, 1, 2, 2, NULL, NULL, NULL)
+INSERT [dbo].[GameBattle] ([GameBattleId], [GameRoomId], [RiskId], [RiskOptionId], [Ratio], [Turn], [ActionEffectType], [ActionEffectValue]) VALUES (3, 1, 2, 3, 3, NULL, NULL, NULL)
