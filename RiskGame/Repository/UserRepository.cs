@@ -10,7 +10,7 @@ using RiskGame.Repository.Interfaces;
 
 namespace RiskGame.Repository
 {
-    public class UserRepository : Repository<Users>, IUserRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
         public UserRepository(DataContext context)
             : base(context)

@@ -24,6 +24,10 @@ namespace RiskGame.Entity
         public int GameRoomId { get; set; }
         public int RiskId { get; set; }
         public int RiskOptionId { get; set; }
+        public Nullable<int> Ratio { get; set; }
+        public Nullable<int> Turn { get; set; }
+        public Nullable<int> ActionEffectType { get; set; }
+        public Nullable<decimal> ActionEffectValue { get; set; }
     
         public virtual GameRoom GameRoom { get; set; }
         public virtual Risk Risk { get; set; }

@@ -24,5 +24,11 @@ namespace RiskGame.Helper
             context.Clients.All.updateMessages();
         }
 
+        [HubMethodName("listGameRoom")]
+        public static void ListGameRoom()
+        {
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
+            context.Clients.All.updateMessages();
+        }
     }
 }

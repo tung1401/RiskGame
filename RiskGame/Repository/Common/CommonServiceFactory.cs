@@ -3,6 +3,7 @@ using KPI.Services.Service;
 using RiskGame.DAL;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace RiskGame.Repository.Common
     public class CommonServiceFactory : IDisposable
     {
         private readonly DataContext _db = new DataContext();
+        public readonly string ConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
         public void Dispose()
         {
@@ -30,6 +32,14 @@ namespace RiskGame.Repository.Common
             return new GameService(
                 new GameBattleRepository(_db),
                  new UserGameBattleRepository(_db)
+                );
+        }
+        public IGameRoomService GameRoom()
+        {
+            return new GameRoomService(
+                new GameRoomRepository(_db)
+
+                //new UserGameRoomRepository(_db)
                 );
         }
 

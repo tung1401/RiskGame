@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RiskGame.Models;
+using RiskGame.Repository.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +10,7 @@ namespace RiskGame.Controllers
 {
     public class RoomController : Controller
     {
+        private readonly CommonServiceFactory _service = new CommonServiceFactory();
         // GET: Room
         public ActionResult Index()
         {
@@ -38,7 +41,27 @@ namespace RiskGame.Controllers
             return View("Add");
         }
 
+        public ActionResult GetListRoom()
+        {
+           var r1 = _service.GameRoom().GetAllGameRoom();
+            var r2 = _service.GameRoom().GetAllUserGameRoom();
+          // var r1 = _service.GameRoom().GetAllUser();
+            var model = new List<GameRoomModel>();
+            foreach (var item in r1)
+            {
+                var g = new GameRoomModel
+                {
+                    GameRoomId = item.GameRoomId,
+                    GameRoomName = item.GameRoomName,
+                    MaxPlayer = item.Multiplayer,
+                    Player = r2.Where(x => x.GameRoomId == item.GameRoomId).Count()
+                };
+                model.Add(g);
+            }
 
+         //   var model = _service.GameRoom().GetAllGameRoom2();
+            return PartialView("_GameRoomList", model);
+        }
 
         public void RenderSoftwareProcessType(int? value)
         {

@@ -16,7 +16,7 @@ namespace RiskGame.Controllers
             var data = new DataContext();
             var repo = new UserRepository(data);
             var test = repo.GetAll();
-            Users user = new Users();
+            User user = new User();
             return View();
         }
 

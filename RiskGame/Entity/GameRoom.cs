@@ -18,16 +18,27 @@ namespace RiskGame.Entity
         public GameRoom()
         {
             this.GameBattles = new HashSet<GameBattle>();
+            this.UserGameRooms = new HashSet<UserGameRoom>();
         }
     
         public int GameRoomId { get; set; }
         public string GameRoomName { get; set; }
+        public int Goal { get; set; }
+        public int SoftwareType { get; set; }
+        public int Multiplayer { get; set; }
+        public int MoneyValue { get; set; }
+        public int ProjectValue { get; set; }
+        public int TeamValue { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public int UserId { get; set; }
+        public Nullable<bool> Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GameBattle> GameBattles { get; set; }
+        public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserGameRoom> UserGameRooms { get; set; }
     }
 }

@@ -19,6 +19,8 @@ namespace RiskGame.Entity
         public Nullable<int> RiskLevel { get; set; }
         public Nullable<int> ActionEffectType { get; set; }
         public Nullable<int> ActionEffectValue { get; set; }
+        public Nullable<int> RiskImpact { get; set; }
+        public Nullable<int> RiskPorture { get; set; }
     
         public virtual Risk Risk { get; set; }
     }

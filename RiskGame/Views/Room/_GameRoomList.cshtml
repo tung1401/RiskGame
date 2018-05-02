@@ -1,0 +1,56 @@
+﻿@*@model IEnumerable<RiskGame.Entity.GameRoom>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.GameRoomId)</th>
+        <th>
+            @Html.DisplayNameFor(model => model.GameRoomName)
+        </th>
+        <th>
+        
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameRoomId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameRoomName)
+            </td>
+            <td>
+               
+            </td>
+        </tr>
+    }
+</table>*@
+
+
+@model IEnumerable<RiskGame.Models.GameRoomModel>
+
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.GameRoomId)</th>
+            <th>
+                @Html.DisplayNameFor(model => model.GameRoomName)
+            </th>
+            <th>
+                @Html.Raw("Player")
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GameRoomId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GameRoomName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Player) / @Html.DisplayFor(modelItem => item.MaxPlayer)
+                </td>
+            </tr>
+        }
+    </table>

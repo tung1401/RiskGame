@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RiskGame.Repository.Interfaces
 {
-    public interface IUserRepository : IRepository<Users>
+    public interface IUserRepository : IRepository<User>
     {
     }
 }

@@ -11,7 +11,7 @@ namespace RiskGame.Controllers
     {
         public ActionResult Index()
         {
-            Users user = new Users();
+            User user = new User();
             return View();
         }
 

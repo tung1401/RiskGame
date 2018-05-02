@@ -12,12 +12,14 @@ namespace RiskGame.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Users()
+        public User()
         {
+            this.GameRooms = new HashSet<GameRoom>();
             this.UserGameBattles = new HashSet<UserGameBattle>();
+            this.UserGameRooms = new HashSet<UserGameRoom>();
         }
     
         public int UserId { get; set; }
@@ -25,6 +27,10 @@ namespace RiskGame.Entity
         public string LastName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GameRoom> GameRooms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserGameBattle> UserGameBattles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserGameRoom> UserGameRooms { get; set; }
     }
 }
