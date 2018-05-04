@@ -1,18 +1,38 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model RiskGame.Models.GameRoomModel
+@{
+    ViewBag.Title = "Wait Room Page";
+
+   // var ob = RiskGame.Helper.Singleton.User();
 }
 
-@*<iframe src="~/DashBoard" width="100%" height="500px" />*@
-
-
-
-
+<div class="row">
+    <h2>Wait Room Page</h2>
+    <h5>Owner:</h5> @User.Identity.Name 
+</div>
+<br>
 
 <div class="row">
     <div class="col-md-12">
-        <div id="gameRoomTable"></div>
+        <div id="userGameRoom"></div>
     </div>
 </div>
+
+@using (Html.BeginForm("AddRoom", "Room", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div id="WaitRoom">    
+      
+           
+
+        <div class="row text-center">
+            <br />
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Create</button>
+        </div>
+    </div>
+}
+
+
+
+
 
 <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
 <script src="/signalr/hubs"></script>
@@ -24,27 +44,28 @@
         //debugger;
         // Create a function that the hub can call to broadcast messages.
         notifications.client.updateMessages = function () {
-            GetListRoom();
+            GetPlayer();
 
         };
         // Start the connection.
         $.connection.hub.start().done(function () {
            // alert("connection started")
-            GetListRoom();
+            GetPlayer();
         }).fail(function (e) {
             alert(e);
         });
     });
 
 
-    function GetListRoom()
+    function GetPlayer()
     {
-        var tbl = $('#gameRoomTable');
+        var tbl = $('#userGameRoom');
         $.ajax({
-            url: '/Room/GetListRoom',
+            url: '/Room/GetPlayer',
             contentType: 'application/html ; charset:utf-8',
             type: 'GET',
-            dataType: 'html'
+            dataType: 'html',
+            data: {id: @Model.GameRoomId}
         }).success(function (result) {
             tbl.empty().append(result);
         }).error(function () {
@@ -52,3 +73,6 @@
         });
     }
 </script>
+
+
+

@@ -443,6 +443,9 @@
     <Content Include="Views\Room\Add.cshtml" />
     <Content Include="Views\Room\Index.cshtml" />
     <Content Include="Views\Room\_GameRoomList.cshtml" />
+    <Content Include="Views\Room\Join.cshtml" />
+    <Content Include="Views\Room\WaitRoom.cshtml" />
+    <Content Include="Views\Room\_PlayerList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

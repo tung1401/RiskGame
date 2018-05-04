@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RiskGame.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,5 +12,13 @@ namespace RiskGame.Models
         public string GameRoomName { set; get; }
         public int Player { set; get; }
         public int MaxPlayer { set; get; }
+
+
+        public List<UserGameRoom> UserGameRooms { set; get; }
+
+        public GameRoomModel()
+        {
+            UserGameRooms = new List<UserGameRoom>();
+        }
     }
 }

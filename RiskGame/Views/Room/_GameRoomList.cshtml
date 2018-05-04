@@ -38,6 +38,9 @@
             <th>
                 @Html.Raw("Player")
             </th>
+            <th>
+                @Html.Raw("Join")
+            </th>
         </tr>
         @foreach (var item in Model)
         {
@@ -51,6 +54,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Player) / @Html.DisplayFor(modelItem => item.MaxPlayer)
                 </td>
+                <td>
+                   @Html.ActionLink("Join", "JoinRoom", new { id = item.GameRoomId }, new { @class="btn btn-primary"})
+
+
+
+                </td>
+
             </tr>
         }
     </table>

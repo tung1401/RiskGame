@@ -1,0 +1,8 @@
+﻿@model RiskGame.Models.GameRoomModel
+
+@foreach (var item in Model.UserGameRooms)
+{
+    <div class="col-lg-3">
+        @item.PlayerName
+    </div>
+}

@@ -12,7 +12,7 @@ namespace KPI.Services.Interface
     {
 
         IEnumerable<GameRoom> GetAllGameRoom();
-        IEnumerable<UserGameRoom> GetAllUserGameRoom();
+        IEnumerable<UserGameRoom> GetAllUserGameRoom(int roomId);
 
         IEnumerable<GameRoomModel> GetAllGameRoom2();
 

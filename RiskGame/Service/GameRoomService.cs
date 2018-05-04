@@ -66,7 +66,7 @@ namespace KPI.Services.Service
             return gameRooms;
         }
 
-        public IEnumerable<UserGameRoom> GetAllUserGameRoom()
+        public IEnumerable<UserGameRoom> GetAllUserGameRoom(int roomId)
         {
             var userGameRooms = new List<UserGameRoom>();
             try
@@ -74,7 +74,7 @@ namespace KPI.Services.Service
                 using (var connection = new SqlConnection(_service.ConnectionString))
             {
                 connection.Open();
-                using (var command = new SqlCommand(@"SELECT [UserGameRoomID],[GameRoomID],[PlayerName] FROM [dbo].[UserGameRoom]", connection))
+                using (var command = new SqlCommand(@"SELECT [UserGameRoomID],[GameRoomID],[PlayerName] FROM [dbo].[UserGameRoom] Where [GameRoomID] = " + roomId, connection))
                 {
                     command.Notification = null;
 

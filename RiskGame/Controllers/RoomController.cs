@@ -41,20 +41,38 @@ namespace RiskGame.Controllers
             return View("Add");
         }
 
+        public ActionResult JoinRoom(int id)
+        {
+            RenderJobType(null);
+            return View("Join");
+        }
+
+        public ActionResult WaitRoom(int id)
+        {
+            var model = new GameRoomModel
+            {
+                GameRoomId = id
+            };
+            return View("WaitRoom", model);
+        }
+
+
+
         public ActionResult GetListRoom()
         {
-           var r1 = _service.GameRoom().GetAllGameRoom();
-            var r2 = _service.GameRoom().GetAllUserGameRoom();
+            var r1 = _service.GameRoom().GetAllGameRoom();
+            
           // var r1 = _service.GameRoom().GetAllUser();
             var model = new List<GameRoomModel>();
             foreach (var item in r1)
             {
+                var r2 = _service.GameRoom().GetAllUserGameRoom(item.GameRoomId);
                 var g = new GameRoomModel
                 {
                     GameRoomId = item.GameRoomId,
                     GameRoomName = item.GameRoomName,
                     MaxPlayer = item.Multiplayer,
-                    Player = r2.Where(x => x.GameRoomId == item.GameRoomId).Count()
+                    Player = r2.Count()
                 };
                 model.Add(g);
             }
@@ -62,6 +80,22 @@ namespace RiskGame.Controllers
          //   var model = _service.GameRoom().GetAllGameRoom2();
             return PartialView("_GameRoomList", model);
         }
+
+        public ActionResult GetPlayer(int id)
+        {
+            var userGameRoom =_service.GameRoom().GetAllUserGameRoom(id);
+            var model = new GameRoomModel
+            {
+                GameRoomId = id,
+                UserGameRooms = userGameRoom.ToList()
+            };
+            return PartialView("_PlayerList", model);
+        }
+
+
+
+
+
 
         public void RenderSoftwareProcessType(int? value)
         {
