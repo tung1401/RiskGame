@@ -153,7 +153,10 @@ namespace KPI.Services.Service
             return null;
         }
 
-
+        public GameRoom AddRoom(GameRoom entity)
+        {
+            return _gameRoom.Add(entity);
+        }
 
 
 

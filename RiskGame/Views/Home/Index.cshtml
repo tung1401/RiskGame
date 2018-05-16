@@ -4,14 +4,65 @@
 
 @*<iframe src="~/DashBoard" width="100%" height="500px" />*@
 
-
-
-
-
-<div class="row">
-    <div class="col-md-12">
-        <div id="gameRoomTable"></div>
+@section BreadCrumb{
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Dashboard</h1>
+            </div>
+        </div>
     </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li class="active">Dashboard</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+
+<div class="col-sm-6 col-lg-3">
+    <div class="card text-white bg-flat-color-1">
+        <a href="@Url.Action("addroom","room", new { player = 1})">
+        <div class="card-body pb-0">
+            <h4 class="mb-0">
+                @*<span class="count">10468</span>*@
+            </h4>
+            <p class="text-light text-white">Create Single Player</p>
+            <div class="chart-wrapper px-0" style="height:70px;" height="70">
+         
+            </div>
+        </div>
+            </a>
+       
+    </div>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+    <div class="card text-white bg-flat-color-3">
+        <a href="@Url.Action("addroom","room")">
+            <div class="card-body pb-0">
+                <h4 class="mb-0">
+                    @*<span class="count">10468</span>*@
+                </h4>
+                <p class="text-light text-white">Create MultiPlayer</p>
+                <div class="chart-wrapper px-0" style="height:70px;" height="70">
+
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="col-sm-12 col-lg-12">
+
+        <div id="gameRoomTable"></div>
+
 </div>
 
 <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>

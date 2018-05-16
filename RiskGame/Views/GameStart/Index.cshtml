@@ -23,23 +23,23 @@
                 </tr>
             </thead>
             <tbody>
-               
-                    @foreach (var item in Model.RiskData)
+
+                @foreach (var item in Model.RiskData)
                 {
-                        <tr>
-                            <td>
-                                @item.Name
-                            </td>
-                            @foreach (var op in item.RiskOption)
-                            {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        @foreach (var op in item.RiskOption)
+                        {
 
                             <td>
-                                @Html.RadioButton("riskoption"+ item.RiskId, op.ActionEffectValue) @Html.Raw("Protect -") @op.ActionEffectValue
+                                @Html.RadioButton("riskoption" + item.RiskId, op.ActionEffectValue) @Html.Raw("Protect -") @op.ActionEffectValue
                             </td>
-                            }
-                        </tr>
-                    }
-                      
+                        }
+                    </tr>
+                }
+
             </tbody>
         </table>
 

@@ -17,6 +17,7 @@ namespace KPI.Services.Interface
         IEnumerable<GameRoomModel> GetAllGameRoom2();
 
         IEnumerable<User> GetAllUser();
+        GameRoom AddRoom(GameRoom entity);
 
     }
 }

@@ -28,91 +28,54 @@ namespace KPI.Services.Service
             return _gameBattle.GetAll();
         }
 
-        //
-        //public IEnumerable<Risk> GetAllRisk()
-        //{
-        //    return _risk.GetAll();
-        //}
-        //public IEnumerable<Risk> GetRiskById(int id)
-        //{
-        //    return _risk.GetManyWith(x => x.RiskId == id, inc => inc.RiskOptions);
-        //}
-        //public IEnumerable<Risk> GetRiskByType(int type)
-        //{
-        //    return _risk.GetManyWith(x => x.RiskType == type,inc => inc.RiskOptions);
-        //}
+        public IEnumerable<GameBattle> GetGameBattleByGameRoomId(int gameRoomId)
+        {
+            return _gameBattle.GetManyWith(x => x.GameBattleId == gameRoomId, inc => inc.Risk, includes => includes.Risk.RiskOptions);
+        }
+
+        public void AddGameBattle(List<GameBattle> listEntity)
+        {
+            _gameBattle.AddList(listEntity);
+        }
+        public void AddGameBattle(GameBattle entity)
+        {
+            _gameBattle.Add(entity);
+        }
+        public async Task CreateGameAsync(int gameRoomId, int take = 2)
+        {
+            await Task.Run(() => CreateGame(gameRoomId, take));
+        }
+        public void CreateGame(int gameRoomId, int take)
+        {
+            //get all risk
+            var allRiskOption = _service.Risk().GetAllRiskOption();
+            if (allRiskOption.Any())
+            {
+                var list = new List<GameBattle>();
+                var turn = 0;
+                foreach (var risk in allRiskOption.OrderBy(x => Guid.NewGuid()).Take(take))
+                {
+                    turn++;
+                    var game = new GameBattle
+                    {
+                        GameRoomId = gameRoomId,
+                        RiskId = risk.RiskId.GetValueOrDefault(),
+                        RiskOptionId = risk.RiskOptionId,
+                        Ratio = new Random().Next(1, 2),
+                        Turn = turn,
+                        ActionEffectType = risk.ActionEffectType,
+                        ActionEffectValue = risk.ActionEffectValue
+                    };
+                    list.Add(game);
+                }
+                //save to game battle
+                _gameBattle.AddList(list);
+            }
+        }
+
+        
 
 
-        ////Project
-        //public IEnumerable<Project> GetProjectByEmployeeId(Guid userId)
-        //{
-        //    return _projectEmployee.GetManyWith(m => m.EmployeeId == userId, inc => inc.Project).GroupBy(x => x.ProjectId).Select(x => new Project
-        //    {
-        //        ProjectId = x.FirstOrDefault().ProjectId.GetValueOrDefault(),
-        //        ProjectName = x.FirstOrDefault().Project.ProjectName
-        //    });
-
-        //}
-
-        //public IEnumerable<Project> GetAllProject()
-        //{
-        //    return _projectEmployee.GetAllWith(inc => inc.Project).GroupBy(m => m.Project).Select(x => new Project
-        //    {
-        //        ProjectId = x.FirstOrDefault().ProjectId.GetValueOrDefault(),
-        //        ProjectName = x.FirstOrDefault().Project.ProjectName
-        //    }).OrderBy(x=>x.ProjectName);
-
-        //}
-
-        //public Project Find(Guid projectId)
-        //{
-        //    return _project.Get(m => m.ProjectId == projectId);
-        //}
-        //public Project GetByNumber(string projectNumber)
-        //{
-        //    return _project.Get(m => m.ProjectNo == projectNumber);
-        //}
-
-        //public Project Add(Project project)
-        //{
-        //    return _project.Add(project);
-        //}
-
-
-        ////ProjectEmployee
-        //public ProjectEmployee FindByEmployeeIdAndProjectId(Guid employeeId, Guid projectId)
-        //{
-        //    return _projectEmployee.Get(m => m.ProjectId == projectId && m.EmployeeId == employeeId);
-        //}
-        //public ProjectEmployee Add(ProjectEmployee projectEmployee)
-        //{
-        //    return _projectEmployee.Add(projectEmployee);
-        //}
-        //public ProjectEmployee Update(ProjectEmployee projectEmployee)
-        //{
-        //    return _projectEmployee.Add(projectEmployee);
-        //}
-        //public IEnumerable<Project> GetProjectByManager(Guid userId)
-        //{
-        //    return _projectEmployee.GetManyWith(m => m.EmployeeId == userId && m.IsPM == true, inc => inc.Project).GroupBy(x => x.ProjectId).Select(x => new Project
-        //    {
-        //        ProjectId = x.FirstOrDefault().ProjectId.GetValueOrDefault(),
-        //        ProjectName = x.FirstOrDefault().Project.ProjectName
-        //    });
-
-        //}
-        //public IEnumerable<ProjectEmployee> GetProjectManager()
-        //{
-        //    //var query = _projectEmployee.GetMany(m => m.IsPM == true).GroupBy(g => new {/* ProjectId = g.ProjectId , */EmployeeId = g.EmployeeId }).Select(e => new Employee
-        //    //{
-
-        //    //    EmployeeId = e.FirstOrDefault().EmployeeId.GetValueOrDefault(),
-        //    //}).OrderBy(e => e.EmployeeId);
-
-        //    var query = _projectEmployee.GetMany(m => m.IsPM == true).OrderBy(e => e.EmployeeId);
-
-        //    return query;
-        //}
 
     }
 }

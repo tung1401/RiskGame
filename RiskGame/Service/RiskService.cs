@@ -37,6 +37,13 @@ namespace KPI.Services.Service
             return _risk.GetManyWith(x => x.RiskType == type,inc => inc.RiskOptions);
         }
 
+        public IEnumerable<RiskOption> GetAllRiskOption()
+        {
+            return _riskOption.GetAllWith(inc => inc.Risk);
+        }
+
+
+
 
         ////Project
         //public IEnumerable<Project> GetProjectByEmployeeId(Guid userId)

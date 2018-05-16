@@ -13,6 +13,8 @@ namespace KPI.Services.Interface
         //IEnumerable<Risk> GetRiskByType(int type);
         //IEnumerable<Risk> GetRiskById(int id);
 
+        IEnumerable<GameBattle> GetGameBattleByGameRoomId(int gameRoomId);
         IEnumerable<GameBattle> GetAllGameBattle();
+        Task CreateGameAsync(int gameRoomId, int take = 2);
     }
 }

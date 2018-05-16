@@ -30,15 +30,49 @@ namespace RiskGame.Controllers
         public ActionResult AddRoom(FormCollection form)
         {
             var roomName = form["Add.RoomName"];
-            var startMoney = form["Add.StartMoney"];
-            var goal = form["Add.Goal"];
-            var softwareProcessType = form["Add.SoftwareProcessType"];
+            var startMoney = int.Parse(form["Add.StartMoney"]);
+            var goal = int.Parse(form["Add.Goal"]);
+            var softwareProcessType = int.Parse(form["Add.SoftwareProcessType"]);
             var playerName = form["Add.PlayerName"];
             var jobType = form["Add.JobType"];
-            var multiPlayer = form["Add.MultiPlayer"];
-        
+            var multiPlayer = int.Parse(form["Add.MultiPlayer"]);
 
-            return View("Add");
+            //Initial Game to Game Battle
+            //Set game started
+
+            var gameRoom = _service.GameRoom().AddRoom(new Entity.GameRoom
+            {
+                Active = true,
+                CreateDate = DateTime.UtcNow,
+                GameRoomName = roomName,
+                Goal = goal,
+                MoneyValue = startMoney,
+                Multiplayer = multiPlayer,
+                StartDate = DateTime.UtcNow,
+                TeamValue = 2, //if startup
+                SoftwareType = softwareProcessType,
+                ProjectValue = 0,
+                UserId = 1 // get from session
+            });
+
+            if(gameRoom != null)
+            {
+
+                // Task.Run(Create Battle Game)
+                _service.Game().CreateGameAsync(gameRoom.GameRoomId, 2);
+
+                if(multiPlayer > 1)
+                {
+                    //multiplayer > wait room
+                    return RedirectToAction("WaitRoom", "Room", new { id = gameRoom.GameRoomId });
+                }
+                else
+                {
+                    //Single > start game
+                    return RedirectToAction("WaitRoom", "GameStart", new { id = gameRoom.GameRoomId });
+                }
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult JoinRoom(int id)

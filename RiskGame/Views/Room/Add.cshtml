@@ -1,59 +1,80 @@
 ﻿@{
     ViewBag.Title = "Create Room Page";
 
-   // var ob = RiskGame.Helper.Singleton.User();
+    // var ob = RiskGame.Helper.Singleton.User();
 }
 
-<div class="row">
-    <h2>Create Room Page</h2>
-    <h5>Owner:</h5> @User.Identity.Name 
-</div>
+
+
+<h1 class="text-center">Create Room</h1>
+<h5>Owner:</h5> @User.Identity.Name
 <br>
 @using (Html.BeginForm("AddRoom", "Room", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div id="CreateRoom">    
-      
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        @Html.Label("Room Name")
-                        @Html.TextBox("Add.RoomName", "", new { @class = "form-control", required = "required" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Label("Start With Money")
-                        @Html.TextBox("Add.StartMoney", "1000000", new { @class = "form-control", type = "number", required = "required", step = "1", min = 1, max = 999999999, maxlength = 10 })
-                    </div>
+<div class="row">
+    <div class="col-lg-6">
 
-                </div>
-                <div class="col-lg-6">
-                    
-                </div>
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        @Html.Label("Player")<br />
-                        @Html.DropDownList("Add.MultiPlayer", (List<SelectListItem>)ViewBag.SelectMultiPlayer, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Label("Goal")<br/>
-                        @Html.DropDownList("Add.Goal", (List<SelectListItem>)ViewBag.SelectGoal, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Label("Software Process")
-                        @Html.DropDownList("Add.SoftwareProcessType", (List<SelectListItem>)ViewBag.SelectSoftwareProcessType, new { @class = "form-control" })
-                    </div>
-                </div>
-               
-                <div class="col-lg-12">
-                    
-                </div>
-            </div>  
-      
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Room Info</strong>
+            </div>
+            <div class="card-body">     
+                    <div id="CreateRoom">
+                        <div class="col-sm-6 col-lg-12">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("Room Name")
+                                    @Html.TextBox("Add.RoomName", "", new { @class = "form-control", required = "required" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Start With Money")
+                                    @Html.TextBox("Add.StartMoney", "1000000", new { @class = "form-control", type = "number", required = "required", step = "1", min = 1, max = 999999999, maxlength = 10 })
+                                </div>
 
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("Player")<br />
+                                    @Html.DropDownList("Add.MultiPlayer", (List<SelectListItem>)ViewBag.SelectMultiPlayer, new { @class = "form-control" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Goal")<br />
+                                    @Html.DropDownList("Add.Goal", (List<SelectListItem>)ViewBag.SelectGoal, new { @class = "form-control" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Software Process")
+                                    @Html.DropDownList("Add.SoftwareProcessType", (List<SelectListItem>)ViewBag.SelectSoftwareProcessType, new { @class = "form-control" })
+                                </div>
+                            </div>
 
 
-        <div class="row">
-            <h2>Create Character</h2>
-            <div class="col-lg-6">
+                        </div>
+
+                        <div class="row col-sm-6 col-lg-6">
+                          
+
+                        </div>
+
+
+
+                        <div class="row text-center col-sm-6 col-lg-12">
+                            <br />
+                          
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-6">
+
+
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Create Character</strong>
+            </div>
+            <div class="card-body">
                 <div class="form-group">
                     @Html.Label("Player Name")
                     @Html.TextBox("Add.PlayerName", "", new { @class = "form-control", required = "required" })
@@ -64,17 +85,12 @@
                 </div>
 
             </div>
-            <div class="col-lg-6">
-
-            </div>
-
         </div>
-
-
-
-        <div class="row text-center">
-            <br />
-            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Create</button>
         </div>
+    <div class="col-lg-12 text-center">
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Create</button>
     </div>
+</div>
 }
+<br>
+

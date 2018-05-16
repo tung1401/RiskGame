@@ -16,18 +16,19 @@ namespace RiskGame.Controllers
     {
 
         private readonly CommonServiceFactory _service = new CommonServiceFactory();
-        public ActionResult Index()
+        public ActionResult Index(int gameRoomId)
         {
             InitialGame();
-            var requirementList =  _service.Risk().GetRiskByType(1).ToList();
+            var gameBattle =  _service.Game().GetGameBattleByGameRoomId(gameRoomId).ToList();
             var list = new List<RiskData>();
-            foreach(var req in requirementList)
+            foreach(var game in gameBattle)
             {
-                var risk = new RiskData{
-                    RiskId = req.RiskId,
-                    Name = req.RiskName,
-                    RiskType = req.RiskType.ToString(),
-                    RiskOption = req.RiskOptions.ToList()
+                var risk = new RiskData
+                {
+                    RiskId = game.RiskId,
+                    Name = game.Risk.RiskName,
+                    RiskType = game.Risk.RiskType.ToString(),
+                    RiskOption = game.Risk.RiskOptions.ToList()
                 };
                 list.Add(risk);
             }

@@ -4,6 +4,7 @@
 //    Unauthorized reproduction or distribution of this
 //    program or any portion of it is Prohibited.
 // ==============================================================
+
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -346,6 +347,16 @@ namespace RiskGame.Repository.Common
         public List<T> AddList(List<T> list)
         {
             throw new NotImplementedException();
+            //using (var transactionScope = new TransactionScope())
+            //{
+            //    if (Dbcontext != null)
+            //    {
+            //        Dbcontext.BulkInsert(list);
+            //        Dbcontext.SaveChanges();
+            //    }
+            //    transactionScope.Complete();
+            //    return list;
+            //}
         }
     }
 }

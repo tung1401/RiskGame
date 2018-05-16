@@ -23,5 +23,17 @@ namespace RiskGame.Helper
             Project = 3
         }
 
+        public enum JobType
+        {
+            StartUp = 0
+        }
+        public enum SoftwareType
+        {
+            WaterFall = 0
+        }
+        public enum GoalType
+        {
+            Money = 0
+        }
     }
 }
