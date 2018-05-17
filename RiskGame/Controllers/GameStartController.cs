@@ -16,10 +16,10 @@ namespace RiskGame.Controllers
     {
 
         private readonly CommonServiceFactory _service = new CommonServiceFactory();
-        public ActionResult Index(int gameRoomId)
+        public ActionResult Index(int id)
         {
             InitialGame();
-            var gameBattle =  _service.Game().GetGameBattleByGameRoomId(gameRoomId).ToList();
+            var gameBattle =  _service.Game().GetGameBattleByGameRoomId(id).ToList();
             var list = new List<RiskData>();
             foreach(var game in gameBattle)
             {

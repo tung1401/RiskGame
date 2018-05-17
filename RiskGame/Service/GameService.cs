@@ -30,7 +30,7 @@ namespace KPI.Services.Service
 
         public IEnumerable<GameBattle> GetGameBattleByGameRoomId(int gameRoomId)
         {
-            return _gameBattle.GetManyWith(x => x.GameBattleId == gameRoomId, inc => inc.Risk, includes => includes.Risk.RiskOptions);
+            return _gameBattle.GetManyWith(x => x.GameRoomId == gameRoomId, inc => inc.Risk, includes => includes.Risk.RiskOptions);
         }
 
         public void AddGameBattle(List<GameBattle> listEntity)
@@ -47,35 +47,35 @@ namespace KPI.Services.Service
         }
         public void CreateGame(int gameRoomId, int take)
         {
-            //get all risk
-            var allRiskOption = _service.Risk().GetAllRiskOption();
-            if (allRiskOption.Any())
+            try
             {
-                var list = new List<GameBattle>();
-                var turn = 0;
-                foreach (var risk in allRiskOption.OrderBy(x => Guid.NewGuid()).Take(take))
+                //get all risk
+                var allRiskOption = _service.Risk().GetAllRiskOption();
+                if (allRiskOption.Any())
                 {
-                    turn++;
-                    var game = new GameBattle
+                    var list = new List<GameBattle>();
+                    var turn = 0;
+                    foreach (var risk in allRiskOption.OrderBy(x => Guid.NewGuid()).Take(take))
                     {
-                        GameRoomId = gameRoomId,
-                        RiskId = risk.RiskId.GetValueOrDefault(),
-                        RiskOptionId = risk.RiskOptionId,
-                        Ratio = new Random().Next(1, 2),
-                        Turn = turn,
-                        ActionEffectType = risk.ActionEffectType,
-                        ActionEffectValue = risk.ActionEffectValue
-                    };
-                    list.Add(game);
+                        turn++;
+                        var game = new GameBattle
+                        {
+                            GameRoomId = gameRoomId,
+                            RiskId = risk.RiskId.GetValueOrDefault(),
+                            RiskOptionId = risk.RiskOptionId,
+                            Ratio = new Random().Next(1, 2),
+                            Turn = turn,
+                            ActionEffectType = risk.ActionEffectType,
+                            ActionEffectValue = risk.ActionEffectValue,
+                        };
+                        _gameBattle.AddAsync(game);
+                    }
                 }
-                //save to game battle
-                _gameBattle.AddList(list);
+            }
+            catch(Exception ex)
+            {
+
             }
         }
-
-        
-
-
-
     }
 }

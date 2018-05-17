@@ -17,8 +17,8 @@ namespace RiskGame.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Risk()
         {
-            this.GameBattles = new HashSet<GameBattle>();
             this.RiskOptions = new HashSet<RiskOption>();
+            this.GameBattles = new HashSet<GameBattle>();
         }
     
         public int RiskId { get; set; }
@@ -28,8 +28,8 @@ namespace RiskGame.Entity
         public Nullable<int> ExpertSuggestion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GameBattle> GameBattles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RiskOption> RiskOptions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GameBattle> GameBattles { get; set; }
     }
 }

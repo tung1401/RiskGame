@@ -27,7 +27,7 @@ namespace RiskGame.Entity
         public Nullable<int> Ratio { get; set; }
         public Nullable<int> Turn { get; set; }
         public Nullable<int> ActionEffectType { get; set; }
-        public Nullable<decimal> ActionEffectValue { get; set; }
+        public Nullable<int> ActionEffectValue { get; set; }
     
         public virtual GameRoom GameRoom { get; set; }
         public virtual Risk Risk { get; set; }

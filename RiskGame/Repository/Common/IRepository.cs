@@ -39,5 +39,7 @@ namespace RiskGame.Repository.Common
 
         T GetWithCulture(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] includes);
         IEnumerable<T> GetManyWithCulture(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] includes);
+
+        T AddAsync(T entity);
     }
 }

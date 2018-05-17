@@ -12,7 +12,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Transactions;
-//using EntityFramework.BulkInsert.Extensions;
+using EntityFramework.BulkInsert.Extensions;
 
 namespace RiskGame.Repository.Common
 {
@@ -346,17 +346,27 @@ namespace RiskGame.Repository.Common
 
         public List<T> AddList(List<T> list)
         {
-            throw new NotImplementedException();
-            //using (var transactionScope = new TransactionScope())
-            //{
-            //    if (Dbcontext != null)
-            //    {
-            //        Dbcontext.BulkInsert(list);
-            //        Dbcontext.SaveChanges();
-            //    }
-            //    transactionScope.Complete();
-            //    return list;
-            //}
+            //throw new NotImplementedException();
+            using (var transactionScope = new TransactionScope())
+            {
+                if (Dbcontext != null)
+                {
+                    Dbcontext.BulkInsert(list);
+                    Dbcontext.SaveChanges();
+                }
+                transactionScope.Complete();
+                return list;
+            }
+        }
+
+        public T AddAsync(T entity)
+        {
+            using (var context = new DAL.DataContext())
+            {
+                context.Entry(entity).State = EntityState.Added;
+                context.SaveChanges();
+            }
+            return entity;
         }
     }
 }

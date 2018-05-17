@@ -69,7 +69,7 @@ namespace RiskGame.Controllers
                 else
                 {
                     //Single > start game
-                    return RedirectToAction("WaitRoom", "GameStart", new { id = gameRoom.GameRoomId });
+                    return RedirectToAction("Index", "GameStart", new { id = gameRoom.GameRoomId });
                 }
             }
             return RedirectToAction("Index", "Home");

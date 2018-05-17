@@ -19,7 +19,7 @@ namespace RiskGame.Entity
         public int UserId { get; set; }
         public Nullable<int> Turn { get; set; }
     
-        public virtual GameBattle GameBattle { get; set; }
         public virtual User User { get; set; }
+        public virtual GameBattle GameBattle { get; set; }
     }
 }
