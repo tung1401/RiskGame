@@ -20,6 +20,9 @@
         <AssociationConnector Association="Model.FK_GameBattle_GameRoom" />
         <AssociationConnector Association="Model.FK_GameBattle_Risk" />
         <AssociationConnector Association="Model.FK_UserGameBattle_GameBattle" />
+        <EntityTypeShape EntityType="Model.UserGameBattleLog" Width="1.5" PointX="10.5" PointY="0.75" />
+        <AssociationConnector Association="Model.FK_UserGameBattleLog_GameBattle" />
+        <AssociationConnector Association="Model.FK_UserGameBattleLog_User" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

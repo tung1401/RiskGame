@@ -32,5 +32,6 @@ namespace RiskGame.Entity
         public virtual DbSet<UserGameRoom> UserGameRooms { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<GameBattle> GameBattles { get; set; }
+        public virtual DbSet<UserGameBattleLog> UserGameBattleLogs { get; set; }
     }
 }

@@ -66,6 +66,26 @@
           <Property Name="GameBattleId" Type="int" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Turn" Type="int" />
+          <Property Name="Money" Type="int" />
+          <Property Name="Team" Type="int" />
+          <Property Name="Project" Type="int" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="UserGameBattleLog">
+          <Key>
+            <PropertyRef Name="UserGameBattleLogId" />
+          </Key>
+          <Property Name="UserGameBattleLogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameBattleId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Turn" Type="int" />
+          <Property Name="Money" Type="int" />
+          <Property Name="Team" Type="int" />
+          <Property Name="Project" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
         </EntityType>
         <EntityType Name="UserGameRoom">
           <Key>
@@ -164,6 +184,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserGameBattleLog_GameBattle">
+          <End Role="GameBattle" Type="Self.GameBattle" Multiplicity="1" />
+          <End Role="UserGameBattleLog" Type="Self.UserGameBattleLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameBattle">
+              <PropertyRef Name="GameBattleId" />
+            </Principal>
+            <Dependent Role="UserGameBattleLog">
+              <PropertyRef Name="GameBattleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserGameBattleLog_User">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserGameBattleLog" Type="Self.UserGameBattleLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserGameBattleLog">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserGameRoom_GameRoom">
           <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
           <End Role="UserGameRoom" Type="Self.UserGameRoom" Multiplicity="*" />
@@ -194,6 +238,7 @@
           <EntitySet Name="Risk" EntityType="Self.Risk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RiskOption" EntityType="Self.RiskOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserGameBattle" EntityType="Self.UserGameBattle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserGameBattleLog" EntityType="Self.UserGameBattleLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserGameRoom" EntityType="Self.UserGameRoom" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_GameBattle_GameRoom" Association="Self.FK_GameBattle_GameRoom">
@@ -219,6 +264,14 @@
           <AssociationSet Name="FK_UserGameBattle_User" Association="Self.FK_UserGameBattle_User">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserGameBattle" EntitySet="UserGameBattle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGameBattleLog_GameBattle" Association="Self.FK_UserGameBattleLog_GameBattle">
+            <End Role="GameBattle" EntitySet="GameBattle" />
+            <End Role="UserGameBattleLog" EntitySet="UserGameBattleLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGameBattleLog_User" Association="Self.FK_UserGameBattleLog_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserGameBattleLog" EntitySet="UserGameBattleLog" />
           </AssociationSet>
           <AssociationSet Name="FK_UserGameRoom_GameRoom" Association="Self.FK_UserGameRoom_GameRoom">
             <End Role="GameRoom" EntitySet="GameRoom" />
@@ -272,6 +325,15 @@
           <AssociationSet Name="FK_UserGameBattle_GameBattle" Association="Model.FK_UserGameBattle_GameBattle">
             <End Role="GameBattle" EntitySet="GameBattles" />
             <End Role="UserGameBattle" EntitySet="UserGameBattles" />
+          </AssociationSet>
+          <EntitySet Name="UserGameBattleLogs" EntityType="Model.UserGameBattleLog" />
+          <AssociationSet Name="FK_UserGameBattleLog_GameBattle" Association="Model.FK_UserGameBattleLog_GameBattle">
+            <End Role="GameBattle" EntitySet="GameBattles" />
+            <End Role="UserGameBattleLog" EntitySet="UserGameBattleLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGameBattleLog_User" Association="Model.FK_UserGameBattleLog_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserGameBattleLog" EntitySet="UserGameBattleLogs" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="GameRoom">
@@ -330,6 +392,12 @@
           <Property Name="Turn" Type="Int32" />
           <NavigationProperty Name="User" Relationship="Model.FK_UserGameBattle_User" FromRole="UserGameBattle" ToRole="User" />
           <NavigationProperty Name="GameBattle" Relationship="Model.FK_UserGameBattle_GameBattle" FromRole="UserGameBattle" ToRole="GameBattle" />
+          <Property Name="Money" Type="Int32" />
+          <Property Name="Team" Type="Int32" />
+          <Property Name="Project" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Boolean" />
         </EntityType>
         <EntityType Name="UserGameRoom">
           <Key>
@@ -384,6 +452,7 @@
           <NavigationProperty Name="UserGameBattles" Relationship="Model.FK_UserGameBattle_User" FromRole="User" ToRole="UserGameBattle" />
           <NavigationProperty Name="UserGameRooms" Relationship="Model.FK_UserGameRoom_User" FromRole="User" ToRole="UserGameRoom" />
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserGameBattleLogs" Relationship="Model.FK_UserGameBattleLog_User" FromRole="User" ToRole="UserGameBattleLog" />
         </EntityType>
         <Association Name="FK_GameRoom_User">
           <End Type="Model.User" Role="User" Multiplicity="1" />
@@ -436,6 +505,7 @@
           <NavigationProperty Name="GameRoom" Relationship="Model.FK_GameBattle_GameRoom" FromRole="GameBattle" ToRole="GameRoom" />
           <NavigationProperty Name="Risk" Relationship="Model.FK_GameBattle_Risk" FromRole="GameBattle" ToRole="Risk" />
           <NavigationProperty Name="UserGameBattles" Relationship="Model.FK_UserGameBattle_GameBattle" FromRole="GameBattle" ToRole="UserGameBattle" />
+          <NavigationProperty Name="UserGameBattleLogs" Relationship="Model.FK_UserGameBattleLog_GameBattle" FromRole="GameBattle" ToRole="UserGameBattleLog" />
         </EntityType>
         <Association Name="FK_GameBattle_GameRoom">
           <End Type="Model.GameRoom" Role="GameRoom" Multiplicity="1" />
@@ -470,6 +540,46 @@
             </Principal>
             <Dependent Role="UserGameBattle">
               <PropertyRef Name="GameBattleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserGameBattleLog">
+          <Key>
+            <PropertyRef Name="UserGameBattleLogId" />
+          </Key>
+          <Property Name="UserGameBattleLogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameBattleId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Turn" Type="Int32" />
+          <Property Name="Money" Type="Int32" />
+          <Property Name="Team" Type="Int32" />
+          <Property Name="Project" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <NavigationProperty Name="GameBattle" Relationship="Model.FK_UserGameBattleLog_GameBattle" FromRole="UserGameBattleLog" ToRole="GameBattle" />
+          <NavigationProperty Name="User" Relationship="Model.FK_UserGameBattleLog_User" FromRole="UserGameBattleLog" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserGameBattleLog_GameBattle">
+          <End Type="Model.GameBattle" Role="GameBattle" Multiplicity="1" />
+          <End Type="Model.UserGameBattleLog" Role="UserGameBattleLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameBattle">
+              <PropertyRef Name="GameBattleId" />
+            </Principal>
+            <Dependent Role="UserGameBattleLog">
+              <PropertyRef Name="GameBattleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserGameBattleLog_User">
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.UserGameBattleLog" Role="UserGameBattleLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserGameBattleLog">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -525,6 +635,12 @@
           <EntitySetMapping Name="UserGameBattles">
             <EntityTypeMapping TypeName="Model.UserGameBattle">
               <MappingFragment StoreEntitySet="UserGameBattle">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Project" ColumnName="Project" />
+                <ScalarProperty Name="Team" ColumnName="Team" />
+                <ScalarProperty Name="Money" ColumnName="Money" />
                 <ScalarProperty Name="Turn" ColumnName="Turn" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="GameBattleId" ColumnName="GameBattleId" />
@@ -570,6 +686,21 @@
                 <ScalarProperty Name="RiskId" ColumnName="RiskId" />
                 <ScalarProperty Name="GameRoomId" ColumnName="GameRoomId" />
                 <ScalarProperty Name="GameBattleId" ColumnName="GameBattleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserGameBattleLogs">
+            <EntityTypeMapping TypeName="Model.UserGameBattleLog">
+              <MappingFragment StoreEntitySet="UserGameBattleLog">
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Project" ColumnName="Project" />
+                <ScalarProperty Name="Team" ColumnName="Team" />
+                <ScalarProperty Name="Money" ColumnName="Money" />
+                <ScalarProperty Name="Turn" ColumnName="Turn" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="GameBattleId" ColumnName="GameBattleId" />
+                <ScalarProperty Name="UserGameBattleLogId" ColumnName="UserGameBattleLogId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

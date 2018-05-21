@@ -318,6 +318,9 @@
     <Compile Include="Entity\UserGameBattle.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\UserGameBattleLog.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\UserGameRoom.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
