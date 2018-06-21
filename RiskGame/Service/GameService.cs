@@ -16,11 +16,15 @@ namespace KPI.Services.Service
         private readonly CommonServiceFactory _service = new CommonServiceFactory();
         private readonly IGameBattleRepository _gameBattle;
         private readonly IUserGameBattleRepository _userGameBattle;
+        private readonly IUserGameBattleLogRepository _userGameBattleLog;
 
-        public GameService(GameBattleRepository gameBattle, UserGameBattleRepository userGameBattle)
+        public GameService(GameBattleRepository gameBattle, 
+            UserGameBattleRepository userGameBattle,
+            UserGameBattleLogRepository userGameBattleLog)
         {
             _gameBattle = gameBattle;
             _userGameBattle = userGameBattle;
+            _userGameBattleLog = userGameBattleLog;
         }
 
         public IEnumerable<GameBattle> GetAllGameBattle()
@@ -32,6 +36,10 @@ namespace KPI.Services.Service
         {
             return _gameBattle.GetManyWith(x => x.GameRoomId == gameRoomId, inc => inc.Risk, includes => includes.Risk.RiskOptions);
         }
+        public IEnumerable<GameBattle> GetGameBattleOpenRisk(int gameRoomId, int turn)
+        {
+            return _gameBattle.GetManyWith(x => x.GameRoomId == gameRoomId && x.Turn == turn, inc => inc.Risk, includes => includes.Risk.RiskOptions);
+        }
 
         public void AddGameBattle(List<GameBattle> listEntity)
         {
@@ -41,6 +49,7 @@ namespace KPI.Services.Service
         {
             _gameBattle.Add(entity);
         }
+
         public async Task CreateGameAsync(int gameRoomId, int take = 2)
         {
             await Task.Run(() => CreateGame(gameRoomId, take));
@@ -77,5 +86,14 @@ namespace KPI.Services.Service
 
             }
         }
+
+
+
+        //user game battle log
+        public void AddUserGameBattleLog(UserGameBattleLog log)
+        {
+            _userGameBattleLog.Add(log);
+        }
+
     }
 }

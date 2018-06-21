@@ -1,10 +1,13 @@
-﻿using RiskGame.Models;
+﻿using RiskGame.Helper;
+using RiskGame.Models;
 using RiskGame.Repository.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using System.Web.Security;
 
 namespace RiskGame.Controllers
 {
@@ -52,15 +55,12 @@ namespace RiskGame.Controllers
                 TeamValue = 2, //if startup
                 SoftwareType = softwareProcessType,
                 ProjectValue = 0,
-                UserId = 1 // get from session
+                UserId = Singleton.User().UserId // get from session
             });
 
             if(gameRoom != null)
             {
-
-                // Task.Run(Create Battle Game)
                 _service.Game().CreateGameAsync(gameRoom.GameRoomId, 2);
-
                 if(multiPlayer > 1)
                 {
                     //multiplayer > wait room
@@ -69,6 +69,21 @@ namespace RiskGame.Controllers
                 else
                 {
                     //Single > start game
+                    //Todo Create UserGameRoom and log
+                    _service.GameRoom().AddUserGameRoom(new Entity.UserGameRoom
+                    {
+                        GameRoomId = gameRoom.GameRoomId,
+                        PlayerName = playerName,
+                        JobType = int.Parse(jobType),
+                        MoneyValue = gameRoom.MoneyValue,
+                        ProjectValue = gameRoom.ProjectValue,
+                        TeamValue = gameRoom.TeamValue,
+                        GameFinished = null,
+                        JoinDate = DateTime.UtcNow,
+                        UserId = Singleton.User().UserId,
+                        Active = true
+                    });
+                    Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue, gameRoom.GameRoomId);
                     return RedirectToAction("Index", "GameStart", new { id = gameRoom.GameRoomId });
                 }
             }
@@ -80,7 +95,6 @@ namespace RiskGame.Controllers
             RenderJobType(null);
             return View("Join");
         }
-
         public ActionResult WaitRoom(int id)
         {
             var model = new GameRoomModel
@@ -172,5 +186,25 @@ namespace RiskGame.Controllers
             selectMultiPlayer.Add(new SelectListItem { Text = "4", Value = "4"});
             ViewBag.SelectMultiPlayer = selectMultiPlayer;
         }
+
+        public void InitialGame(int team, int project, int money, int roomId)
+        {
+            HttpCookie cookie = Request.Cookies["UserGame"];
+            var adminData = new UserGameModel
+            {
+                Team = team,
+                Project = project,
+                Money = money,
+                GameSession = Guid.NewGuid().ToString(),
+                UserId = Singleton.User().UserId,
+                GameRoomId = roomId,
+            };
+            var serializer = new JavaScriptSerializer();
+            cookie = new HttpCookie("UserGame", serializer.Serialize(adminData));
+            Response.SetCookie(cookie); //SetCookie() is used for update the cookie.
+            Response.Cookies.Add(cookie);     
+        }
+
+
     }
 }

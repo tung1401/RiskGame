@@ -16,5 +16,7 @@ namespace KPI.Services.Interface
         IEnumerable<GameBattle> GetGameBattleByGameRoomId(int gameRoomId);
         IEnumerable<GameBattle> GetAllGameBattle();
         Task CreateGameAsync(int gameRoomId, int take = 2);
+        IEnumerable<GameBattle> GetGameBattleOpenRisk(int gameRoomId, int turn);
+        void AddUserGameBattleLog(UserGameBattleLog log);
     }
 }

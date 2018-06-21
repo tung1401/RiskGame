@@ -18,17 +18,16 @@ namespace RiskGame.Controllers
         private readonly CommonServiceFactory _service = new CommonServiceFactory();
         public ActionResult Index(int id)
         {
-            InitialGame();
-            var gameBattle =  _service.Game().GetGameBattleByGameRoomId(id).ToList();
+            var risks = _service.Risk().GetAllRisk();
             var list = new List<RiskData>();
-            foreach(var game in gameBattle)
+            foreach (var item in risks.Where(x => x.RiskOptions.Any()))
             {
                 var risk = new RiskData
                 {
-                    RiskId = game.RiskId,
-                    Name = game.Risk.RiskName,
-                    RiskType = game.Risk.RiskType.ToString(),
-                    RiskOption = game.Risk.RiskOptions.ToList()
+                    RiskId = item.RiskId,
+                    Name = item.RiskName,
+                    RiskType = item.RiskType.ToString(),
+                    RiskOption = item.RiskOptions.ToList()
                 };
                 list.Add(risk);
             }
@@ -40,7 +39,7 @@ namespace RiskGame.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult OpenRisk(FormCollection form)
+        public ActionResult ProtectRisk(FormCollection form)
         {
             var selectedRisk = form.AllKeys.Where(x => x.Contains("riskoption")).ToList();
             var moneySummary = 0;
@@ -57,22 +56,26 @@ namespace RiskGame.Controllers
                 }
             }
 
-            var total = Singleton.User().Money - moneySummary;
-            UpdateGameUser(total);
-            ViewBag.Money = total;
-            return View();
+            var money = Singleton.User().Money - moneySummary;
+           //UpdateGameUser(money);
+            Singleton.UpdateGameSession(Singleton.User().Team, Singleton.User().Project, money, Singleton.User().Turn++);
+            ViewBag.Money = money;
+            return RedirectToAction("OpenRisk", "Game");
         }
 
-        public ActionResult OpenRisk()
-        {
-            // Random Risk
-            var riskRandom = _service.Risk().GetRiskById(2);
-
-            // get risk selected from db
+        //public ActionResult OpenRisk()
+        //{
+        //    // Random Risk
+        //    var riskRandom = _service.Risk().GetRiskById(2);
 
 
-            return View();
-        }
+
+
+        //    // get risk selected from db
+
+
+        //    return View();
+        //}
         public ActionResult Result()
         {
 

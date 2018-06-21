@@ -26,7 +26,7 @@ namespace KPI.Services.Service
         //
         public IEnumerable<Risk> GetAllRisk()
         {
-            return _risk.GetAll();
+            return _risk.GetAllWith(inc => inc.RiskOptions);
         }
         public IEnumerable<Risk> GetRiskById(int id)
         {

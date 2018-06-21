@@ -25,7 +25,7 @@ namespace RiskGame.Entity
         public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<bool> Active { get; set; }
     
-        public virtual User User { get; set; }
         public virtual GameBattle GameBattle { get; set; }
+        public virtual User User { get; set; }
     }
 }

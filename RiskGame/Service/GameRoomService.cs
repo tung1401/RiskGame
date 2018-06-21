@@ -19,10 +19,11 @@ namespace KPI.Services.Service
         private readonly CommonServiceFactory _service = new CommonServiceFactory();
         private readonly IGameBattleRepository _gameBattle;
         private readonly IGameRoomRepository _gameRoom;
-
-        public GameRoomService(GameRoomRepository gameRoom)
+        private readonly IUserGameRoomRepository _userGameRoom;
+        public GameRoomService(GameRoomRepository gameRoom, UserGameRoomRepository userGameRoom)
         {
             _gameRoom = gameRoom;
+            _userGameRoom = userGameRoom;
         }
 
         public IEnumerable<GameRoom> GetAllGameRoom()
@@ -158,7 +159,10 @@ namespace KPI.Services.Service
             return _gameRoom.Add(entity);
         }
 
-
+        public void AddUserGameRoom(UserGameRoom userGameRoom)
+        {
+            _userGameRoom.Add(userGameRoom);
+        }
 
 
 

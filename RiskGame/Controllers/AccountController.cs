@@ -5,9 +5,11 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using RiskGame.Helper;
 using RiskGame.Models;
 
 namespace RiskGame.Controllers
@@ -76,9 +78,35 @@ namespace RiskGame.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+           
             switch (result)
             {
                 case SignInStatus.Success:
+
+                    using (var context = new DAL.DataContext())
+                    {
+                        var userData = context.Users.FirstOrDefault(x => x.Email == model.Email);
+
+                        //Todo find current game
+
+                        if (userData != null)
+                        {
+                            var userModel = new UserGameModel
+                            {
+                                UserId = userData.UserId,
+                                TimeZone = "SE Asia Standard Time",
+                                Email = model.Email
+                            };
+                        }
+                        var serializer = new JavaScriptSerializer();
+                        var cookie = new HttpCookie("UserGame", serializer.Serialize(userData))
+                        {
+                            Expires = DateTime.Now.AddYears(1)
+                        };
+                        Response.Cookies.Add(cookie);
+
+                    }
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

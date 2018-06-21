@@ -1,4 +1,6 @@
-﻿CREATE TABLE [dbo].[RiskOption](
+﻿alter database [Risk-Dev] set enable_broker with rollback immediate;
+
+CREATE TABLE [dbo].[RiskOption](
 	[RiskOptionId] [int] IDENTITY(1,1) NOT NULL,
 	[RiskId] [int] NULL,
 	[RiskLevel] [int] NULL,

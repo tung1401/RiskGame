@@ -19,9 +19,11 @@ namespace RiskGame.Helper
         public int Project { get; set; }
         public int Team { get; set; }
         public List<CompanyModel> InsuranceCompanies { get; set; }
-
+        public int GameRoomId { get; set; }
+        public int GameBattleId { get; set; }
         public string GameSession { get; set; }
-
+        public string Email { get; set; }
+        public int Turn { get; set; }
         // public List<ProgramType> ProgramType { get; set; }
 
         //public UserGameModel()

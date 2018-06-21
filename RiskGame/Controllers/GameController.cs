@@ -66,6 +66,13 @@ namespace RiskGame.Controllers
         public ActionResult OpenRisk()
         {
             // Random Risk
+            var model = new RiskDataModel();
+            var openriks = _service.Game().GetGameBattleOpenRisk(Singleton.User().GameRoomId, Singleton.User().Turn);
+            if (openriks.Any())
+            {
+                model.RiskData = openriks;
+            }
+
 
 
 

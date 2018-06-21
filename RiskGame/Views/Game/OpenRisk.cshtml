@@ -7,8 +7,14 @@
 }
 <div class="jumbotron">
     <h1>Open Risk</h1>
-    @ViewBag.Money
-    <a href="/Game">Next Turn</a>
+    <div class="jumbotron">
+        <h1>Open Risk</h1>
+        @ViewBag.Money
+        @RiskGame.Helper.Singleton.User().Email
+        @RiskGame.Helper.Singleton.User().Money
+
+        <a href="/Game">Next Turn</a>
+    </div>
 </div>
     @*<div class="jumbotron">
             <h1>Game Start</h1>

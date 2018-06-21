@@ -8,7 +8,8 @@
 <div class="jumbotron">
     <h1>Open Risk</h1>
     @ViewBag.Money
-
+    @RiskGame.Helper.Singleton.User().Email
+    @RiskGame.Helper.Singleton.User().Money
 
     <a href="/Game">Next Turn</a>
 </div>

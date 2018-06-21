@@ -31,14 +31,15 @@ namespace RiskGame.Repository.Common
         {
             return new GameService(
                 new GameBattleRepository(_db),
-                 new UserGameBattleRepository(_db)
+                 new UserGameBattleRepository(_db),
+                  new UserGameBattleLogRepository(_db)
                 );
         }
         public IGameRoomService GameRoom()
         {
             return new GameRoomService(
-                new GameRoomRepository(_db)
-
+                new GameRoomRepository(_db),
+                new UserGameRoomRepository(_db)
                 //new UserGameRoomRepository(_db)
                 );
         }
