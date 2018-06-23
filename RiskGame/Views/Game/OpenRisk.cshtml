@@ -1,4 +1,4 @@
-﻿@model RiskGame.Models.RiskDataModel
+﻿@model RiskGame.Models.GameBattleViewModel
 
 @{
     Layout = "~/Views/Shared/_LayoutGame.cshtml";
@@ -6,7 +6,6 @@
     //ViewBag.CountDown = DateTime.Now.AddMinutes(5.05);
 }
 <div class="jumbotron">
-    <h1>Open Risk</h1>
     <div class="jumbotron">
         <h1>Open Risk</h1>
         @ViewBag.Money
@@ -16,6 +15,40 @@
         <a href="/Game">Next Turn</a>
     </div>
 </div>
+<table class="table">
+    <thead>
+        <tr>
+            <td><b>RiskName</b></td>
+            <td><b>ActionEffectType</b></td>
+            <td><b>ActionEffectValue * Ratio</b></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var item in Model.GameBattles)
+            {
+                <td>
+                    @item.Risk.RiskName
+                </td>
+                <td>
+                    @item.ActionEffectType
+                </td>
+                <td>
+                    @(item.ActionEffectValue * item.Ratio)
+                </td>
+
+            }
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
     @*<div class="jumbotron">
             <h1>Game Start</h1>
 

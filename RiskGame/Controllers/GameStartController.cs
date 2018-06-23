@@ -38,44 +38,7 @@ namespace RiskGame.Controllers
             ViewBag.Money = Singleton.User().Money;
             return View(model);
         }
-        [HttpPost]
-        public ActionResult ProtectRisk(FormCollection form)
-        {
-            var selectedRisk = form.AllKeys.Where(x => x.Contains("riskoption")).ToList();
-            var moneySummary = 0;
-            if (selectedRisk.Any())
-            {
-                foreach (var item in selectedRisk)
-                {
-                    var moneyValue = form[item];
-                    if (moneyValue != null)
-                    {
-                        moneySummary += int.Parse(moneyValue);
-                    }
-                    //save database
-                }
-            }
-
-            var money = Singleton.User().Money - moneySummary;
-           //UpdateGameUser(money);
-            Singleton.UpdateGameSession(Singleton.User().Team, Singleton.User().Project, money, Singleton.User().Turn++);
-            ViewBag.Money = money;
-            return RedirectToAction("OpenRisk", "Game");
-        }
-
-        //public ActionResult OpenRisk()
-        //{
-        //    // Random Risk
-        //    var riskRandom = _service.Risk().GetRiskById(2);
-
-
-
-
-        //    // get risk selected from db
-
-
-        //    return View();
-        //}
+      
         public ActionResult Result()
         {
 

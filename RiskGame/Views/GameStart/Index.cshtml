@@ -1,5 +1,5 @@
 ﻿@model RiskGame.Models.RiskDataModel
-
+@using RiskGame.Helper
 @{
     Layout = "~/Views/Shared/_LayoutGame.cshtml";
     ViewBag.Title = "Game Start Page";
@@ -8,10 +8,14 @@
 
 <div class="jumbotron">
     <h1>Game Start</h1>
-    @ViewBag.Money
+    <div>PlayerName:  @Singleton.Game().PlayerName</div>
+    <div>Money:  @Singleton.Game().Money</div>
+    <div>Turn:  @Singleton.Game().Turn</div>
+    <div>GameRoomId:  @Singleton.Game().GameRoomId</div>
+
     <div id="countdown"></div>
 
-    @using (Html.BeginForm("ProtectRisk", "GameStart", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("ProtectRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <table class="table">
             <thead>

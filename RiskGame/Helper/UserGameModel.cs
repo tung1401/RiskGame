@@ -54,4 +54,25 @@ namespace RiskGame.Helper
             public string CompanyName { get; set; }
         }
     }
+
+
+
+
+    [Serializable]
+    public class GameModel
+    {
+        public int GameRoomId { get; set; }
+        public int GameBattleId { get; set; }
+        public string GameSession { get; set; }
+        public int Turn { get; set; }
+        public int Money { get; set; }
+        public int Project { get; set; }
+        public int Team { get; set; }
+        public int UserId { get; set; }
+        public string PlayerName { get; set; }
+
+    }
+
+
+
 }

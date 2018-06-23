@@ -20,5 +20,6 @@ namespace KPI.Services.Interface
         GameRoom AddRoom(GameRoom entity);
 
         void AddUserGameRoom(UserGameRoom userGameRoom);
+        GameRoom GetGameRoomByUserId(int userId, int gameRoomId);
     }
 }

@@ -99,7 +99,7 @@ namespace RiskGame.Controllers
                             };
                         }
                         var serializer = new JavaScriptSerializer();
-                        var cookie = new HttpCookie("UserGame", serializer.Serialize(userData))
+                        var cookie = new HttpCookie("User", serializer.Serialize(userData))
                         {
                             Expires = DateTime.Now.AddYears(1)
                         };

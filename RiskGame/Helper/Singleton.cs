@@ -11,7 +11,7 @@ namespace RiskGame.Helper
     {
         public static UserGameModel User()
         {
-            var cookie = HttpContext.Current.Request.Cookies["UserGame"];
+            var cookie = HttpContext.Current.Request.Cookies["User"];
             if (cookie != null)
             {
                 var serializer = new JavaScriptSerializer();
@@ -20,16 +20,67 @@ namespace RiskGame.Helper
                 {
                     item.CompanyId = null;
                 }
-
                 return item;
             }
             return null;
         }
 
 
-        public static void CreateGameSession(int team, int project, int money, int roomId)
+        public static void CreateGameSession(int team, int project, int money, int roomId, string playerName)
+        {
+            HttpCookie cookie = HttpContext.Current.Request.Cookies["Game"];
+            var gameData = new GameModel
+            {
+                Team = team,
+                Project = project,
+                Money = money,
+                GameSession = Guid.NewGuid().ToString(),
+                UserId = Singleton.User().UserId,
+                PlayerName = playerName,
+                GameRoomId = roomId,
+                Turn = 1
+            };
+            var serializer = new JavaScriptSerializer();
+            cookie = new HttpCookie("Game", serializer.Serialize(gameData));
+            HttpContext.Current.Response.SetCookie(cookie); //SetCookie() is used for update the cookie.
+            HttpContext.Current.Response.Cookies.Add(cookie);
+        }
+
+        public static void UpdateGameSession(int team, int project, int money, int turn)
         {
             HttpCookie cookie = HttpContext.Current.Request.Cookies["UserGame"];
+            var adminData = new GameModel
+            {
+                Team = team,
+                Project = project,
+                Money = money,
+                GameSession = Guid.NewGuid().ToString(),
+                UserId = Singleton.User().UserId,
+                PlayerName = Singleton.Game().PlayerName,
+                GameRoomId = Singleton.User().GameRoomId,
+                Turn = turn
+            };
+            var serializer = new JavaScriptSerializer();
+            cookie = new HttpCookie("Game", serializer.Serialize(adminData));
+            HttpContext.Current.Response.SetCookie(cookie); //SetCookie() is used for update the cookie.
+            HttpContext.Current.Response.Cookies.Add(cookie);
+        }
+
+        public static GameModel Game()
+        {
+            var cookie = HttpContext.Current.Request.Cookies["Game"];
+            if (cookie != null)
+            {
+                var serializer = new JavaScriptSerializer();
+                var item = (GameModel)serializer.Deserialize(cookie.Value, typeof(GameModel));
+                return item;
+            }
+            return null;
+        }
+
+        public static void AddUserSession(int team, int project, int money, int roomId)
+        {
+            HttpCookie cookie = HttpContext.Current.Request.Cookies["User"];
             var adminData = new UserGameModel
             {
                 Team = team,
@@ -41,25 +92,31 @@ namespace RiskGame.Helper
                 Turn = 1
             };
             var serializer = new JavaScriptSerializer();
-            cookie = new HttpCookie("UserGame", serializer.Serialize(adminData));
+            cookie = new HttpCookie("User", serializer.Serialize(adminData));
             HttpContext.Current.Response.SetCookie(cookie); //SetCookie() is used for update the cookie.
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
 
-        public static void UpdateGameSession(int team, int project, int money, int turn)
+        public static void UpdateUserSession(int team, int project, int money, int turn)
         {
-            HttpCookie cookie = HttpContext.Current.Request.Cookies["UserGame"];
+            HttpCookie cookie = HttpContext.Current.Request.Cookies["User"];
             var adminData = new UserGameModel
             {
                 Team = team,
                 Project = project,
                 Money = money,
+                GameSession = Guid.NewGuid().ToString(),
+                UserId = Singleton.User().UserId,
+                GameRoomId = Singleton.User().GameRoomId,
                 Turn = turn
             };
             var serializer = new JavaScriptSerializer();
-            cookie = new HttpCookie("UserGame", serializer.Serialize(adminData));
+            cookie = new HttpCookie("User", serializer.Serialize(adminData));
             HttpContext.Current.Response.SetCookie(cookie); //SetCookie() is used for update the cookie.
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
+
+
+
     }
 }

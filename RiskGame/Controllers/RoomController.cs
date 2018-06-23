@@ -52,6 +52,7 @@ namespace RiskGame.Controllers
                 MoneyValue = startMoney,
                 Multiplayer = multiPlayer,
                 StartDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddMinutes(15),
                 TeamValue = 2, //if startup
                 SoftwareType = softwareProcessType,
                 ProjectValue = 0,
@@ -83,7 +84,8 @@ namespace RiskGame.Controllers
                         UserId = Singleton.User().UserId,
                         Active = true
                     });
-                    Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue, gameRoom.GameRoomId);
+                    Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue, 
+                        gameRoom.GameRoomId, playerName);
                     return RedirectToAction("Index", "GameStart", new { id = gameRoom.GameRoomId });
                 }
             }

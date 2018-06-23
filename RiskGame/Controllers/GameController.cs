@@ -65,12 +65,16 @@ namespace RiskGame.Controllers
 
         public ActionResult OpenRisk()
         {
-            // Random Risk
-            var model = new RiskDataModel();
-            var openriks = _service.Game().GetGameBattleOpenRisk(Singleton.User().GameRoomId, Singleton.User().Turn);
-            if (openriks.Any())
+            // check risk, and reduce money
+            var model = new GameBattleViewModel();
+            var openRisk = _service.Game().GetGameBattleOpenRisk(Singleton.User().GameRoomId, Singleton.User().Turn);
+            if (openRisk.Any())
             {
-               // model.RiskData = openriks;
+                model.GameBattles = openRisk.ToList();
+                foreach (var item in model.GameBattles)
+                {
+
+                }
             }
 
 
@@ -79,8 +83,42 @@ namespace RiskGame.Controllers
             // get risk selected from db
 
 
-            return View();
+            return View(model);
         }
+
+        [HttpPost]
+        public ActionResult ProtectRisk(FormCollection form)
+        {
+            var selectedRisk = form.AllKeys.Where(x => x.Contains("riskoption")).ToList();
+            var moneySummary = 0;
+            if (selectedRisk.Any())
+            {
+                foreach (var item in selectedRisk)
+                {
+                    var moneyValue = form[item];
+                    if (moneyValue != null)
+                    {
+                        moneySummary += int.Parse(moneyValue);
+                    }
+                    //save database
+                }
+            }
+            var gameRoom = _service.GameRoom().GetGameRoomByUserId(Singleton.Game().UserId, Singleton.Game().GameRoomId);
+            if (gameRoom != null)
+            {
+                gameRoom.MoneyValue = Singleton.User().Money - moneySummary;
+            }
+
+            var money = Singleton.User().Money - moneySummary;
+            //UpdateGameUser(money);
+            Singleton.UpdateGameSession(Singleton.User().Team, Singleton.User().Project, money, Singleton.User().Turn++);
+            ViewBag.Money = money;
+            return RedirectToAction("OpenRisk", "Game");
+        }
+
+
+
+
         public ActionResult Result()
         {
 

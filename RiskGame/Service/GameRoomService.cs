@@ -228,5 +228,10 @@ namespace KPI.Services.Service
             }
         }
 
+        public GameRoom GetGameRoomByUserId(int userId, int gameRoomId)
+        {
+            return _gameRoom.Get(m => m.UserId == userId && m.GameRoomId == gameRoomId);
+        }
+
     }
 }
