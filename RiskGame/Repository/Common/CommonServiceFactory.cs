@@ -24,7 +24,7 @@ namespace RiskGame.Repository.Common
         {
             return new RiskService(
                 new RiskRepository(_db),
-                 new RiskOptionRepository(_db) 
+                 new RiskOptionRepository(_db)
                 );
         }
         public IGameService Game()
@@ -32,7 +32,8 @@ namespace RiskGame.Repository.Common
             return new GameService(
                 new GameBattleRepository(_db),
                  new UserGameBattleRepository(_db),
-                  new UserGameBattleLogRepository(_db)
+                  new UserGameBattleLogRepository(_db),
+                  new UserGameRiskRepository(_db)
                 );
         }
         public IGameRoomService GameRoom()
@@ -43,41 +44,5 @@ namespace RiskGame.Repository.Common
                 //new UserGameRoomRepository(_db)
                 );
         }
-
-        //public IPredictiveService Predictive()
-        //{
-        //    return new PredictiveService(
-        //        new PredictiveRepository(_db),
-        //        new ProjectRepository(_db),
-        //        new JSAScoreRepository(_db)
-        //        );
-        //}
-        //public IProjectService Project()
-        //{
-        //    return new ProjectService(
-        //        new ProjectRepository(_db),
-        //        new ProjectEmployeeRepository(_db),
-        //        new PredictiveRepository(_db)
-        //        );
-        //}
-        //public ITimberlineService Timberline()
-        //{
-        //    return new TimberlineService(
-        //        new TimberlineRepository(_db)
-        //        );
-        //}
-
-        //public IEmployeeService Employee()
-        //{
-        //    return new EmployeeService(
-        //        new EmployeeRepository(_db)
-        //        );
-        //}
-        //public ICustomerService Customer()
-        //{
-        //    return new CustomerService(
-        //        new CustomerRepository(_db)
-        //        );
-        //}
     }
 }

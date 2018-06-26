@@ -322,6 +322,9 @@
     <Compile Include="Entity\UserGameBattleLog.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\UserGameRisk.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\UserGameRoom.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -345,7 +348,9 @@
     <Compile Include="Repository\Common\Repository.cs" />
     <Compile Include="Repository\GameBattleRepository.cs" />
     <Compile Include="Repository\Interfaces\IUserGameBattleLogRepository.cs" />
+    <Compile Include="Repository\Interfaces\IUserGameRiskRepository.cs" />
     <Compile Include="Repository\UserGameBattleLogRepository.cs" />
+    <Compile Include="Repository\UserGameRiskRepository.cs" />
     <Compile Include="Repository\UserGameRoomRepository.cs" />
     <Compile Include="Repository\Interfaces\IUserGameRoomRepository.cs" />
     <Compile Include="Repository\UserGameBattleRepository.cs" />

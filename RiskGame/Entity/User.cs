@@ -19,8 +19,9 @@ namespace RiskGame.Entity
         {
             this.GameRooms = new HashSet<GameRoom>();
             this.UserGameBattles = new HashSet<UserGameBattle>();
-            this.UserGameBattleLogs = new HashSet<UserGameBattleLog>();
             this.UserGameRooms = new HashSet<UserGameRoom>();
+            this.UserGameBattleLogs = new HashSet<UserGameBattleLog>();
+            this.UserGameRisks = new HashSet<UserGameRisk>();
         }
     
         public int UserId { get; set; }
@@ -34,8 +35,10 @@ namespace RiskGame.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserGameBattle> UserGameBattles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserGameRoom> UserGameRooms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserGameBattleLog> UserGameBattleLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserGameRoom> UserGameRooms { get; set; }
+        public virtual ICollection<UserGameRisk> UserGameRisks { get; set; }
     }
 }

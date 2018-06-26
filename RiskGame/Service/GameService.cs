@@ -17,14 +17,17 @@ namespace KPI.Services.Service
         private readonly IGameBattleRepository _gameBattle;
         private readonly IUserGameBattleRepository _userGameBattle;
         private readonly IUserGameBattleLogRepository _userGameBattleLog;
-
+        private readonly IUserGameRiskRepository _userGameRisk;
         public GameService(GameBattleRepository gameBattle, 
             UserGameBattleRepository userGameBattle,
-            UserGameBattleLogRepository userGameBattleLog)
+            UserGameBattleLogRepository userGameBattleLog,
+            UserGameRiskRepository userGameRisk
+            )
         {
             _gameBattle = gameBattle;
             _userGameBattle = userGameBattle;
             _userGameBattleLog = userGameBattleLog;
+            _userGameRisk = userGameRisk;
         }
 
         public IEnumerable<GameBattle> GetAllGameBattle()

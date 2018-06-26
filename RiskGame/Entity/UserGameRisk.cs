@@ -12,20 +12,17 @@ namespace RiskGame.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class UserGameBattleLog
+    public partial class UserGameRisk
     {
-        public int UserGameBattleLogId { get; set; }
-        public int GameBattleId { get; set; }
-        public int GameRoomId { get; set; }
+        public int UserGameRiskId { get; set; }
+        public int RiskId { get; set; }
+        public int OptionId { get; set; }
         public int UserId { get; set; }
+        public int GameRoomId { get; set; }
         public Nullable<int> Turn { get; set; }
-        public Nullable<int> Money { get; set; }
-        public Nullable<int> Team { get; set; }
-        public Nullable<int> Project { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
     
-        public virtual GameBattle GameBattle { get; set; }
         public virtual GameRoom GameRoom { get; set; }
         public virtual User User { get; set; }
     }
