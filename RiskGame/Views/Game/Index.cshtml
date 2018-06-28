@@ -1,5 +1,5 @@
 ﻿@model RiskGame.Models.RiskDataModel
-
+@using RiskGame.Helper
 @{
     Layout = "~/Views/Shared/_LayoutGame.cshtml";
     ViewBag.Title = "Game Page";
@@ -8,10 +8,13 @@
 
 <div class="jumbotron">
     <h1>Game Battle</h1>
-    @ViewBag.Money
+    <div>PlayerName:  @Singleton.Game().PlayerName</div>
+    <div>Money:  @Singleton.Game().Money</div>
+    <div>Turn:  @Singleton.Game().Turn</div>
+    <div>GameRoomId:  @Singleton.Game().GameRoomId</div>
     <div id="countdown"></div>
 
-    @using (Html.BeginForm("OpenRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("ProtectRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <table class="table">
             <thead>
@@ -23,23 +26,23 @@
                 </tr>
             </thead>
             <tbody>
-               
-                    @foreach (var item in Model.RiskData)
-                {
-                        <tr>
-                            <td>
-                                @item.Name
-                            </td>
-                            @foreach (var op in item.RiskOption)
-                            {
 
-                            <td>
-                                @Html.RadioButton("riskoption"+ item.RiskId, op.ActionEffectValue) @Html.Raw("Protect -") @op.ActionEffectValue
-                            </td>
-                            }
-                        </tr>
-                    }
-                      
+                @foreach (var item in Model.RiskData)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        @foreach (var op in item.RiskOption)
+                        {
+
+                        <td>
+                            @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue
+                        </td>
+                        }
+                    </tr>
+                }
+
             </tbody>
         </table>
 

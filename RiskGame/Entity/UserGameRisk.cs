@@ -16,7 +16,7 @@ namespace RiskGame.Entity
     {
         public int UserGameRiskId { get; set; }
         public int RiskId { get; set; }
-        public int OptionId { get; set; }
+        public int RiskOptionId { get; set; }
         public int UserId { get; set; }
         public int GameRoomId { get; set; }
         public Nullable<int> Turn { get; set; }
@@ -24,6 +24,8 @@ namespace RiskGame.Entity
         public Nullable<int> CreateBy { get; set; }
     
         public virtual GameRoom GameRoom { get; set; }
+        public virtual Risk Risk { get; set; }
+        public virtual RiskOption RiskOption { get; set; }
         public virtual User User { get; set; }
     }
 }

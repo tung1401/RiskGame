@@ -57,7 +57,7 @@ namespace RiskGame.Helper
                 GameSession = Guid.NewGuid().ToString(),
                 UserId = Singleton.User().UserId,
                 PlayerName = Singleton.Game().PlayerName,
-                GameRoomId = Singleton.User().GameRoomId,
+                GameRoomId = Singleton.Game().GameRoomId,
                 Turn = turn
             };
             var serializer = new JavaScriptSerializer();
@@ -107,7 +107,7 @@ namespace RiskGame.Helper
                 Money = money,
                 GameSession = Guid.NewGuid().ToString(),
                 UserId = Singleton.User().UserId,
-                GameRoomId = Singleton.User().GameRoomId,
+                GameRoomId = Singleton.Game().GameRoomId,
                 Turn = turn
             };
             var serializer = new JavaScriptSerializer();

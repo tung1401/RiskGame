@@ -23,6 +23,7 @@ namespace RiskGame.DAL
         public DbSet<GameBattle> GameBattle { get; set; }
         public DbSet<UserGameBattle> UserGameBattle { get; set; }
         public DbSet<UserGameRoom> UserGameRoom { get; set; }
+        public DbSet<UserGameRisk> UserGameRisk { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder builder)
         {
@@ -33,7 +34,7 @@ namespace RiskGame.DAL
             builder.Entity<GameBattle>().ToTable("GameBattle").HasKey(u => new { u.GameBattleId });
             builder.Entity<UserGameBattle>().ToTable("UserGameBattle").HasKey(u => new { u.UserGameBattleId });
             builder.Entity<UserGameRoom>().ToTable("UserGameRoom").HasKey(u => new { u.UserGameRoomId });
-
+            builder.Entity<UserGameRisk>().ToTable("UserGameRisk").HasKey(u => new { u.UserGameRiskId });
         }
     }
 }

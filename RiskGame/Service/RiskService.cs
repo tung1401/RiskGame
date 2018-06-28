@@ -42,79 +42,11 @@ namespace KPI.Services.Service
             return _riskOption.GetAllWith(inc => inc.Risk);
         }
 
+        public RiskOption GetRiskOptionById(int riskOptionId, int actionEffectType)
+        {
+            return _riskOption.GetWith(x => x.RiskOptionId == riskOptionId && x.ActionEffectType == actionEffectType, inc => inc.Risk);
+        }
 
-
-
-        ////Project
-        //public IEnumerable<Project> GetProjectByEmployeeId(Guid userId)
-        //{
-        //    return _projectEmployee.GetManyWith(m => m.EmployeeId == userId, inc => inc.Project).GroupBy(x => x.ProjectId).Select(x => new Project
-        //    {
-        //        ProjectId = x.FirstOrDefault().ProjectId.GetValueOrDefault(),
-        //        ProjectName = x.FirstOrDefault().Project.ProjectName
-        //    });
-
-        //}
-
-        //public IEnumerable<Project> GetAllProject()
-        //{
-        //    return _projectEmployee.GetAllWith(inc => inc.Project).GroupBy(m => m.Project).Select(x => new Project
-        //    {
-        //        ProjectId = x.FirstOrDefault().ProjectId.GetValueOrDefault(),
-        //        ProjectName = x.FirstOrDefault().Project.ProjectName
-        //    }).OrderBy(x=>x.ProjectName);
-
-        //}
-
-        //public Project Find(Guid projectId)
-        //{
-        //    return _project.Get(m => m.ProjectId == projectId);
-        //}
-        //public Project GetByNumber(string projectNumber)
-        //{
-        //    return _project.Get(m => m.ProjectNo == projectNumber);
-        //}
-
-        //public Project Add(Project project)
-        //{
-        //    return _project.Add(project);
-        //}
-
-
-        ////ProjectEmployee
-        //public ProjectEmployee FindByEmployeeIdAndProjectId(Guid employeeId, Guid projectId)
-        //{
-        //    return _projectEmployee.Get(m => m.ProjectId == projectId && m.EmployeeId == employeeId);
-        //}
-        //public ProjectEmployee Add(ProjectEmployee projectEmployee)
-        //{
-        //    return _projectEmployee.Add(projectEmployee);
-        //}
-        //public ProjectEmployee Update(ProjectEmployee projectEmployee)
-        //{
-        //    return _projectEmployee.Add(projectEmployee);
-        //}
-        //public IEnumerable<Project> GetProjectByManager(Guid userId)
-        //{
-        //    return _projectEmployee.GetManyWith(m => m.EmployeeId == userId && m.IsPM == true, inc => inc.Project).GroupBy(x => x.ProjectId).Select(x => new Project
-        //    {
-        //        ProjectId = x.FirstOrDefault().ProjectId.GetValueOrDefault(),
-        //        ProjectName = x.FirstOrDefault().Project.ProjectName
-        //    });
-
-        //}
-        //public IEnumerable<ProjectEmployee> GetProjectManager()
-        //{
-        //    //var query = _projectEmployee.GetMany(m => m.IsPM == true).GroupBy(g => new {/* ProjectId = g.ProjectId , */EmployeeId = g.EmployeeId }).Select(e => new Employee
-        //    //{
-
-        //    //    EmployeeId = e.FirstOrDefault().EmployeeId.GetValueOrDefault(),
-        //    //}).OrderBy(e => e.EmployeeId);
-
-        //    var query = _projectEmployee.GetMany(m => m.IsPM == true).OrderBy(e => e.EmployeeId);
-
-        //    return query;
-        //}
-
+        
     }
 }

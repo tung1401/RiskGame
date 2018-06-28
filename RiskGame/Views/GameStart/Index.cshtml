@@ -38,7 +38,7 @@
                         {
 
                             <td>
-                                @Html.RadioButton("riskoption" + item.RiskId, op.ActionEffectValue) @Html.Raw("Protect -") @op.ActionEffectValue
+                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue
                             </td>
                         }
                     </tr>

@@ -21,11 +21,13 @@
         <AssociationConnector Association="Model.FK_UserGameBattle_User" />
         <AssociationConnector Association="Model.FK_UserGameRoom_User" />
         <EntityTypeShape EntityType="Model.UserGameBattleLog" Width="1.5" PointX="13.5" PointY="5.625" />
-        <EntityTypeShape EntityType="Model.UserGameRisk" Width="1.5" PointX="5.25" PointY="9.875" />
         <AssociationConnector Association="Model.FK_UserGameBattleLog_GameBattle" />
         <AssociationConnector Association="Model.FK_UserGameBattleLog_GameRoom" />
-        <AssociationConnector Association="Model.FK_UserGameRisk_GameRoom" />
         <AssociationConnector Association="Model.FK_UserGameBattleLog_User" />
+        <EntityTypeShape EntityType="Model.UserGameRisk" Width="1.5" PointX="10.5" PointY="1.125" />
+        <AssociationConnector Association="Model.FK_UserGameRisk_GameRoom" />
+        <AssociationConnector Association="Model.FK_UserGameRisk_Risk" />
+        <AssociationConnector Association="Model.FK_UserGameRisk_RiskOption" />
         <AssociationConnector Association="Model.FK_UserGameRisk_User" />
       </Diagram>
     </edmx:Diagrams>

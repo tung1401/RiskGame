@@ -14,6 +14,12 @@ namespace RiskGame.Entity
     
     public partial class RiskOption
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public RiskOption()
+        {
+            this.UserGameRisks = new HashSet<UserGameRisk>();
+        }
+    
         public int RiskOptionId { get; set; }
         public Nullable<int> RiskId { get; set; }
         public Nullable<int> RiskLevel { get; set; }
@@ -23,5 +29,7 @@ namespace RiskGame.Entity
         public Nullable<int> RiskPorture { get; set; }
     
         public virtual Risk Risk { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserGameRisk> UserGameRisks { get; set; }
     }
 }

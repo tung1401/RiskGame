@@ -66,53 +66,68 @@ namespace RiskGame.Controllers
         public ActionResult OpenRisk()
         {
             // check risk, and reduce money
+            var money = Singleton.Game().Money;
             var model = new GameBattleViewModel();
-            var openRisk = _service.Game().GetGameBattleOpenRisk(Singleton.User().GameRoomId, Singleton.User().Turn);
+            var openRisk = _service.Game().GetGameBattleOpenRisk(Singleton.Game().GameRoomId, Singleton.Game().Turn);
             if (openRisk.Any())
             {
                 model.GameBattles = openRisk.ToList();
+                var userGameRisk = _service.Game().GetUserGameRisk(Singleton.Game().GameRoomId,
+                    Singleton.Game().Turn, Singleton.Game().UserId);
+
                 foreach (var item in model.GameBattles)
                 {
-
+                    var hasProtect = userGameRisk.Any(x => x.RiskOptionId == item.RiskOptionId);
+                    if (!hasProtect)
+                    {
+                        money = Singleton.Game().Money - (item.Ratio.GetValueOrDefault() * item.ActionEffectValue.GetValueOrDefault());
+                    }
                 }
             }
 
-
-
-
             // get risk selected from db
-
-
+            Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, money, Singleton.Game().Turn++);
             return View(model);
         }
 
         [HttpPost]
         public ActionResult ProtectRisk(FormCollection form)
         {
-            var selectedRisk = form.AllKeys.Where(x => x.Contains("riskoption")).ToList();
+            var selectedRisk = form.AllKeys.Where(x => x.Contains("RiskId")).ToList();
             var moneySummary = 0;
             if (selectedRisk.Any())
             {
                 foreach (var item in selectedRisk)
                 {
-                    var moneyValue = form[item];
-                    if (moneyValue != null)
+                    var optionId = int.Parse(form[item]);
+                    var riskOption = _service.Risk().GetRiskOptionById(optionId, 1);
+
+                    if (riskOption != null)
                     {
-                        moneySummary += int.Parse(moneyValue);
+                        moneySummary += riskOption.ActionEffectValue.GetValueOrDefault();
+
+                        _service.Game().AddUserGameRisk(new UserGameRisk
+                        {
+                            UserId = Singleton.User().UserId,
+                            Turn = Singleton.Game().Turn,
+                            GameRoomId = Singleton.Game().GameRoomId,
+                            RiskOptionId = optionId,
+                            RiskId = riskOption.RiskId.GetValueOrDefault(),
+                            CreateDate = DateTime.UtcNow,
+                            CreateBy = Singleton.User().UserId
+                        });
                     }
-                    //save database
+                    //save database          
                 }
             }
             var gameRoom = _service.GameRoom().GetGameRoomByUserId(Singleton.Game().UserId, Singleton.Game().GameRoomId);
             if (gameRoom != null)
             {
-                gameRoom.MoneyValue = Singleton.User().Money - moneySummary;
+                gameRoom.MoneyValue = Singleton.Game().Money - moneySummary;
             }
 
-            var money = Singleton.User().Money - moneySummary;
-            //UpdateGameUser(money);
-            Singleton.UpdateGameSession(Singleton.User().Team, Singleton.User().Project, money, Singleton.User().Turn++);
-            ViewBag.Money = money;
+            var money = Singleton.Game().Money - moneySummary;
+            Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, money, Singleton.Game().Turn);
             return RedirectToAction("OpenRisk", "Game");
         }
 

@@ -94,7 +94,7 @@
           </Key>
           <Property Name="UserGameRiskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RiskId" Type="int" Nullable="false" />
-          <Property Name="OptionId" Type="int" Nullable="false" />
+          <Property Name="RiskOptionId" Type="int" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="GameRoomId" Type="int" Nullable="false" />
           <Property Name="Turn" Type="int" />
@@ -247,6 +247,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserGameRisk_Risk">
+          <End Role="Risk" Type="Self.Risk" Multiplicity="1" />
+          <End Role="UserGameRisk" Type="Self.UserGameRisk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risk">
+              <PropertyRef Name="RiskId" />
+            </Principal>
+            <Dependent Role="UserGameRisk">
+              <PropertyRef Name="RiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserGameRisk_RiskOption">
+          <End Role="RiskOption" Type="Self.RiskOption" Multiplicity="1" />
+          <End Role="UserGameRisk" Type="Self.UserGameRisk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RiskOption">
+              <PropertyRef Name="RiskOptionId" />
+            </Principal>
+            <Dependent Role="UserGameRisk">
+              <PropertyRef Name="RiskOptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserGameRisk_User">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="UserGameRisk" Type="Self.UserGameRisk" Multiplicity="*" />
@@ -333,6 +357,14 @@
             <End Role="GameRoom" EntitySet="GameRoom" />
             <End Role="UserGameRisk" EntitySet="UserGameRisk" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserGameRisk_Risk" Association="Self.FK_UserGameRisk_Risk">
+            <End Role="Risk" EntitySet="Risk" />
+            <End Role="UserGameRisk" EntitySet="UserGameRisk" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGameRisk_RiskOption" Association="Self.FK_UserGameRisk_RiskOption">
+            <End Role="RiskOption" EntitySet="RiskOption" />
+            <End Role="UserGameRisk" EntitySet="UserGameRisk" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserGameRisk_User" Association="Self.FK_UserGameRisk_User">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserGameRisk" EntitySet="UserGameRisk" />
@@ -391,7 +423,6 @@
             <End Role="UserGameRoom" EntitySet="UserGameRooms" />
           </AssociationSet>
           <EntitySet Name="UserGameBattleLogs" EntityType="Model.UserGameBattleLog" />
-          <EntitySet Name="UserGameRisks" EntityType="Model.UserGameRisk" />
           <AssociationSet Name="FK_UserGameBattleLog_GameBattle" Association="Model.FK_UserGameBattleLog_GameBattle">
             <End Role="GameBattle" EntitySet="GameBattles" />
             <End Role="UserGameBattleLog" EntitySet="UserGameBattleLogs" />
@@ -400,13 +431,22 @@
             <End Role="GameRoom" EntitySet="GameRooms" />
             <End Role="UserGameBattleLog" EntitySet="UserGameBattleLogs" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserGameBattleLog_User" Association="Model.FK_UserGameBattleLog_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserGameBattleLog" EntitySet="UserGameBattleLogs" />
+          </AssociationSet>
+          <EntitySet Name="UserGameRisks" EntityType="Model.UserGameRisk" />
           <AssociationSet Name="FK_UserGameRisk_GameRoom" Association="Model.FK_UserGameRisk_GameRoom">
             <End Role="GameRoom" EntitySet="GameRooms" />
             <End Role="UserGameRisk" EntitySet="UserGameRisks" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserGameBattleLog_User" Association="Model.FK_UserGameBattleLog_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="UserGameBattleLog" EntitySet="UserGameBattleLogs" />
+          <AssociationSet Name="FK_UserGameRisk_Risk" Association="Model.FK_UserGameRisk_Risk">
+            <End Role="Risk" EntitySet="Risks" />
+            <End Role="UserGameRisk" EntitySet="UserGameRisks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGameRisk_RiskOption" Association="Model.FK_UserGameRisk_RiskOption">
+            <End Role="RiskOption" EntitySet="RiskOptions" />
+            <End Role="UserGameRisk" EntitySet="UserGameRisks" />
           </AssociationSet>
           <AssociationSet Name="FK_UserGameRisk_User" Association="Model.FK_UserGameRisk_User">
             <End Role="User" EntitySet="Users" />
@@ -464,6 +504,7 @@
           <Property Name="ExpertSuggestion" Type="Int32" />
           <NavigationProperty Name="GameBattles" Relationship="Model.FK_GameBattle_Risk" FromRole="Risk" ToRole="GameBattle" />
           <NavigationProperty Name="RiskOptions" Relationship="Model.FK_RiskOption_Risk" FromRole="Risk" ToRole="RiskOption" />
+          <NavigationProperty Name="UserGameRisks" Relationship="Model.FK_UserGameRisk_Risk" FromRole="Risk" ToRole="UserGameRisk" />
         </EntityType>
         <EntityType Name="RiskOption">
           <Key>
@@ -477,6 +518,7 @@
           <Property Name="RiskImpact" Type="Int32" />
           <Property Name="RiskPorture" Type="Int32" />
           <NavigationProperty Name="Risk" Relationship="Model.FK_RiskOption_Risk" FromRole="RiskOption" ToRole="Risk" />
+          <NavigationProperty Name="UserGameRisks" Relationship="Model.FK_UserGameRisk_RiskOption" FromRole="RiskOption" ToRole="UserGameRisk" />
         </EntityType>
         <EntityType Name="UserGameBattle">
           <Key>
@@ -642,21 +684,6 @@
           <NavigationProperty Name="GameRoom" Relationship="Model.FK_UserGameBattleLog_GameRoom" FromRole="UserGameBattleLog" ToRole="GameRoom" />
           <NavigationProperty Name="User" Relationship="Model.FK_UserGameBattleLog_User" FromRole="UserGameBattleLog" ToRole="User" />
         </EntityType>
-        <EntityType Name="UserGameRisk">
-          <Key>
-            <PropertyRef Name="UserGameRiskId" />
-          </Key>
-          <Property Name="UserGameRiskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RiskId" Type="Int32" Nullable="false" />
-          <Property Name="OptionId" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="GameRoomId" Type="Int32" Nullable="false" />
-          <Property Name="Turn" Type="Int32" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <NavigationProperty Name="GameRoom" Relationship="Model.FK_UserGameRisk_GameRoom" FromRole="UserGameRisk" ToRole="GameRoom" />
-          <NavigationProperty Name="User" Relationship="Model.FK_UserGameRisk_User" FromRole="UserGameRisk" ToRole="User" />
-        </EntityType>
         <Association Name="FK_UserGameBattleLog_GameBattle">
           <End Type="Model.GameBattle" Role="GameBattle" Multiplicity="1" />
           <End Type="Model.UserGameBattleLog" Role="UserGameBattleLog" Multiplicity="*" />
@@ -681,6 +708,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserGameBattleLog_User">
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.UserGameBattleLog" Role="UserGameBattleLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserGameBattleLog">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserGameRisk">
+          <Key>
+            <PropertyRef Name="UserGameRiskId" />
+          </Key>
+          <Property Name="UserGameRiskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RiskId" Type="Int32" Nullable="false" />
+          <Property Name="RiskOptionId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="GameRoomId" Type="Int32" Nullable="false" />
+          <Property Name="Turn" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <NavigationProperty Name="GameRoom" Relationship="Model.FK_UserGameRisk_GameRoom" FromRole="UserGameRisk" ToRole="GameRoom" />
+          <NavigationProperty Name="Risk" Relationship="Model.FK_UserGameRisk_Risk" FromRole="UserGameRisk" ToRole="Risk" />
+          <NavigationProperty Name="RiskOption" Relationship="Model.FK_UserGameRisk_RiskOption" FromRole="UserGameRisk" ToRole="RiskOption" />
+          <NavigationProperty Name="User" Relationship="Model.FK_UserGameRisk_User" FromRole="UserGameRisk" ToRole="User" />
+        </EntityType>
         <Association Name="FK_UserGameRisk_GameRoom">
           <End Type="Model.GameRoom" Role="GameRoom" Multiplicity="1" />
           <End Type="Model.UserGameRisk" Role="UserGameRisk" Multiplicity="*" />
@@ -693,15 +749,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserGameBattleLog_User">
-          <End Type="Model.User" Role="User" Multiplicity="1" />
-          <End Type="Model.UserGameBattleLog" Role="UserGameBattleLog" Multiplicity="*" />
+        <Association Name="FK_UserGameRisk_Risk">
+          <End Type="Model.Risk" Role="Risk" Multiplicity="1" />
+          <End Type="Model.UserGameRisk" Role="UserGameRisk" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
+            <Principal Role="Risk">
+              <PropertyRef Name="RiskId" />
             </Principal>
-            <Dependent Role="UserGameBattleLog">
-              <PropertyRef Name="UserId" />
+            <Dependent Role="UserGameRisk">
+              <PropertyRef Name="RiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserGameRisk_RiskOption">
+          <End Type="Model.RiskOption" Role="RiskOption" Multiplicity="1" />
+          <End Type="Model.UserGameRisk" Role="UserGameRisk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RiskOption">
+              <PropertyRef Name="RiskOptionId" />
+            </Principal>
+            <Dependent Role="UserGameRisk">
+              <PropertyRef Name="RiskOptionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -848,7 +916,7 @@
                 <ScalarProperty Name="Turn" ColumnName="Turn" />
                 <ScalarProperty Name="GameRoomId" ColumnName="GameRoomId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+                <ScalarProperty Name="RiskOptionId" ColumnName="RiskOptionId" />
                 <ScalarProperty Name="RiskId" ColumnName="RiskId" />
                 <ScalarProperty Name="UserGameRiskId" ColumnName="UserGameRiskId" />
               </MappingFragment>

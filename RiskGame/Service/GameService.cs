@@ -98,5 +98,17 @@ namespace KPI.Services.Service
             _userGameBattleLog.Add(log);
         }
 
+
+
+
+        public IEnumerable<UserGameRisk> GetUserGameRisk(int gameRoomId, int turn, int userId)
+        {
+           return _userGameRisk.GetMany(x => x.GameRoomId == gameRoomId && x.Turn == turn && x.UserId == userId);
+        }
+        public void AddUserGameRisk(UserGameRisk entity)
+        {
+            _userGameRisk.Add(entity);
+        }
+
     }
 }
