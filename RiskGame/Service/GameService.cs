@@ -103,7 +103,7 @@ namespace KPI.Services.Service
 
         public IEnumerable<UserGameRisk> GetUserGameRisk(int gameRoomId, int turn, int userId)
         {
-           return _userGameRisk.GetMany(x => x.GameRoomId == gameRoomId && x.Turn == turn && x.UserId == userId);
+           return _userGameRisk.GetManyWith(x => x.GameRoomId == gameRoomId && x.Turn == turn && x.UserId == userId, inc=>inc.RiskOption,includes=>includes.Risk);
         }
         public void AddUserGameRisk(UserGameRisk entity)
         {

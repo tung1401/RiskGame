@@ -25,8 +25,8 @@ namespace RiskGame.Entity
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
     
-        public virtual GameBattle GameBattle { get; set; }
         public virtual GameRoom GameRoom { get; set; }
         public virtual User User { get; set; }
+        public virtual GameBattle GameBattle { get; set; }
     }
 }

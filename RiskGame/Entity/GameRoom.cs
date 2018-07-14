@@ -17,10 +17,10 @@ namespace RiskGame.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public GameRoom()
         {
-            this.GameBattles = new HashSet<GameBattle>();
             this.UserGameRooms = new HashSet<UserGameRoom>();
             this.UserGameBattleLogs = new HashSet<UserGameBattleLog>();
             this.UserGameRisks = new HashSet<UserGameRisk>();
+            this.GameBattles = new HashSet<GameBattle>();
         }
     
         public int GameRoomId { get; set; }
@@ -37,8 +37,6 @@ namespace RiskGame.Entity
         public int UserId { get; set; }
         public Nullable<bool> Active { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GameBattle> GameBattles { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserGameRoom> UserGameRooms { get; set; }
@@ -46,5 +44,7 @@ namespace RiskGame.Entity
         public virtual ICollection<UserGameBattleLog> UserGameBattleLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserGameRisk> UserGameRisks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GameBattle> GameBattles { get; set; }
     }
 }

@@ -5,23 +5,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="89793de1a2634777b0e2413cd458caaf" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.GameBattle" Width="1.5" PointX="8.25" PointY="5.5" />
         <EntityTypeShape EntityType="Model.GameRoom" Width="1.5" PointX="3" PointY="5.125" />
         <EntityTypeShape EntityType="Model.Risk" Width="1.5" PointX="6" PointY="2" />
         <EntityTypeShape EntityType="Model.RiskOption" Width="1.5" PointX="8.25" PointY="1.875" />
         <EntityTypeShape EntityType="Model.UserGameBattle" Width="1.5" PointX="10.5" PointY="5.5" />
         <EntityTypeShape EntityType="Model.UserGameRoom" Width="1.5" PointX="5.25" PointY="5.375" />
         <EntityTypeShape EntityType="Model.User" Width="1.5" PointX="0.75" PointY="5.75" />
-        <AssociationConnector Association="Model.FK_GameBattle_GameRoom" />
-        <AssociationConnector Association="Model.FK_GameBattle_Risk" />
-        <AssociationConnector Association="Model.FK_UserGameBattle_GameBattle" />
         <AssociationConnector Association="Model.FK_GameRoom_User" />
         <AssociationConnector Association="Model.FK_UserGameRoom_GameRoom" />
         <AssociationConnector Association="Model.FK_RiskOption_Risk" />
         <AssociationConnector Association="Model.FK_UserGameBattle_User" />
         <AssociationConnector Association="Model.FK_UserGameRoom_User" />
         <EntityTypeShape EntityType="Model.UserGameBattleLog" Width="1.5" PointX="13.5" PointY="5.625" />
-        <AssociationConnector Association="Model.FK_UserGameBattleLog_GameBattle" />
         <AssociationConnector Association="Model.FK_UserGameBattleLog_GameRoom" />
         <AssociationConnector Association="Model.FK_UserGameBattleLog_User" />
         <EntityTypeShape EntityType="Model.UserGameRisk" Width="1.5" PointX="10.5" PointY="1.125" />
@@ -29,6 +24,12 @@
         <AssociationConnector Association="Model.FK_UserGameRisk_Risk" />
         <AssociationConnector Association="Model.FK_UserGameRisk_RiskOption" />
         <AssociationConnector Association="Model.FK_UserGameRisk_User" />
+        <EntityTypeShape EntityType="Model.GameBattle" Width="1.5" PointX="13.5" PointY="1" />
+        <AssociationConnector Association="Model.FK_GameBattle_GameRoom" />
+        <AssociationConnector Association="Model.FK_GameBattle_Risk" />
+        <AssociationConnector Association="Model.FK_GameBattle_RiskOption" />
+        <AssociationConnector Association="Model.FK_UserGameBattle_GameBattle" />
+        <AssociationConnector Association="Model.FK_UserGameBattleLog_GameBattle" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

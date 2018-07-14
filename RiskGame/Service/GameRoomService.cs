@@ -35,7 +35,7 @@ namespace KPI.Services.Service
                 using (var connection = new SqlConnection(_service.ConnectionString))
                 {
                     connection.Open();
-                    using (var command = new SqlCommand(@"SELECT [GameRoomID], [GameRoomName], [MultiPlayer] FROM [dbo].[GameRoom]", connection))
+                    using (var command = new SqlCommand(@"SELECT [GameRoomID], [GameRoomName], [MultiPlayer] FROM [dbo].[GameRoom] Where Active = 1 and Multiplayer > 1", connection))
                     {
                         command.Notification = null;
 

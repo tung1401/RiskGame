@@ -77,10 +77,18 @@ namespace RiskGame.Controllers
 
                 foreach (var item in model.GameBattles)
                 {
-                    var hasProtect = userGameRisk.Any(x => x.RiskOptionId == item.RiskOptionId);
-                    if (!hasProtect)
+                    var effectItemMoney = item.Ratio.GetValueOrDefault() * item.ActionEffectValue.GetValueOrDefault();
+                    var riskProtect = userGameRisk.FirstOrDefault(x => x.RiskId == item.RiskId);
+                    if (riskProtect != null)
                     {
-                        money = Singleton.Game().Money - (item.Ratio.GetValueOrDefault() * item.ActionEffectValue.GetValueOrDefault());
+                        if (item.RiskOption.RiskLevel > riskProtect.RiskOption.RiskLevel) //หากที่ Level Risk กำหนดในเกมมีค่า มากกว่า ที่เลือกไว้
+                        {                  
+                            money = Singleton.Game().Money - effectItemMoney;
+                        }
+                        else
+                        {
+                            money = Singleton.Game().Money;
+                        }     
                     }
                 }
             }
