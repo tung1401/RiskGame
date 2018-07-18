@@ -18,10 +18,10 @@ namespace KPI.Services.Interface
         Task CreateGameAsync(int gameRoomId, int take = 2);
         IEnumerable<GameBattle> GetGameBattleOpenRisk(int gameRoomId, int turn);
         void AddUserGameBattleLog(UserGameBattleLog log);
-
-
+        int GetMaxTurnByRoomId(int gameRoomId);
+        bool CheckMaxTurn(int gameRoomId, int turn);
 
         IEnumerable<UserGameRisk> GetUserGameRisk(int gameRoomId, int turn, int userId);
-        void AddUserGameRisk(UserGameRisk entity);
+        UserGameRisk AddUserGameRisk(UserGameRisk entity);
     }
 }

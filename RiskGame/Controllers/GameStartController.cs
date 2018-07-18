@@ -12,12 +12,14 @@ using System.Web.Security;
 
 namespace RiskGame.Controllers
 {
-    public class GameStartController : Controller
+    public class GameStartController : BaseGameController
     {
 
         private readonly CommonServiceFactory _service = new CommonServiceFactory();
         public ActionResult Index(int id)
         {
+            if (CommonFunction.CheckCurrentGame() == false) return RedirectToAction("Index", "Home");
+
             var risks = _service.Risk().GetAllRisk();
             var list = new List<RiskData>();
             foreach (var item in risks.Where(x => x.RiskOptions.Any()))

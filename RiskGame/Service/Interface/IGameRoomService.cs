@@ -21,5 +21,8 @@ namespace KPI.Services.Interface
 
         void AddUserGameRoom(UserGameRoom userGameRoom);
         GameRoom GetGameRoomByUserId(int userId, int gameRoomId);
+        bool UpdateGameRoomDone(int userId, int gameRoomId);
+        bool CheckGameProgress(int gameRoomId, int userId);
+
     }
 }

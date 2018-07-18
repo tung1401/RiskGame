@@ -13,35 +13,82 @@
         <div>Turn:  @Singleton.Game().Turn</div>
         <div>GameRoomId:  @Singleton.Game().GameRoomId</div>
 
-        <a href="/Game">Next Turn</a>
+        @if (Model.GameDone)
+        {
+            @Html.ActionLink("Done", "Index", "GameResult")
+        }
+        else
+        {
+            @Html.ActionLink("Next Turn", "Index", "Game")
+        }
     </div>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <td><b>RiskName</b></td>
-            <td><b>ActionEffectType</b></td>
-            <td><b>ActionEffectValue * Ratio</b></td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            @foreach (var item in Model.GameBattles)
-            {
-                <td>
-                    @item.Risk.RiskName
-                </td>
-                <td>
-                    @item.ActionEffectType
-                </td>
-                <td>
-                    @(item.ActionEffectValue * item.Ratio)
-                </td>
 
-            }
-        </tr>
-    </tbody>
-</table>
+<div class="rows">
+    <div class="col-md-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td><b>RiskName</b></td>
+                    <td><b>ActionEffectType</b></td>
+                    <td><b>ActionEffectValue * Ratio</b></td>
+                    <td><b>RiskLevel</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach (var item in Model.GameBattles)
+                    {
+                        <td>
+                            @item.Risk.RiskName
+                        </td>
+                        <td>
+                            @item.ActionEffectType
+                        </td>
+                        <td>
+                            @(item.ActionEffectValue * item.Ratio)
+                        </td>
+                        <td>
+                            @item.RiskOption.RiskLevel
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td><b>RiskName</b></td>
+                    <td><b>RiskLevel</b></td>
+                  
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.UserGameRisk)
+                {
+                <tr>
+                    <td>
+                        @item.Risk.RiskName
+                    </td>
+                    <td>
+                        @item.RiskOption.RiskLevel
+                    </td>
+                </tr>
+                }
+                   
+                </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
 
 
 

@@ -164,7 +164,11 @@ namespace KPI.Services.Service
             _userGameRoom.Add(userGameRoom);
         }
 
-
+        public bool CheckGameProgress(int gameRoomId, int userId)
+        {
+            var item = _gameRoom.Get(x => x.GameRoomId == gameRoomId && x.UserId == userId && x.EndDate != null);
+            return item != null ? true : false; // game done or game not start
+        }
 
 
 
@@ -231,6 +235,19 @@ namespace KPI.Services.Service
         public GameRoom GetGameRoomByUserId(int userId, int gameRoomId)
         {
             return _gameRoom.Get(m => m.UserId == userId && m.GameRoomId == gameRoomId);
+        }
+
+        public bool UpdateGameRoomDone(int userId, int gameRoomId)
+        {
+            var gameRoom = GetGameRoomByUserId(userId, gameRoomId);
+            if(gameRoom != null)
+            {
+                gameRoom.Active = false;
+                gameRoom.EndDate = DateTime.UtcNow;
+                _gameRoom.Update(gameRoom);
+                return true;
+            }
+            return false;
         }
 
     }

@@ -48,7 +48,7 @@ namespace RiskGame.Helper
 
         public static void UpdateGameSession(int team, int project, int money, int turn)
         {
-            HttpCookie cookie = HttpContext.Current.Request.Cookies["UserGame"];
+            HttpCookie cookie = HttpContext.Current.Request.Cookies["Game"];
             var adminData = new GameModel
             {
                 Team = team,
@@ -64,6 +64,12 @@ namespace RiskGame.Helper
             cookie = new HttpCookie("Game", serializer.Serialize(adminData));
             HttpContext.Current.Response.SetCookie(cookie); //SetCookie() is used for update the cookie.
             HttpContext.Current.Response.Cookies.Add(cookie);
+        }
+
+        public static void ClearGameSession()
+        {
+            HttpContext.Current.Session["Game"] = null;
+            HttpContext.Current.Response.Cookies["Game"].Expires = DateTime.Now.AddDays(-1);
         }
 
         public static GameModel Game()
@@ -117,6 +123,6 @@ namespace RiskGame.Helper
         }
 
 
-
+       
     }
 }

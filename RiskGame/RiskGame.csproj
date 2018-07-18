@@ -278,7 +278,9 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseGameController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\GameResultController.cs" />
     <Compile Include="Controllers\GameStartController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
@@ -331,6 +333,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\CommonFunction.cs" />
     <Compile Include="Helper\Const.cs" />
     <Compile Include="Hub\GameHub.cs" />
     <Compile Include="Helper\RiskHub.cs" />
@@ -1636,6 +1639,7 @@
     <Content Include="Views\Room\Join.cshtml" />
     <Content Include="Views\Room\WaitRoom.cshtml" />
     <Content Include="Views\Room\_PlayerList.cshtml" />
+    <Content Include="Views\GameResult\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

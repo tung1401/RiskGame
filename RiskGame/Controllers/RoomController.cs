@@ -11,7 +11,7 @@ using System.Web.Security;
 
 namespace RiskGame.Controllers
 {
-    public class RoomController : Controller
+    public class RoomController : BaseGameController
     {
         private readonly CommonServiceFactory _service = new CommonServiceFactory();
         // GET: Room

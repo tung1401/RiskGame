@@ -10,10 +10,14 @@ namespace RiskGame.Models
     {
 
         public List<GameBattle> GameBattles { set; get; }
+        public List<UserGameRisk> UserGameRisk { set; get; }
+        public bool GameDone { set; get; }
 
         public GameBattleViewModel()
         {
             GameBattles = new List<GameBattle>();
+            GameDone = false;
+            UserGameRisk = new List<UserGameRisk>();
         }
 
     }

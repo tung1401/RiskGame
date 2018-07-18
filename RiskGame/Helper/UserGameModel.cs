@@ -70,6 +70,7 @@ namespace RiskGame.Helper
         public int Team { get; set; }
         public int UserId { get; set; }
         public string PlayerName { get; set; }
+        public int MaxTurn { get; set; } // turn finished
 
     }
 

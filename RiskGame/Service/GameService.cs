@@ -43,6 +43,17 @@ namespace KPI.Services.Service
         {
             return _gameBattle.GetManyWith(x => x.GameRoomId == gameRoomId && x.Turn == turn, inc => inc.Risk, includes => includes.Risk.RiskOptions);
         }
+        public int GetMaxTurnByRoomId(int gameRoomId)
+        {
+            var data = _gameBattle.GetLastOrderBy(x => x.GameRoomId == gameRoomId, x=>x.Turn.GetValueOrDefault());
+            return data.Turn.GetValueOrDefault();
+        }
+
+        public bool CheckMaxTurn(int gameRoomId, int turn)
+        {
+            var maxTurn = GetMaxTurnByRoomId(gameRoomId);
+            return turn == maxTurn;
+        }
 
         public void AddGameBattle(List<GameBattle> listEntity)
         {
@@ -105,10 +116,13 @@ namespace KPI.Services.Service
         {
            return _userGameRisk.GetManyWith(x => x.GameRoomId == gameRoomId && x.Turn == turn && x.UserId == userId, inc=>inc.RiskOption,includes=>includes.Risk);
         }
-        public void AddUserGameRisk(UserGameRisk entity)
+        public UserGameRisk AddUserGameRisk(UserGameRisk entity)
         {
-            _userGameRisk.Add(entity);
+            return _userGameRisk.Add(entity);
         }
+
+
+
 
     }
 }
