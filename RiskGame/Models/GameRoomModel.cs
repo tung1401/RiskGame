@@ -12,8 +12,8 @@ namespace RiskGame.Models
         public string GameRoomName { set; get; }
         public int Player { set; get; }
         public int MaxPlayer { set; get; }
-
-
+        public string CreateBy { set; get; }
+        public int CreateByUserId { set; get; }
         public List<UserGameRoom> UserGameRooms { set; get; }
 
         public GameRoomModel()

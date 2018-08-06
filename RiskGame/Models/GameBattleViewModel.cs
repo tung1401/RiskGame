@@ -20,5 +20,24 @@ namespace RiskGame.Models
             UserGameRisk = new List<UserGameRisk>();
         }
 
+        
+
     }
+
+    public class GameOpenRiskViewModel
+    {
+        
+
+
+    }
+
+    public class UserGameRiskData
+    {
+        public UserGameRisk UserGameRisk { set; get; }
+        public bool ProtectStatus { set; get; } // Can Win/Draw/Lost
+        public string EffectMoney { set; get; } // Effect after open List
+
+    }
+
+
 }

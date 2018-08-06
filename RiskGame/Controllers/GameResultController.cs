@@ -18,26 +18,57 @@ namespace RiskGame.Controllers
         public ActionResult Index()
         {
             if (CommonFunction.CheckCurrentGame() == false) return RedirectToAction("Index", "Home");
+
             //Display all result
+            var model = new GameResultViewModel
+            {
+                MyPlayer = new PlayerData
+                {
+                    GameBattleId = Singleton.Game().GameBattleId,
+                    GameRoomId = Singleton.Game().GameRoomId,
+                    PlayerName  = Singleton.Game().PlayerName,
+                    Money = Singleton.Game().Money.ToString(),
+                    Team = Singleton.Game().Team.ToString(),
+                    Project = Singleton.Game().Project.ToString(),
+                    Rank = "0",
+                    GameStatus = "0"
+                }
+            };
+
+            var friendList = new List<PlayerData>();
+            var userGameRoom =_service.GameRoom().GetCurrentUserGame(Singleton.Game().GameRoomId);
+            if (userGameRoom.Count() > 1)
+            {
+                foreach (var item in userGameRoom.Where(x=>x.UserId != Singleton.Game().UserId))
+                {
+                    friendList.Add(new PlayerData
+                    {
+                        GameBattleId = Singleton.Game().GameBattleId, // same my player
+                        GameRoomId = item.GameRoomId,
+                        PlayerName = item.PlayerName,
+                        Money = item.MoneyValue.ToString(),
+                        Team = item.TeamValue.ToString(),
+                        Project = item.ProjectValue.ToString(),
+                        Rank = "0",
+                        GameStatus = "0"
+                    });
+                }
+            }
 
             //set status done
-
             var done = _service.GameRoom().UpdateGameRoomDone(Singleton.Game().UserId, Singleton.Game().GameRoomId);
             if (done)
             {
+                //clear session
                 Singleton.ClearGameSession();
             }
 
-            // go to new game
-
-            //clear session
-           
-            return View();
+            return View(model);
         }
         public ActionResult ReDashBoard()
         {
-
-            return RedirectToAction("Index","DashBoard");
+            // go to new game
+            return RedirectToAction("Index", "Home");
         }
     }
 }

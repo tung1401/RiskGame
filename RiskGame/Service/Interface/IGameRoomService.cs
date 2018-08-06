@@ -23,6 +23,9 @@ namespace KPI.Services.Interface
         GameRoom GetGameRoomByUserId(int userId, int gameRoomId);
         bool UpdateGameRoomDone(int userId, int gameRoomId);
         bool CheckGameProgress(int gameRoomId, int userId);
+        IEnumerable<UserGameRoom> GetCurrentUserGame(int gameRoomId);
+
+        IEnumerable<GameRoom> GetGameHistory(int userId);
 
     }
 }

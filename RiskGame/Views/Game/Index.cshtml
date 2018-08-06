@@ -8,11 +8,13 @@
 
 <div class="jumbotron">
     <h1>Game Battle</h1>
-    <div>PlayerName:  @Singleton.Game().PlayerName</div>
+    @*<div>PlayerName:  @Singleton.Game().PlayerName</div>
     <div>Money:  @Singleton.Game().Money</div>
     <div>Turn:  @Singleton.Game().Turn</div>
-    <div>GameRoomId:  @Singleton.Game().GameRoomId</div>
-    <div id="countdown"></div>
+    <div>GameRoomId:  @Singleton.Game().GameRoomId</div>*@
+    @*<div id="countdown"></div>*@
+    @Html.Partial("_HeaderGameInfo")
+    @Html.Partial("_HeaderGameCountDown")
 
     @using (Html.BeginForm("ProtectRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
@@ -36,9 +38,9 @@
                         @foreach (var op in item.RiskOption)
                         {
 
-                        <td>
-                            @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue
-                        </td>
+                            <td>
+                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue
+                            </td>
                         }
                     </tr>
                 }

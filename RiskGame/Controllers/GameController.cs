@@ -91,6 +91,10 @@ namespace RiskGame.Controllers
                             money = Singleton.Game().Money;
                         }     
                     }
+                    else
+                    {
+                        money = Singleton.Game().Money - effectItemMoney;
+                    }
                 }
             }
 

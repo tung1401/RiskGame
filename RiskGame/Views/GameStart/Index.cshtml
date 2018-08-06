@@ -24,6 +24,7 @@
                     <td><b>Level 1</b></td>
                     <td><b>Level 2</b></td>
                     <td><b>Level 3</b></td>
+                    <td><b></b></td>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +42,7 @@
                                 @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue
                             </td>
                         }
+                        <td><button class="btn btn-danger" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>
                     </tr>
                 }
 
@@ -53,6 +55,17 @@
 </div>
 
 <script>
+
+    function ClearRisk(name) {
+        $('input[name=' + name+']').prop('checked', false);
+    }
+
+
+
+
+
+
+
     var end = new Date('@ViewBag.CountDown'); // viewbag
         var _second = 1000;
         var _minute = _second * 60;

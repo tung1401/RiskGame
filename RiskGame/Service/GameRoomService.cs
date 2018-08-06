@@ -27,15 +27,14 @@ namespace KPI.Services.Service
         }
 
         public IEnumerable<GameRoom> GetAllGameRoom()
-        {
-            
+        {           
             var gameRooms = new List<GameRoom>();
             try
             {
                 using (var connection = new SqlConnection(_service.ConnectionString))
                 {
                     connection.Open();
-                    using (var command = new SqlCommand(@"SELECT [GameRoomID], [GameRoomName], [MultiPlayer] FROM [dbo].[GameRoom] Where Active = 1 and Multiplayer > 1", connection))
+                    using (var command = new SqlCommand(@"SELECT [GameRoomID], [GameRoomName], [MultiPlayer], [UserId] FROM [dbo].[GameRoom] Where Active = 1 and Multiplayer > 1", connection))
                     {
                         command.Notification = null;
 
@@ -53,7 +52,8 @@ namespace KPI.Services.Service
                             {
                                 GameRoomId = (int)reader["GameRoomId"],
                                 GameRoomName = (string)reader["GameRoomName"],
-                                Multiplayer = (int)reader["MultiPlayer"]
+                                Multiplayer = (int)reader["MultiPlayer"],
+                                UserId = (int)reader["UserId"],
                             });
                         }
                     }
@@ -170,6 +170,10 @@ namespace KPI.Services.Service
             return item != null ? true : false; // game done or game not start
         }
 
+        public IEnumerable<UserGameRoom> GetCurrentUserGame(int gameRoomId)
+        {
+            return _userGameRoom.GetManyWith(x => x.GameRoomId == gameRoomId, inc => inc.GameRoom.GameBattles, inc => inc.User);
+        }
 
 
 
@@ -248,6 +252,11 @@ namespace KPI.Services.Service
                 return true;
             }
             return false;
+        }
+
+        public IEnumerable<GameRoom> GetGameHistory(int userId)
+        {
+            return _gameRoom.GetManyWith(x => x.UserId == userId, inc => inc.UserGameRooms, inc => inc.User);
         }
 
     }
