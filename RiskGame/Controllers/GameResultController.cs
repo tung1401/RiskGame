@@ -19,6 +19,8 @@ namespace RiskGame.Controllers
         {
             if (CommonFunction.CheckCurrentGame() == false) return RedirectToAction("Index", "Home");
 
+            var gameRoom = _service.GameRoom().GetRoomById(Singleton.Game().GameRoomId);
+
             //Display all result
             var model = new GameResultViewModel
             {
@@ -32,7 +34,12 @@ namespace RiskGame.Controllers
                     Project = Singleton.Game().Project.ToString(),
                     Rank = "0",
                     GameStatus = "0"
+                },
+                GameRoom = new GameRoomModel
+                {
+                    GameRoomId = gameRoom.GameRoomId
                 }
+
             };
 
             var friendList = new List<PlayerData>();
@@ -70,5 +77,18 @@ namespace RiskGame.Controllers
             // go to new game
             return RedirectToAction("Index", "Home");
         }
+
+
+        public ActionResult GetPlayerResult(int id)
+        {
+            var userGameRoom = _service.GameRoom().GetAllUserGameRoom(id);
+            var model = new GameRoomModel
+            {
+                GameRoomId = id,
+                UserGameRooms = userGameRoom.OrderByDescending(x => x.MoneyValue).ToList()
+            };
+            return PartialView("_PlayerResult", model);
+        }
+
     }
 }

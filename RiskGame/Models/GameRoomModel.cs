@@ -20,5 +20,11 @@ namespace RiskGame.Models
         {
             UserGameRooms = new List<UserGameRoom>();
         }
+
+        public List<UserGameRoom> GetResult()
+        {
+            return UserGameRooms.OrderByDescending(x => x.MoneyValue).ToList();
+        }
+
     }
 }

@@ -65,6 +65,23 @@ namespace RiskGame.Controllers
                 if(multiPlayer > 1)
                 {
                     //multiplayer > wait room
+
+                    _service.GameRoom().AddUserGameRoom(new Entity.UserGameRoom
+                    {
+                        GameRoomId = gameRoom.GameRoomId,
+                        PlayerName = playerName,
+                        JobType = int.Parse(jobType),
+                        MoneyValue = gameRoom.MoneyValue,
+                        ProjectValue = gameRoom.ProjectValue,
+                        TeamValue = gameRoom.TeamValue,
+                        GameFinished = null,
+                        JoinDate = DateTime.UtcNow,
+                        UserId = Singleton.User().UserId,
+                        Active = true
+                    });
+                    Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue,
+                        gameRoom.GameRoomId, playerName);
+
                     return RedirectToAction("WaitRoom", "Room", new { id = gameRoom.GameRoomId });
                 }
                 else
@@ -95,7 +112,11 @@ namespace RiskGame.Controllers
         public ActionResult JoinRoom(int id)
         {
             RenderJobType(null);
-            return View("Join");
+            var model = new GameRoomModel
+            {
+                GameRoomId = id,
+            };
+            return View("Join", model);
         }
         public ActionResult WaitRoom(int id)
         {
@@ -105,6 +126,39 @@ namespace RiskGame.Controllers
             };
             return View("WaitRoom", model);
         }
+
+        [HttpPost]
+        public ActionResult JoinGameRoom(FormCollection form)
+        {
+            var roomId = int.Parse(form["Add.GameRoomId"]);
+            var playerName = form["Add.PlayerName"];
+            var jobType = form["Add.JobType"];
+            var gameRoom = _service.GameRoom().GetRoomById(roomId);
+
+            if (gameRoom == null) return RedirectToAction("Index", "Dashboard");
+
+            _service.GameRoom().AddUserGameRoom(new Entity.UserGameRoom
+            {
+                GameRoomId = gameRoom.GameRoomId,
+                PlayerName = playerName,
+                JobType = int.Parse(jobType),
+                MoneyValue = gameRoom.MoneyValue,
+                ProjectValue = gameRoom.ProjectValue,
+                TeamValue = gameRoom.TeamValue,
+                GameFinished = null,
+                JoinDate = DateTime.UtcNow,
+                UserId = Singleton.User().UserId,
+                Active = true
+            });
+
+            Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue,
+                gameRoom.GameRoomId, playerName);
+
+            return RedirectToAction("WaitRoom", "Room", new { id = roomId });
+        }
+
+
+
 
 
 
@@ -142,7 +196,7 @@ namespace RiskGame.Controllers
             return PartialView("_PlayerList", model);
         }
 
-
+        
 
 
 

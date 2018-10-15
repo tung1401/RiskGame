@@ -8,10 +8,7 @@
 <div class="jumbotron">
     <div class="jumbotron">
         <h1>Open Risk</h1>
-        <div>PlayerName:  @Singleton.Game().PlayerName</div>
-        <div>Money:  @Singleton.Game().Money</div>
-        <div>Turn:  @Singleton.Game().Turn</div>
-        <div>GameRoomId:  @Singleton.Game().GameRoomId</div>
+        @Html.Partial("_HeaderGameInfo")
 
         @if (Model.GameDone)
         {
@@ -25,47 +22,16 @@
 </div>
 
 <div class="rows">
-    <h5>Game Risk</h5>
-    <div class="col-md-6">
-        <table class="table">
-            <thead>
-                <tr>
-                    <td><b>RiskName</b></td>
-                    <td><b>ActionEffectType</b></td>
-                    <td><b>ActionEffectValue * Ratio</b></td>
-                    <td><b>RiskLevel</b></td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    @foreach (var item in Model.GameBattles)
-                    {
-                        <td>
-                            @item.Risk.RiskName
-                        </td>
-                        <td>
-                            @item.ActionEffectType
-                        </td>
-                        <td>
-                            @(item.ActionEffectValue * item.Ratio)
-                        </td>
-                        <td>
-                            @item.RiskOption.RiskLevel
-                        </td>
-                    }
-                </tr>
-            </tbody>
-        </table>
-    </div>
+
     <div class="col-md-6">
 
-        <h5>Protect Risk</h5>
+        <h5>User Protect Risks</h5> <span>Total Cost: @Model.UserGameRisk.Sum(x=>x.RiskOption.ActionEffectValue)</span>
         <table class="table">
             <thead>
                 <tr>
                     <td><b>RiskName</b></td>
                     <td><b>RiskLevel</b></td>
-
+                    <td><b>Cost</b></td>
                 </tr>
             </thead>
             <tbody>
@@ -79,12 +45,59 @@
                         <td>
                             @item.RiskOption.RiskLevel
                         </td>
+                        <td> @item.RiskOption.ActionEffectValue </td>
                     </tr>
                 }
 
             </tbody>
         </table>
     </div>
+
+    <div class="col-md-6">
+        <h5>Game Risks</h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td><b>RiskName</b></td>
+                    <td><b>ActionEffectType</b></td>
+                    @*<td><b>ActionEffectValue * Ratio</b></td>*@
+                    <td><b>RiskLevel</b></td>
+                    <td><b>Estimate Pay</b></td>
+                    <td><b>ProtectStatus</b></td>
+                    <td><b>Actual Pay</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach (var item in Model.UserGameBattleData)
+                    {
+                        <td>
+                            @item.GameBattle.Risk.RiskName
+                        </td>
+                        <td>
+                            @item.GameBattle.ActionEffectType
+                        </td>
+                        @*<td>
+                            @(item.GameBattle.ActionEffectValue * item.GameBattle.Ratio)
+                        </td>*@
+                        <td>
+                            @item.GameBattle.RiskOption.RiskLevel
+                        </td>
+                        <td>
+                            @(item.GameBattle.ActionEffectValue * item.GameBattle.Ratio)
+                        </td>
+                        <td>
+                            @item.ProtectStatus
+                        </td>
+                        <td>
+                            @item.EffectMoney
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 

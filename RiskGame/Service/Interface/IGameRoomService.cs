@@ -26,6 +26,8 @@ namespace KPI.Services.Interface
         IEnumerable<UserGameRoom> GetCurrentUserGame(int gameRoomId);
 
         IEnumerable<GameRoom> GetGameHistory(int userId);
+        GameRoom GetRoomById(int gameRoomId);
+        void UpdateUserGameRoom(int userId, int gameRoomId, int moneyValue);
 
     }
 }

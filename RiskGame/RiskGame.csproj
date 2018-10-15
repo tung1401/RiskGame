@@ -1646,6 +1646,7 @@
     <Content Include="Views\Shared\_HeaderGameInfo.cshtml" />
     <Content Include="Views\Shared\_HeaderGameCountDown.cshtml" />
     <Content Include="Views\GameHistory\Index.cshtml" />
+    <Content Include="Views\GameResult\_PlayerResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

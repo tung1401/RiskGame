@@ -35,5 +35,18 @@ namespace RiskGame.Helper
         {
             Money = 0
         }
+
+        public enum RiskGameLevel
+        {
+            FirstLevel = 1,
+            SecondLevel = 2,
+            ThirdLevel = 3
+        }
+        public enum ProtecStatus
+        {
+            Lose = 1,
+            Draw = 2,
+            Win = 3
+        }
     }
 }

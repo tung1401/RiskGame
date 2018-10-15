@@ -22,14 +22,14 @@ namespace RiskGame.Controllers
         {
             if (Singleton.Game() != null)
             {
-                if (Singleton.Game().GameRoomId > 0 && Singleton.Game().Turn > 0)
+                /*if (Singleton.Game().GameRoomId > 0 && Singleton.Game().Turn > 0)
                 {
                     var checkGameProgress = _service.GameRoom().CheckGameProgress(Singleton.Game().GameRoomId, Singleton.Game().UserId);
                     if (checkGameProgress == false)
                     {
                         filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "action", "Index" }, { "controller", "Home" } });
                     }
-                }
+                }*/
             }
         }
     }

@@ -14,3 +14,52 @@
 
     @Html.ActionLink("Go to Dashboard", "ReDashBoard", "GameResult")
 </div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="GameResultSection"></div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+<script src="/signalr/hubs"></script>
+<script type="text/javascript">
+    $(function () {
+        // Declare a proxy to reference the hub.
+        var notifications = $.connection.gameHub;
+
+        //debugger;
+        // Create a function that the hub can call to broadcast messages.
+        notifications.client.updateMessages = function () {
+            GetPlayer();
+
+        };
+        // Start the connection.
+        $.connection.hub.start().done(function () {
+           // alert("connection started")
+            GetPlayer();
+        }).fail(function (e) {
+            alert(e);
+        });
+    });
+
+
+    function GetPlayer()
+    {
+        var tbl = $('#GameResultSection');
+        $.ajax({
+            url: '/GameResult/GetPlayerResult',
+            contentType: 'application/html ; charset:utf-8',
+            type: 'GET',
+            dataType: 'html',
+            data: {id: @Model.GameRoom.GameRoomId}
+        }).success(function (result) {
+
+            tbl.empty().append(result);
+
+        }).error(function () {
+
+        });
+    }
+</script>

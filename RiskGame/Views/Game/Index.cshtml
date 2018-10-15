@@ -25,24 +25,27 @@
                     <td><b>Level 1</b></td>
                     <td><b>Level 2</b></td>
                     <td><b>Level 3</b></td>
+                    <td><b></b></td>
                 </tr>
             </thead>
             <tbody>
 
                 @foreach (var item in Model.RiskData)
                 {
-                    <tr>
-                        <td>
-                            @item.Name
-                        </td>
-                        @foreach (var op in item.RiskOption)
-                        {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    @foreach (var op in item.RiskOption)
+                    {
 
-                            <td>
-                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue
-                            </td>
-                        }
-                    </tr>
+                        <td>
+                            @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue
+                        </td>
+
+                    }
+                    <td><button class="btn btn-danger" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>
+                </tr>
                 }
 
             </tbody>
@@ -54,6 +57,9 @@
 </div>
 
 <script type="text/javascript">
+    function ClearRisk(name) {
+        $('input[name=' + name + ']').prop('checked', false);
+    }
     var end = new Date('@ViewBag.CountDown'); // viewbag
         var _second = 1000;
         var _minute = _second * 60;

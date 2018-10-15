@@ -1,18 +1,21 @@
-﻿@{
+﻿@model RiskGame.Models.GameRoomModel
+
+@{
     ViewBag.Title = "Join Room Page";
 
-   // var ob = RiskGame.Helper.Singleton.User();
+    // var ob = RiskGame.Helper.Singleton.User();
 }
 
 <div class="row">
     <h2>Join Room Page</h2>
-    <h5>Owner:</h5> @User.Identity.Name 
+    <h5>Member:</h5> @User.Identity.Name
 </div>
 <br>
-@using (Html.BeginForm("AddRoom", "Room", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("JoinGameRoom", "Room", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div id="JoinRoom">    
-     
+    @Html.Hidden("Add.GameRoomId", Model.GameRoomId)
+    <div id="JoinRoom">
+
         <div class="row">
             <h2>Create Character</h2>
             <div class="col-lg-6">

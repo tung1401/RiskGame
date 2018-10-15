@@ -9,6 +9,7 @@ namespace RiskGame.Models
     {
         public PlayerData MyPlayer { set; get; }
         public List<PlayerData> FriendPlayer { set; get; }
+        public GameRoomModel GameRoom { set; get; }
 
     }
 

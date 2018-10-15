@@ -13,10 +13,10 @@ namespace RiskGame.Controllers
     {
         public ActionResult Index()
         {
-            var data = new DataContext();
+           /* var data = new DataContext();
             var repo = new UserRepository(data);
             var test = repo.GetAll();
-            User user = new User();
+            User user = new User();*/
             return View();
         }
 

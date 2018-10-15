@@ -100,6 +100,16 @@ namespace RiskGame.Controllers
         }
 
 
+        public ActionResult MutplayerGameStart()
+        {
+
+            return View();
+        }
+
+
+
+
+
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();

@@ -75,7 +75,7 @@ namespace KPI.Services.Service
                 using (var connection = new SqlConnection(_service.ConnectionString))
             {
                 connection.Open();
-                using (var command = new SqlCommand(@"SELECT [UserGameRoomID],[GameRoomID],[PlayerName] FROM [dbo].[UserGameRoom] Where [GameRoomID] = " + roomId, connection))
+                using (var command = new SqlCommand(@"SELECT [UserGameRoomID],[GameRoomID],[PlayerName],[MoneyValue] FROM [dbo].[UserGameRoom] Where [GameRoomID] = " + roomId, connection))
                 {
                     command.Notification = null;
 
@@ -94,6 +94,7 @@ namespace KPI.Services.Service
                             UserGameRoomId = (int)reader["UserGameRoomID"],
                             GameRoomId = (int)reader["GameRoomID"],
                             PlayerName = (string)reader["PlayerName"],
+                            MoneyValue = (int)reader["MoneyValue"],
                         });
                     }
                 }
@@ -175,7 +176,7 @@ namespace KPI.Services.Service
             return _userGameRoom.GetManyWith(x => x.GameRoomId == gameRoomId, inc => inc.GameRoom.GameBattles, inc => inc.User);
         }
 
-
+     
 
 
 
@@ -243,20 +244,66 @@ namespace KPI.Services.Service
 
         public bool UpdateGameRoomDone(int userId, int gameRoomId)
         {
+            var userGameRoom = GetUserGameRoom(userId, gameRoomId);
+            if (userGameRoom != null && !userGameRoom.GameFinished.GetValueOrDefault())
+            {
+                userGameRoom.GameFinished = true;
+                _userGameRoom.Update(userGameRoom);
+            }
+            
             var gameRoom = GetGameRoomByUserId(userId, gameRoomId);
             if(gameRoom != null)
             {
-                gameRoom.Active = false;
-                gameRoom.EndDate = DateTime.UtcNow;
-                _gameRoom.Update(gameRoom);
-                return true;
+                if (gameRoom.Multiplayer == 1)
+                {
+                    gameRoom.Active = false;
+                    gameRoom.EndDate = DateTime.UtcNow;
+                    _gameRoom.Update(gameRoom);
+                    return true;
+                }
+                else
+                {
+                    var userGameFinished = GountUserGameStatus(gameRoomId);
+                    if (gameRoom.Multiplayer == userGameFinished)
+                    {
+                        gameRoom.Active = false;
+                        gameRoom.EndDate = DateTime.UtcNow;
+                        _gameRoom.Update(gameRoom);
+                        return true;
+                    }
+                }
             }
             return false;
+        }
+
+        public void UpdateUserGameRoom(int userId, int gameRoomId, int moneyValue)
+        {
+           var currentGame = GetUserGameRoom(userId, gameRoomId);
+            if (currentGame != null && !currentGame.GameFinished.GetValueOrDefault())
+            {
+                currentGame.MoneyValue = moneyValue;
+                _userGameRoom.Update(currentGame);
+            }
+        }
+
+
+        public int GountUserGameStatus(int gameRoomId, bool? status = null)
+        {
+            return _userGameRoom.Count(x => x.GameFinished == status && x.GameRoomId == gameRoomId);
+        }
+
+        public UserGameRoom GetUserGameRoom(int userId, int gameRoomId)
+        {
+           return _userGameRoom.Get(x => x.UserId == userId && x.GameRoomId == gameRoomId);
         }
 
         public IEnumerable<GameRoom> GetGameHistory(int userId)
         {
             return _gameRoom.GetManyWith(x => x.UserId == userId, inc => inc.UserGameRooms, inc => inc.User);
+        }
+        public GameRoom GetRoomById(int gameRoomId)
+        {
+            return _gameRoom.Get(x => x.GameRoomId == gameRoomId);
         }
 
     }

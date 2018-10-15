@@ -1,0 +1,13 @@
+﻿@model RiskGame.Models.GameRoomModel
+
+
+@foreach (var item in Model.GetResult())
+{
+
+    <div class="col-lg-3">
+        @item.PlayerName
+    </div>
+    <div class="col-lg-3">
+        @item.MoneyValue
+    </div>
+}

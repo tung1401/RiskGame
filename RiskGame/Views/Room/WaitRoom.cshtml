@@ -17,12 +17,12 @@
     </div>
 </div>
 
-@using (Html.BeginForm("AddRoom", "Room", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Game", "GameStart", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div id="WaitRoom">    
         <div class="row text-center">
             <br />
-            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Create</button>
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Play</button>
         </div>
     </div>
 }
@@ -64,7 +64,9 @@
             dataType: 'html',
             data: {id: @Model.GameRoomId}
         }).success(function (result) {
+
             tbl.empty().append(result);
+
         }).error(function () {
 
         });

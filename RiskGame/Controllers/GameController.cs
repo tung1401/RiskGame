@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.Security;
+using static RiskGame.Helper.Const;
 
 namespace RiskGame.Controllers
 {
@@ -67,7 +68,7 @@ namespace RiskGame.Controllers
         public ActionResult OpenRisk()
         {
             // check risk, and reduce money
-            var money = Singleton.Game().Money;
+            var moneyTotal = Singleton.Game().Money;
             var model = new GameBattleViewModel();
             var openRisk = _service.Game().GetGameBattleOpenRisk(Singleton.Game().GameRoomId, Singleton.Game().Turn);
             if (openRisk.Any())
@@ -75,26 +76,66 @@ namespace RiskGame.Controllers
                 model.GameBattles = openRisk.ToList();
                 var userGameRisk = _service.Game().GetUserGameRisk(Singleton.Game().GameRoomId,
                     Singleton.Game().Turn, Singleton.Game().UserId);
+
                 model.UserGameRisk = userGameRisk.ToList();
                 foreach (var item in model.GameBattles)
                 {
+                    var userGameBattleData = new UserGameBattleData
+                    {
+                        GameBattle = item,
+                        ProtectStatus = ProtecStatus.Lose.ToString()                 
+                    };
+
                     var effectItemMoney = item.Ratio.GetValueOrDefault() * item.ActionEffectValue.GetValueOrDefault();
                     var riskProtect = userGameRisk.FirstOrDefault(x => x.RiskId == item.RiskId);
+                    var effectMoney = 0;
                     if (riskProtect != null)
                     {
-                        if (item.RiskOption.RiskLevel > riskProtect.RiskOption.RiskLevel) //หากที่ Level Risk กำหนดในเกมมีค่า มากกว่า ที่เลือกไว้
-                        {                  
-                            money = Singleton.Game().Money - effectItemMoney;
+                        if(riskProtect.RiskOption.RiskLevel != item.RiskOption.RiskLevel)
+                        {
+                            if (riskProtect.RiskOption.RiskLevel > item.RiskOption.RiskLevel)
+                            {
+                                // ไม่ต้องจ่าย ป้องกันได้ 100%
+                                moneyTotal = Singleton.Game().Money;
+                                userGameBattleData.ProtectStatus = ProtecStatus.Win.ToString();
+                            }
+                            else
+                            {
+                                if (riskProtect.RiskOption.RiskLevel == (int)RiskGameLevel.ThirdLevel)
+                                {
+                                    //ป้องกัน 100%
+                                    moneyTotal = Singleton.Game().Money;
+                                }
+                                else if (riskProtect.RiskOption.RiskLevel == (int)RiskGameLevel.SecondLevel)
+                                {
+                                    //ป้องกัน 50% จ่าย 50%
+                                    effectMoney = (int)(effectItemMoney * 0.5);
+                                    moneyTotal = Singleton.Game().Money - (int)(effectItemMoney * 0.5);
+                                }
+                                else if (riskProtect.RiskOption.RiskLevel == (int)RiskGameLevel.FirstLevel)
+                                {
+                                    //ป้องกัน 25% จ่าย 75%
+                                    effectMoney = (int)(effectItemMoney * 0.75);
+                                    moneyTotal = Singleton.Game().Money - (int)(effectItemMoney * 0.75);
+                                }
+                            }  
                         }
                         else
                         {
-                            money = Singleton.Game().Money;
-                        }     
+                            // ถ้าเลือกแล้ว Level เท่ากัน ป้องกันได้ 100%
+                            moneyTotal = Singleton.Game().Money;
+                            userGameBattleData.ProtectStatus = ProtecStatus.Draw.ToString();
+                        }   
                     }
                     else
                     {
-                        money = Singleton.Game().Money - effectItemMoney;
+                        // ถ้าไม่ได้เลือก หรือ ไม่ได้ป้องกัน จ่าย 100%
+                        effectMoney = effectItemMoney;
+                        moneyTotal = Singleton.Game().Money - effectItemMoney;
                     }
+
+                    userGameBattleData.EffectMoney = effectMoney.ToString("n0");
+                    model.UserGameBattleData.Add(userGameBattleData);
                 }
             }
 
@@ -104,8 +145,12 @@ namespace RiskGame.Controllers
             if (!model.GameDone)
             {
                 nextTurn += 1;
-            }        
-            Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, money, nextTurn);
+            }
+
+
+            _service.GameRoom().UpdateUserGameRoom(Singleton.Game().UserId, Singleton.Game().GameRoomId, moneyTotal);
+            Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, moneyTotal, nextTurn);
+
             return View(model);
         }
 
@@ -145,6 +190,7 @@ namespace RiskGame.Controllers
                 gameRoom.MoneyValue = Singleton.Game().Money - moneySummary;
             }
             var money = Singleton.Game().Money - moneySummary;
+            _service.GameRoom().UpdateUserGameRoom(Singleton.Game().UserId, Singleton.Game().GameRoomId, money);
             Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, money, Singleton.Game().Turn);
             return RedirectToAction("OpenRisk", "Game");
         }
@@ -192,5 +238,8 @@ namespace RiskGame.Controllers
         //    Response.Cookies["UserGame"].Expires = DateTime.Now.AddDays(-1);
         //    return RedirectToAction("Index", "Home");
         //}
+
+
+
     }
 }
