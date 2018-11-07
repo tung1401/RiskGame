@@ -100,13 +100,25 @@ namespace RiskGame.Controllers
         }
 
 
-        public ActionResult MutplayerGameStart()
+        public JsonResult MultiPlayerGameStart(int id)
         {
+            //update start - end
+            var gameRoom = _service.GameRoom().GetRoomById(id);
+            gameRoom.StartDate = DateTime.UtcNow;
+            gameRoom.EndDate = DateTime.UtcNow.AddMinutes(15);
+            _service.GameRoom().UpdateGameRoom(gameRoom);
 
-            return View();
+            var response = CommonFunction.GetResponse(gameRoom != null, string.Empty, gameRoom);
+            return Json(response);
         }
 
-
+        [HttpGet]
+        public JsonResult GetGameRoomStatus(int id)
+        {
+            var gameRoom = _service.GameRoom().GetGameRoomByIdSQL(id);
+            var response = CommonFunction.GetResponse(gameRoom != null, string.Empty, gameRoom);
+            return Json(response,JsonRequestBehavior.AllowGet);
+        }
 
 
 

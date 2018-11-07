@@ -51,8 +51,8 @@ namespace RiskGame.Controllers
                 Goal = goal,
                 MoneyValue = startMoney,
                 Multiplayer = multiPlayer,
-                StartDate = DateTime.UtcNow,
-                EndDate = DateTime.UtcNow.AddMinutes(15),
+                StartDate = multiPlayer > 1 ? (DateTime?)null : DateTime.UtcNow,
+                EndDate = multiPlayer > 1 ? (DateTime?)null : DateTime.UtcNow.AddMinutes(15),
                 TeamValue = 2, //if startup
                 SoftwareType = softwareProcessType,
                 ProjectValue = 0,
@@ -120,6 +120,7 @@ namespace RiskGame.Controllers
         }
         public ActionResult WaitRoom(int id)
         {
+            ReCallUserGameRoom(id);
             var model = new GameRoomModel
             {
                 GameRoomId = id
@@ -188,10 +189,14 @@ namespace RiskGame.Controllers
         public ActionResult GetPlayer(int id)
         {
             var userGameRoom =_service.GameRoom().GetAllUserGameRoom(id);
+            var gameRoom = _service.GameRoom().GetRoomById(id);
             var model = new GameRoomModel
             {
                 GameRoomId = id,
-                UserGameRooms = userGameRoom.ToList()
+                UserGameRooms = userGameRoom.ToList(),
+                MaxPlayer = gameRoom.Multiplayer,
+                Player = userGameRoom.Count(),
+                CreateByUserId = gameRoom.UserId,
             };
             return PartialView("_PlayerList", model);
         }
@@ -261,6 +266,19 @@ namespace RiskGame.Controllers
             Response.Cookies.Add(cookie);     
         }
 
+
+        public void ReCallUserGameRoom(int gameRoomId)
+        {
+            if (Singleton.Game() == null && Singleton.User() != null)
+            {
+                var currentUserGameRoom = _service.GameRoom().GetUserGameRoom(Singleton.User().UserId, gameRoomId);
+                if (currentUserGameRoom != null)
+                {
+                    Singleton.CreateGameSession(currentUserGameRoom.TeamValue, currentUserGameRoom.ProjectValue, currentUserGameRoom.MoneyValue,
+                     currentUserGameRoom.GameRoomId, currentUserGameRoom.PlayerName);
+                }
+            }
+        }
 
     }
 }

@@ -1,8 +1,54 @@
 ﻿@model RiskGame.Models.GameRoomModel
 
-@foreach (var item in Model.UserGameRooms)
+
+<div class="row">
+    @foreach (var item in Model.UserGameRooms)
+    {
+        <div class="col-lg-3">
+            @item.PlayerName
+        </div>
+    }
+</div>
+
+
+@if (Model.MaxPlayer == Model.UserGameRooms.Count && Model.CreateByUserId == RiskGame.Helper.Singleton.User().UserId)
 {
-    <div class="col-lg-3">
-        @item.PlayerName
+<div class="row">
+    @using (Html.BeginForm("Game", "GameStart", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+    }
+    <div id="WaitRoom">
+        <div class="row text-center">
+            <br />
+            <button type="button" onclick="GameSubmit()" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Play</button>
+        </div>
     </div>
+
+</div>
 }
+else
+{
+    @Html.Raw("Waiting player") @Model.UserGameRooms.Count @Html.Raw("/") @Model.MaxPlayer
+}
+
+
+
+<script>
+    function GameSubmit() {
+           $.ajax({
+               url: '/GameStart/MultiPlayerGameStart',
+            contentType: 'application/html ; charset:utf-8',
+            type: 'GET',
+            dataType: 'JSON',
+            data: { id: @Model.GameRoomId }
+        }).success(function (result) {
+
+            debugger;
+
+
+        }).error(function () {
+
+        });
+    }
+    </script>

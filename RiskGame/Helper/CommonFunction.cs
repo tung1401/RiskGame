@@ -11,5 +11,23 @@ namespace RiskGame.Helper
         {
             return Singleton.Game() != null ? true : false;
         }
+
+        [Serializable]
+        public struct ResponseModel
+        {
+            public bool IsSuccess { get; set; }
+            public string Description { get; set; }
+            public Object Result { get; set; }
+        }
+
+        public static ResponseModel GetResponse(bool isSuccess, string description = null, Object result = null)
+        {
+            return new ResponseModel
+            {
+                IsSuccess = isSuccess,
+                Description = description,
+                Result = result
+            };
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace KPI.Services.Interface
 
         IEnumerable<GameRoom> GetAllGameRoom();
         IEnumerable<UserGameRoom> GetAllUserGameRoom(int roomId);
-
+        GameRoom GetGameRoomByIdSQL(int gameRoomId);
         IEnumerable<GameRoomModel> GetAllGameRoom2();
 
         IEnumerable<User> GetAllUser();
@@ -28,6 +28,9 @@ namespace KPI.Services.Interface
         IEnumerable<GameRoom> GetGameHistory(int userId);
         GameRoom GetRoomById(int gameRoomId);
         void UpdateUserGameRoom(int userId, int gameRoomId, int moneyValue);
+        void UpdateGameRoom(GameRoom gameRoom);
+
+        UserGameRoom GetUserGameRoom(int userId, int gameRoomId);
 
     }
 }

@@ -17,15 +17,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("Game", "GameStart", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div id="WaitRoom">    
-        <div class="row text-center">
-            <br />
-            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Play</button>
-        </div>
-    </div>
-}
+
 
 
 
@@ -41,13 +33,17 @@
         //debugger;
         // Create a function that the hub can call to broadcast messages.
         notifications.client.updateMessages = function () {
+        
             GetPlayer();
+            CheckRoomStatus();
 
         };
         // Start the connection.
         $.connection.hub.start().done(function () {
            // alert("connection started")
             GetPlayer();
+            CheckRoomStatus();
+
         }).fail(function (e) {
             alert(e);
         });
@@ -62,15 +58,42 @@
             contentType: 'application/html ; charset:utf-8',
             type: 'GET',
             dataType: 'html',
-            data: {id: @Model.GameRoomId}
+            data: {id: @Model.GameRoomId }
         }).success(function (result) {
 
             tbl.empty().append(result);
+            debugger;
 
         }).error(function () {
 
         });
     }
+
+   
+
+
+    function CheckRoomStatus() {
+           $.ajax({
+            url: '/GameStart/GetGameRoomStatus',
+            contentType: 'application/html ; charset:utf-8',
+            type: 'GET',
+            dataType: 'JSON',
+            data: {id: @Model.GameRoomId }
+        }).success(function (data) {
+
+            debugger;
+            if (data.Result.StartDate != null) {
+                window.location.href = "@Url.Content("~/GameStart/Index/")" + @Model.GameRoomId ;
+            }
+     
+
+
+
+        }).error(function () {
+
+        });
+    }
+
 </script>
 
 
