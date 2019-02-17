@@ -373,7 +373,9 @@
     <Compile Include="Service\GameRoomService.cs" />
     <Compile Include="Service\Interface\IGameRoomService.cs" />
     <Compile Include="Service\Interface\IGameService.cs" />
+    <Compile Include="Service\Interface\IUserService.cs" />
     <Compile Include="Service\Interface\IRiskService.cs" />
+    <Compile Include="Service\UserService.cs" />
     <Compile Include="Service\RiskService.cs" />
     <Compile Include="Service\GameService.cs" />
     <Compile Include="Startup.cs" />

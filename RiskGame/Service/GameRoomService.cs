@@ -303,7 +303,7 @@ namespace KPI.Services.Service
                 _userGameRoom.Update(userGameRoom);
             }
 
-            var gameRoom = GetGameRoomByUserId(userId, gameRoomId);
+            var gameRoom = GetRoomById(gameRoomId);
             if (gameRoom != null)
             {
                 if (gameRoom.Multiplayer == 1)

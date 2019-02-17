@@ -44,5 +44,13 @@ namespace RiskGame.Repository.Common
                 //new UserGameRoomRepository(_db)
                 );
         }
+
+
+        public IUserService User()
+        {
+            return new UserService(
+                new UserRepository(_db)
+                );
+        }
     }
 }

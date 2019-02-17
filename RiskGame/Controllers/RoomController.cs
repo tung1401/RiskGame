@@ -111,6 +111,18 @@ namespace RiskGame.Controllers
 
         public ActionResult JoinRoom(int id)
         {
+            var recall = ReCallUserGameRoom(id);
+            if (recall == "waitroom")
+            {
+                return RedirectToAction("WaitRoom","Room", new { id });
+            }
+
+            var isGameStart = IsGameStart(Singleton.User().UserId, id);
+            if (isGameStart)
+            {
+                return RedirectToAction("Index", "GameStart", new { id });
+            }
+
             RenderJobType(null);
             var model = new GameRoomModel
             {
@@ -267,18 +279,42 @@ namespace RiskGame.Controllers
         }
 
 
-        public void ReCallUserGameRoom(int gameRoomId)
+        public string ReCallUserGameRoom(int gameRoomId)
         {
-            if (Singleton.Game() == null && Singleton.User() != null)
+            int? userId = Singleton.User() != null ? Singleton.User().UserId : (int?)null;
+            if (userId.HasValue)
             {
                 var currentUserGameRoom = _service.GameRoom().GetUserGameRoom(Singleton.User().UserId, gameRoomId);
                 if (currentUserGameRoom != null)
                 {
-                    Singleton.CreateGameSession(currentUserGameRoom.TeamValue, currentUserGameRoom.ProjectValue, currentUserGameRoom.MoneyValue,
-                     currentUserGameRoom.GameRoomId, currentUserGameRoom.PlayerName);
+                    if (currentUserGameRoom.Active.GetValueOrDefault())
+                    {
+                        if (Singleton.Game() == null)
+                        {
+                            Singleton.CreateGameSession(currentUserGameRoom.TeamValue, currentUserGameRoom.ProjectValue, currentUserGameRoom.MoneyValue,
+                           currentUserGameRoom.GameRoomId, currentUserGameRoom.PlayerName);
+
+                        }
+                        return "waitroom";
+                    }
                 }
             }
+            return string.Empty;
+        }
+
+        public bool IsGameStart(int userId, int gameRoomId)
+        {
+            var gameRoom = _service.GameRoom().GetGameRoomByUserId(userId, gameRoomId);
+            if(gameRoom != null)
+            {
+                if (gameRoom.StartDate.HasValue)
+                {
+                    return true;
+                }          
+            }
+            return false;
         }
 
     }
+
 }

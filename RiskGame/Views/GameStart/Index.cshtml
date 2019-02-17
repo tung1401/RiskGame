@@ -11,6 +11,13 @@
     @Html.Partial("_HeaderGameInfo")
     @Html.Partial("_HeaderGameCountDown")
 
+
+
+
+</div>
+
+<div class="container">
+    <h3>Choose protect Risk</h3>
     @using (Html.BeginForm("ProtectRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <table class="table">
@@ -45,10 +52,11 @@
             </tbody>
         </table>
 
-        <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+        <button id="submit" type="submit" class="btn btn-success">Confirm</button>
     }
-
 </div>
+
+@*<iframe src="http://localhost:50833/GameStart/Index/1066" width="100%" height="600" />*@
 
 <script>
 
