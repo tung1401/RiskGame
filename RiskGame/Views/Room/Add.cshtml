@@ -2,18 +2,34 @@
     ViewBag.Title = "Create Room Page";
 
     // var ob = RiskGame.Helper.Singleton.User();
+    var isSinglePlayer = false;
+    if (Request.QueryString["player"] != null)
+    {
+        var player = int.Parse(Request.QueryString["player"]);
+        isSinglePlayer = player == 1 ? true : false;
+    }
+
+
+
 }
 
-
-
 <h1 class="text-center">Create Room</h1>
-<h5>Owner:</h5> @User.Identity.Name
+<div>
+    <h5>Owner:</h5> <span>@User.Identity.Name</span>
+</div>
 <br>
 @using (Html.BeginForm("AddRoom", "Room", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+
+    if (isSinglePlayer)
+    {
+        @Html.Hidden("Add.RoomName", $"single-{DateTime.UtcNow.Ticks}", new { @class = "form-control" })
+        @Html.Hidden("Add.MultiPlayer", "1", new { @class = "form-control" })
+
+    }
+
     <div class="row">
         <div class="col-lg-6">
-
             <div class="card">
                 <div class="card-header">
                     <strong class="card-title">Room Info</strong>
@@ -21,22 +37,29 @@
                 <div class="card-body">
                     <div id="CreateRoom">
                         <div class="col-sm-6 col-lg-12">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    @Html.Label("Room Name")
-                                    @Html.TextBox("Add.RoomName", "", new { @class = "form-control", required = "required" })
+
+                            @if (!isSinglePlayer)
+                            {
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+
+
+                                        @Html.Label("Room Name")
+                                        @Html.TextBox("Add.RoomName", "", new { @class = "form-control", required = "required" })
+
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Player")<br />
+                                        @Html.DropDownList("Add.MultiPlayer", (List<SelectListItem>)ViewBag.SelectMultiPlayer, new { @class = "form-control" })
+                                    </div>
+
+
                                 </div>
+                            }
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     @Html.Label("Start With Money")
                                     @Html.TextBox("Add.StartMoney", "100000", new { @class = "form-control", type = "number", required = "required", step = "1", min = 1, max = 999999999, maxlength = 10 })
-                                </div>
-
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    @Html.Label("Player")<br />
-                                    @Html.DropDownList("Add.MultiPlayer", (List<SelectListItem>)ViewBag.SelectMultiPlayer, new { @class = "form-control" })
                                 </div>
                                 <div class="form-group">
                                     @Html.Label("Goal")<br />
@@ -47,17 +70,11 @@
                                     @Html.DropDownList("Add.SoftwareProcessType", (List<SelectListItem>)ViewBag.SelectSoftwareProcessType, new { @class = "form-control" })
                                 </div>
                             </div>
-
-
                         </div>
-
                         <div class="row col-sm-6 col-lg-6">
 
 
                         </div>
-
-
-
                         <div class="row text-center col-sm-6 col-lg-12">
                             <br />
 
@@ -68,8 +85,6 @@
 
         </div>
         <div class="col-lg-6">
-
-
             <div class="card">
                 <div class="card-header">
                     <strong class="card-title">Create Character</strong>

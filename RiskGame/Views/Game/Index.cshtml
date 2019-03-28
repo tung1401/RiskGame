@@ -7,15 +7,23 @@
 }
 
 <div class="jumbotron">
-    <h1>Game Battle</h1>
+    <strong><i class="fa fa-bolt"></i> Game Battle</strong>
     @*<div>PlayerName:  @Singleton.Game().PlayerName</div>
-    <div>Money:  @Singleton.Game().Money</div>
-    <div>Turn:  @Singleton.Game().Turn</div>
-    <div>GameRoomId:  @Singleton.Game().GameRoomId</div>*@
+        <div>Money:  @Singleton.Game().Money</div>
+        <div>Turn:  @Singleton.Game().Turn</div>
+        <div>GameRoomId:  @Singleton.Game().GameRoomId</div>*@
     @*<div id="countdown"></div>*@
     @Html.Partial("_HeaderGameInfo")
     @Html.Partial("_HeaderGameCountDown")
 
+
+
+</div>
+
+<div class="card-header">
+    <strong>Choose Protect Risk</strong>
+</div>
+<div class="card-body">
     @using (Html.BeginForm("ProtectRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <table class="table">
@@ -32,35 +40,34 @@
 
                 @foreach (var item in Model.RiskData)
                 {
-                <tr>
-                    <td>
-                        @item.Name
-                    </td>
-                    @foreach (var op in item.RiskOption)
-                    {
-
+                    <tr>
                         <td>
-                            @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue
+                            @item.Name
                         </td>
+                        @foreach (var op in item.RiskOption)
+                        {
 
-                    }
-                    <td><button class="btn btn-danger" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>
-                </tr>
+                            <td>
+                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue
+                            </td>
+
+                        }
+                        <td><button style="font-size:small; text-align:center;" class="btn btn-danger" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>
+                    </tr>
                 }
 
             </tbody>
         </table>
 
-        <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+        <button id="submit" type="submit" class="btn btn-success" style="font-size:large; text-align:center;">Confirm</button>
     }
-
 </div>
 
 <script type="text/javascript">
     function ClearRisk(name) {
         $('input[name=' + name + ']').prop('checked', false);
     }
-    var end = new Date('@ViewBag.CountDown'); // viewbag
+   @*/* var end = new Date('@ViewBag.CountDown'); // viewbag
         var _second = 1000;
         var _minute = _second * 60;
         var _hour = _minute * 60;
@@ -89,5 +96,5 @@
             document.getElementById('countdown').innerHTML = minutes + 'mins ';
             document.getElementById('countdown').innerHTML += seconds + 'secs';
         }
-        timer = setInterval(showRemaining, 1000);
+        timer = setInterval(showRemaining, 1000);*/*@
 </script>

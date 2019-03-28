@@ -5,15 +5,12 @@
 }
 
 <div class="jumbotron">
-    <h1>Game Battle</h1>
-    <div>PlayerName:  @Singleton.Game().PlayerName</div>
-    <div>Money:  @Singleton.Game().Money</div>
-    <div>Turn:  @Singleton.Game().Turn</div>
-    <div>GameRoomId:  @Singleton.Game().GameRoomId</div>
-
-
+    <strong>Game Results</strong>
+    @Html.Partial("_HeaderGameInfo")
     @Html.ActionLink("Go to Dashboard", "ReDashBoard", "GameResult")
 </div>
+
+
 
 <div class="row">
     <div class="col-md-12">

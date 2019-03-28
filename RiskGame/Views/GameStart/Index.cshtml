@@ -7,17 +7,13 @@
 }
 
 <div class="jumbotron">
-    <h1>Game Start</h1>
+    <strong><i class="fa fa-fighter-jet"></i> Game Start</strong>
     @Html.Partial("_HeaderGameInfo")
     @Html.Partial("_HeaderGameCountDown")
-
-
-
-
 </div>
+<div class="card-header"><strong>Choose Protect Risk</strong></div>
+<div class="card-body">
 
-<div class="container">
-    <h3>Choose protect Risk</h3>
     @using (Html.BeginForm("ProtectRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <table class="table">
@@ -42,28 +38,34 @@
                         {
 
                             <td>
-                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue
+                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")" }) @Html.Raw("Protect -") @op.ActionEffectValue
                             </td>
                         }
-                        <td><button class="btn btn-danger" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>
+                        <td><button class="btn btn-danger" style="font-size:small" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>
                     </tr>
                 }
 
             </tbody>
         </table>
 
-        <button id="submit" type="submit" class="btn btn-success">Confirm</button>
+        <button id="submit" type="submit" class="btn btn-success" style="font-size:large; text-align:center;">Confirm</button>
     }
-</div>
 
+</div>
 @*<iframe src="http://localhost:50833/GameStart/Index/1066" width="100%" height="600" />*@
 
 <script>
 
+        function Sum(id, value) {
+
+        }
+
+
+
     function ClearRisk(name) {
         $('input[name=' + name+']').prop('checked', false);
     }
-    var end = new Date('@ViewBag.CountDown'); // viewbag
+    @*var end = new Date('@ViewBag.CountDown'); // viewbag
         var _second = 1000;
         var _minute = _second * 60;
         var _hour = _minute * 60;
@@ -92,5 +94,5 @@
             document.getElementById('countdown').innerHTML = minutes + 'mins ';
             document.getElementById('countdown').innerHTML += seconds + 'secs';
         }
-        timer = setInterval(showRemaining, 1000);
+        timer = setInterval(showRemaining, 1000);*@
 </script>

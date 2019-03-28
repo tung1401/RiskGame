@@ -1,4 +1,7 @@
-﻿<div id="countdown"></div>
+﻿<div class="alert-danger" style="text-align:center;">Time for decide</div>
+<div style="text-align:center;font-size:45px;">
+    <i class="fa fa-clock-o"></i> <span id="countdown" style="color:red;"></span>
+</div>
 
 <script type="text/javascript">
     var end = new Date('@ViewBag.CountDown'); // viewbag
@@ -25,10 +28,14 @@
             var minutes = Math.floor((distance % _hour) / _minute);
             var seconds = Math.floor((distance % _minute) / _second);
 
+            if (seconds.toString().length === 1) {
+                seconds = '0' + seconds;
+            }
+
           //  document.getElementById('countdown').innerHTML = days + 'days ';
           //  document.getElementById('countdown').innerHTML += hours + 'hrs ';
-            document.getElementById('countdown').innerHTML = minutes + 'mins ';
-            document.getElementById('countdown').innerHTML += seconds + 'secs';
+            document.getElementById('countdown').innerHTML = minutes + ':';
+            document.getElementById('countdown').innerHTML += seconds + '';
         }
         timer = setInterval(showRemaining, 1000);
 </script>

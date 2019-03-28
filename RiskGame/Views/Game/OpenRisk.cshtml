@@ -6,26 +6,27 @@
     //ViewBag.CountDown = DateTime.Now.AddMinutes(5.05);
 }
 <div class="jumbotron">
-    <div class="jumbotron">
-        <h1>Open Risk</h1>
-        @Html.Partial("_HeaderGameInfo")
-
+    <strong><i class="fa fa-bolt"></i> Open Risk</strong>
+    @Html.Partial("_HeaderGameInfo")
+    <div>
         @if (Model.GameDone)
         {
-            @Html.ActionLink("Done", "Index", "GameResult")
+            @Html.ActionLink(" Game Done", "Index", "GameResult", null, new { @class = "btn btn-success fa fa-check", @style = "font-size: x-large;text-align:center;" })
         }
         else
         {
-            @Html.ActionLink("Next Turn", "Index", "Game")
+            @Html.ActionLink(" Next Turn", "Index", "Game", null, new { @class = "btn btn-primary fa fa-location-arrow", @style = "font-size: x-large;text-align: center;" })
         }
     </div>
 </div>
-
 <div class="rows">
-
     <div class="col-md-6">
 
-        <h5>User Protect Risks</h5> <span>Total Cost: @Model.UserGameRisk.Sum(x=>x.RiskOption.ActionEffectValue)</span>
+        <div class="card-header">
+            <strong>User Protect Risks</strong> <span style="font-size:14px;">Total Cost: @Model.UserGameRisk.Sum(x => x.RiskOption.ActionEffectValue)</span>
+        </div>
+
+
         <table class="table">
             <thead>
                 <tr>
@@ -54,7 +55,11 @@
     </div>
 
     <div class="col-md-6">
-        <h5>Game Risks</h5>
+
+        <div class="card-header">
+            <strong>Game Risks</strong>
+        </div>
+
         <table class="table">
             <thead>
                 <tr>
@@ -68,9 +73,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    @foreach (var item in Model.UserGameBattleData)
-                    {
+
+                @foreach (var item in Model.UserGameBattleData)
+                {
+                    <tr>
                         <td>
                             @item.GameBattle.Risk.RiskName
                         </td>
@@ -78,8 +84,8 @@
                             @item.GameBattle.ActionEffectType
                         </td>
                         @*<td>
-                            @(item.GameBattle.ActionEffectValue * item.GameBattle.Ratio)
-                        </td>*@
+                                @(item.GameBattle.ActionEffectValue * item.GameBattle.Ratio)
+                            </td>*@
                         <td>
                             @item.GameBattle.RiskOption.RiskLevel
                         </td>
@@ -92,14 +98,13 @@
                         <td>
                             @item.EffectMoney
                         </td>
-                    }
-                </tr>
+                    </tr>
+                }
+
             </tbody>
         </table>
     </div>
-
 </div>
-
 
 
 

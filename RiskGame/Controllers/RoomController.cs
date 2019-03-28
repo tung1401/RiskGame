@@ -20,12 +20,12 @@ namespace RiskGame.Controllers
             return View();
         }
 
-        public ActionResult AddRoom()
+        public ActionResult AddRoom(int? player)
         {
             RenderJobType(null);
             RenderGoal(null);
             RenderSoftwareProcessType(null);
-            RenderMultiPlayer(null);
+            RenderMultiPlayer(player);
             return View("Add");
         }
 
@@ -220,21 +220,8 @@ namespace RiskGame.Controllers
 
         public void RenderSoftwareProcessType(int? value)
         {
-            var selectSoftwareProcessType = new List<SelectListItem>();
-            // var partnerList = _adminService.Partner().GetAllPartnerCoupon(Singleton.UserAdmin().CompanyId, Singleton.UserAdmin().ProgramTypeId.GetValueOrDefault());
+            var selectSoftwareProcessType = new List<SelectListItem>();        
             selectSoftwareProcessType.Add(new SelectListItem { Text = "Water Fall", Value = "0", Selected = true });
-            //if (partnerList.Any())
-            //{
-            //    selectPartnerList.AddRange(
-            //        partnerList.Select(
-            //            m =>
-            //                new SelectListItem
-            //                {
-            //                    Text = m.PartnerName,
-            //                    Value = m.PartnerId.ToString(),
-            //                    Selected = m.PartnerId == value
-            //                }));
-            //}
             ViewBag.SelectSoftwareProcessType = selectSoftwareProcessType;
         }
         public void RenderGoal(int? value)
@@ -253,10 +240,16 @@ namespace RiskGame.Controllers
         public void RenderMultiPlayer(int? value)
         {
             var selectMultiPlayer = new List<SelectListItem>();
-            selectMultiPlayer.Add(new SelectListItem { Text = "1", Value = "1", Selected = true });
-            selectMultiPlayer.Add(new SelectListItem { Text = "2", Value = "2" });
-            selectMultiPlayer.Add(new SelectListItem { Text = "3", Value = "3"});
-            selectMultiPlayer.Add(new SelectListItem { Text = "4", Value = "4"});
+            if (value == 1)
+            {
+                selectMultiPlayer.Add(new SelectListItem { Text = "1", Value = "1", Selected = true });
+            }
+            else
+            {
+                selectMultiPlayer.Add(new SelectListItem { Text = "2", Value = "2", Selected = true });
+                selectMultiPlayer.Add(new SelectListItem { Text = "3", Value = "3" });
+                selectMultiPlayer.Add(new SelectListItem { Text = "4", Value = "4" });
+            }
             ViewBag.SelectMultiPlayer = selectMultiPlayer;
         }
 
