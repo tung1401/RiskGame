@@ -247,16 +247,16 @@ $.validator.format = function(source, params) {
 	/// </param>
 	/// <returns type="String" />
 
-	if ( arguments.length == 1 ) 
+    if (arguments.length === 1 ) 
 		return function() {
 			var args = $.makeArray(arguments);
 			args.unshift(source);
 			return $.validator.format.apply( this, args );
 		};
-	if ( arguments.length > 2 && params.constructor != Array  ) {
+	if ( arguments.length > 2 && params.constructor !== Array  ) {
 		params = $.makeArray(arguments).slice(1);
 	}
-	if ( params.constructor != Array ) {
+	if ( params.constructor !== Array ) {
 		params = [ params ];
 	}
 	$.each(params, function(i, n) {
@@ -295,7 +295,7 @@ $.extend($.validator, {
 			}
 		},
 		onkeyup: function(element) {
-			if ( element.name in this.submitted || element == this.lastElement ) {
+            if (element.name in this.submitted || element === this.lastElement ) {
 				this.element(element);
 			}
 		},
@@ -512,7 +512,7 @@ $.extend($.validator, {
 		},
 		
 		valid: function() {
-			return this.size() == 0;
+            return this.size() === 0;
 		},
 		
 		size: function() {
@@ -536,8 +536,8 @@ $.extend($.validator, {
 		findLastActive: function() {
 			var lastActive = this.lastActive;
 			return lastActive && $.grep(this.errorList, function(n) {
-				return n.element.name == lastActive.name;
-			}).length == 1 && lastActive;
+                return n.element.name === lastActive.name;
+            }).length === 1 && lastActive;
 		},
 		
 		elements: function() {
@@ -606,13 +606,13 @@ $.extend($.validator, {
 					
 					// if a method indicates that the field is optional and therefore valid,
 					// don't mark it as valid when there are no other rules
-					if ( result == "dependency-mismatch" ) {
+                    if (result === "dependency-mismatch" ) {
 						dependencyMismatch = true;
 						continue;
 					}
 					dependencyMismatch = false;
 					
-					if ( result == "pending" ) {
+                    if (result === "pending" ) {
 						this.toHide = this.toHide.not( this.errorsFor(element) );
 						return;
 					}
@@ -650,7 +650,7 @@ $.extend($.validator, {
 		// return the custom message for the given element name and validation method
 		customMessage: function( name, method ) {
 			var m = this.settings.messages[name];
-			return m && (m.constructor == String
+            return m && (m.constructor === String
 				? m
 				: m[method]);
 		},
@@ -678,7 +678,7 @@ $.extend($.validator, {
 		formatAndAdd: function( element, rule ) {
 			var message = this.defaultMessage( element, rule.method ),
 				theregex = /\$?\{(\d+)\}/g;
-			if ( typeof message == "function" ) {
+            if (typeof message === "function" ) {
 				message = message.call(this, rule.parameters, element);
 			} else if (theregex.test(message)) {
 				message = jQuery.format(message.replace(theregex, '{$1}'), rule.parameters);
@@ -1186,7 +1186,7 @@ $.extend($.validator, {
 
 			for (var n = value.length - 1; n >= 0; n--) {
 				var cDigit = value.charAt(n);
-				var nDigit = parseInt(cDigit, 10);
+			    nDigit = parseInt(cDigit, 10);
 				if (bEven) {
 					if ((nDigit *= 2) > 9)
 						nDigit -= 9;
@@ -1195,12 +1195,12 @@ $.extend($.validator, {
 				bEven = !bEven;
 			}
 
-			return (nCheck % 10) == 0;
+			return (nCheck % 10) === 0;
 		},
 		
 		// http://docs.jquery.com/Plugins/Validation/Methods/accept
 		accept: function(value, element, param) {
-			param = typeof param == "string" ? param.replace(/,/g, '|') : "png|jpe?g|gif";
+			param = typeof param === "string" ? param.replace(/,/g, '|') : "png|jpe?g|gif";
 			return this.optional(element) || value.match(new RegExp(".(" + param + ")$", "i")); 
 		},
 		
@@ -1225,8 +1225,8 @@ $.format = $.validator.format;
 
 // ajax mode: abort
 // usage: $.ajax({ mode: "abort"[, port: "uniqueport"]});
-// if mode:"abort" is used, the previous request on that port (port can be undefined) is aborted via XMLHttpRequest.abort() 
-;(function($) {
+// if mode:"abort" is used, the previous request on that port (port can be undefined) is aborted via XMLHttpRequest.abort();
+(function ($) {
 	var pendingRequests = {};
 		// Use a prefilter if available (1.5+)
 	if ( $.ajaxPrefilter ) {
