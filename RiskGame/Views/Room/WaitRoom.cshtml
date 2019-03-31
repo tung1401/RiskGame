@@ -26,7 +26,7 @@
                         <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
                         <div class="stat-content dib">
                             <div class="stat-text">Money</div>
-                            <div class="stat-digit">@Model.GameRoomId: @Model.GameRoomName</div>
+                            <div class="stat-digit">@Model.MoneyInGame.ToString("n0")</div>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                         <div class="stat-icon dib"><i class="ti-pulse text-dark border-dark"></i></div>
                         <div class="stat-content dib">
                             <div class="stat-text">@Html.Raw("Software Type")</div>
-                            <div class="stat-digit">@Model.CreateBy</div>
+                            <div class="stat-digit">@(Enum.GetName(typeof(RiskGame.Helper.Const.SoftwareType), (int)Model.SoftwareType))</div>
                         </div>
                     </div>
                 </div>

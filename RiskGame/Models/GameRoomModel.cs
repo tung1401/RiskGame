@@ -14,6 +14,9 @@ namespace RiskGame.Models
         public int MaxPlayer { set; get; }
         public string CreateBy { set; get; }
         public int CreateByUserId { set; get; }
+        public int SoftwareType { set; get; }
+        public int MoneyInGame { set; get; }
+
         public List<UserGameRoom> UserGameRooms { set; get; }
 
         public GameRoomModel()
@@ -25,6 +28,8 @@ namespace RiskGame.Models
         {
             return UserGameRooms.OrderByDescending(x => x.MoneyValue).ToList();
         }
+
+        
 
     }
 }

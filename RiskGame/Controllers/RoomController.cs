@@ -133,9 +133,12 @@ namespace RiskGame.Controllers
         public ActionResult WaitRoom(int id)
         {
             ReCallUserGameRoom(id);
+            var gameRoom = _service.GameRoom().GetRoomById(id);
             var model = new GameRoomModel
             {
-                GameRoomId = id
+                GameRoomId = id,
+                SoftwareType = gameRoom.SoftwareType,
+                MoneyInGame = gameRoom.MoneyValue,
             };
             return View("WaitRoom", model);
         }
@@ -208,7 +211,7 @@ namespace RiskGame.Controllers
                 UserGameRooms = userGameRoom.ToList(),
                 MaxPlayer = gameRoom.Multiplayer,
                 Player = userGameRoom.Count(),
-                CreateByUserId = gameRoom.UserId,
+                CreateByUserId = gameRoom.UserId,        
             };
             return PartialView("_PlayerList", model);
         }

@@ -75,7 +75,7 @@ namespace KPI.Services.Service
                 using (var connection = new SqlConnection(_service.ConnectionString))
                 {
                     connection.Open();
-                    using (var command = new SqlCommand(@"SELECT [UserGameRoomID],[GameRoomID],[PlayerName],[MoneyValue],[Active] FROM [dbo].[UserGameRoom] Where [GameRoomID] = " + roomId, connection))
+                    using (var command = new SqlCommand(@"SELECT [UserGameRoomID],[GameRoomID],[UserId],[PlayerName],[MoneyValue],[Active] FROM [dbo].[UserGameRoom] Where [GameRoomID] = " + roomId, connection))
                     {
                         command.Notification = null;
 
@@ -93,6 +93,7 @@ namespace KPI.Services.Service
                             {
                                 UserGameRoomId = (int)reader["UserGameRoomID"],
                                 GameRoomId = (int)reader["GameRoomID"],
+                                UserId = (int)reader["UserId"],
                                 PlayerName = (string)reader["PlayerName"],
                                 MoneyValue = (int)reader["MoneyValue"],
                                 Active = string.IsNullOrEmpty(reader["Active"].ToString()) ? (bool?)null : (bool?)reader["Active"],
