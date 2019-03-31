@@ -29,7 +29,8 @@ namespace RiskGame.Helper
         }
         public enum SoftwareType
         {
-            WaterFall = 0
+            WaterFall = 0,
+            Custom = 9
         }
         public enum GoalType
         {

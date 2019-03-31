@@ -15,7 +15,7 @@ namespace KPI.Services.Interface
 
         IEnumerable<GameBattle> GetGameBattleByGameRoomId(int gameRoomId);
         IEnumerable<GameBattle> GetAllGameBattle();
-        Task CreateGameAsync(int gameRoomId, int take = 2);
+        Task CreateGameAsync(int gameRoomId, int workprocessType);
         IEnumerable<GameBattle> GetGameBattleOpenRisk(int gameRoomId, int turn);
         void AddUserGameBattleLog(UserGameBattleLog log);
         int GetMaxTurnByRoomId(int gameRoomId);
@@ -23,5 +23,7 @@ namespace KPI.Services.Interface
 
         IEnumerable<UserGameRisk> GetUserGameRisk(int gameRoomId, int turn, int userId);
         UserGameRisk AddUserGameRisk(UserGameRisk entity);
+
+        void SaveGameBattleAsync(GameBattle gameBattle);
     }
 }

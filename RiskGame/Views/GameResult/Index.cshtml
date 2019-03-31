@@ -7,17 +7,17 @@
 <div class="jumbotron">
     <strong>Game Results</strong>
     @Html.Partial("_HeaderGameInfo")
-    @Html.ActionLink("Go to Dashboard", "ReDashBoard", "GameResult")
-</div>
 
+    <a href="@Url.Action( "ReDashBoard", "GameResult")" class= "btn btn-primary btn-large">
+        <i class="ti-home"></i> @Html.Raw("Go to Dashboard")
+    </a>
 
-
-<div class="row">
-    <div class="col-md-12">
-        <div id="GameResultSection"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="GameResultSection"></div>
+        </div>
     </div>
 </div>
-
 
 <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
 <script src="/signalr/hubs"></script>

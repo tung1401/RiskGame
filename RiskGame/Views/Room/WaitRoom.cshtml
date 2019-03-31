@@ -2,20 +2,73 @@
 @{
     ViewBag.Title = "Wait Room Page";
 
-   // var ob = RiskGame.Helper.Singleton.User();
+    // var ob = RiskGame.Helper.Singleton.User();
 }
 
-<div class="row">
-    <h2>Wait Room Page</h2>
-    <h5>Owner:</h5> @User.Identity.Name 
-</div>
-<br>
-
-<div class="row">
-    <div class="col-md-12">
-        <div id="userGameRoom"></div>
+<div class="jumbotron">
+    <strong><i class="fa fa-coffee"></i> Wait Room</strong>
+    <div class="row">
+        <div class="col-lg-12 col-md-6">
+            <div class="card col-lg-3">
+                <div class="card-body">
+                    <div class="stat-widget-one">
+                        <div class="stat-icon dib"><i class="ti-layout-grid2 text-warning border-warning"></i></div>
+                        <div class="stat-content dib">
+                            <div class="stat-text">Game Room Id</div>
+                            <div class="stat-digit">@Model.GameRoomId: @Model.GameRoomName</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card col-lg-3">
+                <div class="card-body">
+                    <div class="stat-widget-one">
+                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                        <div class="stat-content dib">
+                            <div class="stat-text">Money</div>
+                            <div class="stat-digit">@Model.GameRoomId: @Model.GameRoomName</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card col-lg-3">
+                <div class="card-body">
+                    <div class="stat-widget-one">
+                        <div class="stat-icon dib"><i class="ti-pulse text-dark border-dark"></i></div>
+                        <div class="stat-content dib">
+                            <div class="stat-text">@Html.Raw("Software Type")</div>
+                            <div class="stat-digit">@Model.CreateBy</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card col-lg-3">
+                <div class="card-body">
+                    <div class="stat-widget-one">
+                        <div class="stat-icon dib"><i class="ti-stats-up text-danger border-danger"></i></div>
+                        <div class="stat-content dib">
+                            <div class="stat-text">@Html.Raw("Mission")</div>
+                            <div class="stat-digit">@Html.Raw(" ")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>   
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="userGameRoom"></div>
+        </div>
     </div>
 </div>
+
+@*<div class="row">
+        <h2>Wait Room Page</h2>
+        <h5>Owner:</h5> @User.Identity.Name
+    </div>*@
+<br>
+
+
 
 
 
@@ -33,7 +86,7 @@
         //debugger;
         // Create a function that the hub can call to broadcast messages.
         notifications.client.updateMessages = function () {
-        
+
             GetPlayer();
             CheckRoomStatus();
 
@@ -69,7 +122,7 @@
         });
     }
 
-   
+
 
 
     function CheckRoomStatus() {
@@ -85,7 +138,7 @@
             if (data.Result.StartDate != null) {
                 window.location.href = "@Url.Content("~/GameStart/Index/")" + @Model.GameRoomId ;
             }
-     
+
 
 
 
@@ -95,6 +148,3 @@
     }
 
 </script>
-
-
-

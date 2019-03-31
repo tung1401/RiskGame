@@ -61,7 +61,7 @@ namespace RiskGame.Controllers
 
             if(gameRoom != null)
             {
-                _service.Game().CreateGameAsync(gameRoom.GameRoomId, 2);
+                _service.Game().CreateGameAsync(gameRoom.GameRoomId, gameRoom.SoftwareType);
                 if(multiPlayer > 1)
                 {
                     //multiplayer > wait room
@@ -80,7 +80,7 @@ namespace RiskGame.Controllers
                         Active = true
                     });
                     Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue,
-                        gameRoom.GameRoomId, playerName);
+                        gameRoom.GameRoomId, playerName, gameRoom.SoftwareType);
 
                     return RedirectToAction("WaitRoom", "Room", new { id = gameRoom.GameRoomId });
                 }
@@ -102,7 +102,7 @@ namespace RiskGame.Controllers
                         Active = true
                     });
                     Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue, 
-                        gameRoom.GameRoomId, playerName);
+                        gameRoom.GameRoomId, playerName, gameRoom.SoftwareType);
                     return RedirectToAction("Index", "GameStart", new { id = gameRoom.GameRoomId });
                 }
             }
@@ -165,7 +165,7 @@ namespace RiskGame.Controllers
             });
 
             Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue,
-                gameRoom.GameRoomId, playerName);
+                gameRoom.GameRoomId, playerName, gameRoom.SoftwareType);
 
             return RedirectToAction("WaitRoom", "Room", new { id = roomId });
         }
@@ -220,21 +220,27 @@ namespace RiskGame.Controllers
 
         public void RenderSoftwareProcessType(int? value)
         {
-            var selectSoftwareProcessType = new List<SelectListItem>();        
-            selectSoftwareProcessType.Add(new SelectListItem { Text = "Water Fall", Value = "0", Selected = true });
+            var selectSoftwareProcessType = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Water Fall", Value = "0", Selected = true },
+                new SelectListItem { Text = "Custom", Value = "9" }
+            };
             ViewBag.SelectSoftwareProcessType = selectSoftwareProcessType;
         }
         public void RenderGoal(int? value)
         {
-            var selectGoal = new List<SelectListItem>();
-
-            selectGoal.Add(new SelectListItem { Text = "Max Money", Value = "0", Selected = true });
+            var selectGoal = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Max Money", Value = "0", Selected = true }
+            };
             ViewBag.SelectGoal = selectGoal;
         }
         public void RenderJobType(int? value)
         {
-            var selectJobType = new List<SelectListItem>();
-            selectJobType.Add(new SelectListItem { Text = "Start Up (+2 Person)", Value = "0", Selected = true });
+            var selectJobType = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Start Up (+2 Person)", Value = "0", Selected = true }
+            };
             ViewBag.SelectJobType = selectJobType;
         }
         public void RenderMultiPlayer(int? value)
@@ -278,14 +284,15 @@ namespace RiskGame.Controllers
             if (userId.HasValue)
             {
                 var currentUserGameRoom = _service.GameRoom().GetUserGameRoom(Singleton.User().UserId, gameRoomId);
-                if (currentUserGameRoom != null)
+                var currentGameRoom = _service.GameRoom().GetRoomById(gameRoomId);
+                if (currentUserGameRoom != null && currentGameRoom != null)
                 {
                     if (currentUserGameRoom.Active.GetValueOrDefault())
                     {
                         if (Singleton.Game() == null)
                         {
                             Singleton.CreateGameSession(currentUserGameRoom.TeamValue, currentUserGameRoom.ProjectValue, currentUserGameRoom.MoneyValue,
-                           currentUserGameRoom.GameRoomId, currentUserGameRoom.PlayerName);
+                           currentUserGameRoom.GameRoomId, currentUserGameRoom.PlayerName, currentGameRoom.SoftwareType);
 
                         }
                         return "waitroom";

@@ -1,5 +1,6 @@
 ﻿using RiskGame.DAL;
 using RiskGame.Entity;
+using RiskGame.Helper;
 using RiskGame.Repository;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,11 @@ namespace RiskGame.Controllers
     {
         public ActionResult Index()
         {
-           /* var data = new DataContext();
-            var repo = new UserRepository(data);
-            var test = repo.GetAll();
-            User user = new User();*/
+          /*  var x = "";
+            for (int i = 0; i < 20; i++)
+            {
+                x += CommonFunction.RandomNumber(1, 3);
+            }*/
             return View();
         }
 

@@ -601,3 +601,8 @@ header .form-inline {
   display: block; }
 
 /*# sourceMappingURL=style.css.map */
+
+.btn-large {
+    font-size: large;
+    text-align: center;
+}

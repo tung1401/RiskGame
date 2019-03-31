@@ -1,0 +1,20 @@
+﻿
+Declare @GameroomId INT = 2083
+
+select * from GameBattle gb Inner Join Risk r ON r.riskId = gb.RiskId
+Join RiskOption ro on gb.RiskOptionId = ro.RiskOptionId
+where gameroomId = @GameroomId
+
+
+select * from userGameRoom  
+where gameroomId = @GameroomId
+
+select * from UserGamerisk
+where gameroomId = @GameroomId
+
+select * from GameBattle
+where gameroomId = @GameroomId
+
+select * from riskOption
+
+select * from risk

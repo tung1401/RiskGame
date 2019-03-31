@@ -1,4 +1,5 @@
-﻿using RiskGame.Entity;
+﻿using RiskGame.Core.WorkProcess;
+using RiskGame.Entity;
 using RiskGame.Helper;
 using RiskGame.Models;
 using RiskGame.Repository.Common;
@@ -16,14 +17,16 @@ namespace RiskGame.Controllers
     public class GameController : BaseGameController
     {
         private readonly CommonServiceFactory _service = new CommonServiceFactory();
+        private readonly WorkProcessService _workProcessService = new WorkProcessService();
         public ActionResult Index()
         {
             if (CommonFunction.CheckCurrentGame() == false) return RedirectToAction("Index", "Home");
             // get risk from db battle progress 
 
-            var requirementList = _service.Risk().GetRiskByType(1).ToList();
+            var softwareType = Singleton.Game().SoftwareType;
+            var listRisk = _workProcessService.GenerateRiskChioceModel(softwareType, Singleton.Game().GameRoomId, Singleton.Game().Turn);
             var list = new List<RiskData>();
-            foreach (var req in requirementList)
+            foreach (var req in listRisk)
             {
                 var risk = new RiskData
                 {

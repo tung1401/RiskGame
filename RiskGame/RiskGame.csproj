@@ -288,6 +288,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
+    <Compile Include="Core\WorkProcess\WorkProcessService.cs" />
     <Compile Include="DAL\DataContext.cs" />
     <Compile Include="Entity\GameBattle.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -1268,6 +1269,7 @@
     <Content Include="Content\sufee\images\placeholder.png" />
     <Content Include="Content\sufee\images\twitter_corner_black.png" />
     <Content Include="Content\sufee\images\twitter_corner_blue.png" />
+    <Content Include="DAL\DBScript\SupportScript.txt" />
     <Content Include="DAL\DBScript\DBScript.txt" />
     <Content Include="Entity\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

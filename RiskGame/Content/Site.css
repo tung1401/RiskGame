@@ -137,3 +137,9 @@
     .card-deck .card {
         margin-bottom: 15px;
     }
+
+.btn-large {
+    font-size: large;
+    text-align: center;
+    
+}

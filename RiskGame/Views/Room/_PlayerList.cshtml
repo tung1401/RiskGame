@@ -1,35 +1,68 @@
 ﻿@model RiskGame.Models.GameRoomModel
+@{ 
+    var playerNumber = 1;
 
-
+}
 <div class="row">
     @foreach (var item in Model.UserGameRooms)
     {
-        <div class="col-lg-3">
-            @item.PlayerName
+        <div class="col-lg-4 col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title mb-3">Player @playerNumber</strong>
+                    @if(Model.CreateByUserId == item.UserId)
+                    {
+                        <i class="fa fa-dot-circle-o text-success"></i>
+                    }
+                </div>
+                <div class="card-body">
+                    <div class="mx-auto d-block">
+                        <img class="rounded-circle mx-auto d-block" src="~/Content/sufee/images/admin.jpg" alt="Card image cap">
+                        <h5 class="text-sm-center mt-2 mb-1">@item.PlayerName</h5>
+                        <h5 class="text-sm-center mt-2 mb-1">@item.JobType</h5>
+                    </div>
+                    <hr>
+                </div>
+            </div>
         </div>
+        playerNumber++;
     }
 </div>
-
+@Model.CreateBy
 
 @if (Model.MaxPlayer == Model.UserGameRooms.Count && Model.CreateByUserId == RiskGame.Helper.Singleton.User().UserId)
 {
-<div class="row">
-    @using (Html.BeginForm("Game", "GameStart", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
+    <div class="">
+        @using (Html.BeginForm("Game", "GameStart", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
 
-    }
-    <div id="WaitRoom">
-        <div class="row text-center">
-            <br />
-            <button type="button" onclick="GameSubmit()" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Play</button>
+        }
+        <div id="">
+            <div class="row text-center" style="display:block;">
+                <br />
+                <button type="button" onclick="GameSubmit()" class="btn btn-primary btn-large"><span class="glyphicon glyphicon-floppy-disk"></span> Play</button>
+            </div>
         </div>
-    </div>
 
-</div>
+    </div>
 }
 else
 {
-    @Html.Raw("Waiting player") @Model.UserGameRooms.Count @Html.Raw("/") @Model.MaxPlayer
+
+    if (Model.MaxPlayer == Model.UserGameRooms.Count)
+    {
+    <div class="alert alert-success" role="alert">
+        @Html.Raw("Player Already, Wait owner room start game ")
+    </div>
+    }
+    else
+    {
+        <div class="alert alert-warning" role="alert">
+            @Html.Raw("Waiting player ") @Model.UserGameRooms.Count @Html.Raw("/") @Model.MaxPlayer
+        </div>
+    }
+
+
 }
 
 
@@ -51,4 +84,4 @@ else
 
         });
     }
-    </script>
+</script>

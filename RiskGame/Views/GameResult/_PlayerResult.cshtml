@@ -1,13 +1,43 @@
 ﻿@model RiskGame.Models.GameRoomModel
-
-
-@foreach (var item in Model.GetResult())
-{
-
-    <div class="col-lg-3">
-        @item.PlayerName
-    </div>
-    <div class="col-lg-3">
-        @item.MoneyValue
-    </div>
+@{
+    var rank = 1;
 }
+<div class="card">
+    <div class="card-header">
+        <strong class="card-title">Leader Board</strong>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"></th>
+                    <th scope="col">Player Name</th>
+                    <th scope="col">Money</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.GetResult())
+                {
+                    <tr>
+                        <td>@rank</td>
+                        <td>
+                            <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="~/Content/sufee/images/admin.jpg">
+                        </td>
+                        <td> @item.PlayerName</td>
+                        <td>  @item.MoneyValue.ToString("n0")</td>
+                        <td>
+                            @if (rank == 1)
+                            {
+                                <i class="fa fa-star text-warning"></i>
+                            }
+                        </td>
+                    </tr>
+
+                    rank += 1;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

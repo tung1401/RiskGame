@@ -8,6 +8,8 @@ using RiskGame.Repository;
 using RiskGame.Repository.Common;
 using RiskGame.Repository.Interfaces;
 using RiskGame.Entity;
+using RiskGame.Core.WorkProcess;
+using static RiskGame.Helper.Const;
 
 namespace KPI.Services.Service
 {
@@ -64,36 +66,47 @@ namespace KPI.Services.Service
             _gameBattle.Add(entity);
         }
 
-        public async Task CreateGameAsync(int gameRoomId, int take = 2)
+        public async Task CreateGameAsync(int gameRoomId, int workprocessType)
         {
-            await Task.Run(() => CreateGame(gameRoomId, take));
+            await Task.Run(() => CreateGame(gameRoomId, workprocessType));
         }
-        public void CreateGame(int gameRoomId, int take)
+        public void CreateGame(int gameRoomId, int workprocessType)
         {
             try
             {
-                //get all risk
-                var allRiskOption = _service.Risk().GetAllRiskOption();
-                if (allRiskOption.Any())
+                var workProcess = new WorkProcessService();
+                if(workprocessType == (int)SoftwareType.WaterFall)
                 {
-                    var list = new List<GameBattle>();
-                    var turn = 0;
-                    foreach (var risk in allRiskOption.OrderBy(x => Guid.NewGuid()).Take(take))
-                    {
-                        turn++;
-                        var game = new GameBattle
-                        {
-                            GameRoomId = gameRoomId,
-                            RiskId = risk.RiskId.GetValueOrDefault(),
-                            RiskOptionId = risk.RiskOptionId,
-                            Ratio = new Random().Next(1, 2),
-                            Turn = turn,
-                            ActionEffectType = risk.ActionEffectType,
-                            ActionEffectValue = risk.ActionEffectValue,
-                        };
-                        _gameBattle.AddAsync(game);
-                    }
+                    workProcess.CreateWaterFallModel(gameRoomId);
                 }
+                else
+                {
+                    workProcess.CreateCustomWorkProcessModel(gameRoomId, 2);
+                }
+
+
+                //get all risk
+                //var allRiskOption = _service.Risk().GetAllRiskOption();
+                //if (allRiskOption.Any())
+                //{
+                //    var list = new List<GameBattle>();
+                //    var turn = 0;
+                //    foreach (var risk in allRiskOption.OrderBy(x => Guid.NewGuid()).Take(take))
+                //    {
+                //        turn++;
+                //        var game = new GameBattle
+                //        {
+                //            GameRoomId = gameRoomId,
+                //            RiskId = risk.RiskId.GetValueOrDefault(),
+                //            RiskOptionId = risk.RiskOptionId,
+                //            Ratio = new Random().Next(1, 2),
+                //            Turn = turn,
+                //            ActionEffectType = risk.ActionEffectType,
+                //            ActionEffectValue = risk.ActionEffectValue,
+                //        };
+                //        _gameBattle.AddAsync(game);
+                //    }
+                //}
             }
             catch(Exception ex)
             {
@@ -122,7 +135,10 @@ namespace KPI.Services.Service
         }
 
 
-
+        public void SaveGameBattleAsync(GameBattle gameBattle)
+        {
+            _gameBattle.AddAsync(gameBattle);
+        }
 
     }
 }

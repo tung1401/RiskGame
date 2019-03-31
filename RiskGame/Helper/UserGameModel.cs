@@ -71,6 +71,8 @@ namespace RiskGame.Helper
         public int UserId { get; set; }
         public string PlayerName { get; set; }
         public int MaxTurn { get; set; } // turn finished
+        public int SoftwareType { get; set; }
+        public string PlayerImageUrl { get; set; }
 
     }
 

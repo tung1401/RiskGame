@@ -52,5 +52,10 @@ namespace RiskGame.Repository.Common
                 new UserRepository(_db)
                 );
         }
+
+
+
+
+
     }
 }
