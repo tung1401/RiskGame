@@ -25,7 +25,8 @@ namespace RiskGame.Entity
         public Nullable<System.DateTime> JoinDate { get; set; }
         public Nullable<bool> Active { get; set; }
         public Nullable<bool> GameFinished { get; set; }
-    
+        public string ImageUrl { get; set; }
+
         public virtual GameRoom GameRoom { get; set; }
         public virtual User User { get; set; }
     }

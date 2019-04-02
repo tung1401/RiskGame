@@ -26,6 +26,7 @@ namespace RiskGame.Controllers
             RenderGoal(null);
             RenderSoftwareProcessType(null);
             RenderMultiPlayer(player);
+            RenderAvartar(null);
             return View("Add");
         }
 
@@ -39,6 +40,8 @@ namespace RiskGame.Controllers
             var playerName = form["Add.PlayerName"];
             var jobType = form["Add.JobType"];
             var multiPlayer = int.Parse(form["Add.MultiPlayer"]);
+            var round = int.Parse(form["Add.Round"]);
+            var imageUrl = form["Add.ImageUrl"];
 
             //Initial Game to Game Battle
             //Set game started
@@ -56,13 +59,14 @@ namespace RiskGame.Controllers
                 TeamValue = 2, //if startup
                 SoftwareType = softwareProcessType,
                 ProjectValue = 0,
+                GameRound = round,
                 UserId = Singleton.User().UserId // get from session
             });
 
-            if(gameRoom != null)
+            if (gameRoom != null)
             {
                 _service.Game().CreateGameAsync(gameRoom.GameRoomId, gameRoom.SoftwareType);
-                if(multiPlayer > 1)
+                if (multiPlayer > 1)
                 {
                     //multiplayer > wait room
 
@@ -77,10 +81,11 @@ namespace RiskGame.Controllers
                         GameFinished = null,
                         JoinDate = DateTime.UtcNow,
                         UserId = Singleton.User().UserId,
-                        Active = true
+                        Active = true,
+                        ImageUrl = imageUrl
                     });
                     Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue,
-                        gameRoom.GameRoomId, playerName, gameRoom.SoftwareType);
+                        gameRoom.GameRoomId, playerName, gameRoom.SoftwareType, imageUrl);
 
                     return RedirectToAction("WaitRoom", "Room", new { id = gameRoom.GameRoomId });
                 }
@@ -99,10 +104,11 @@ namespace RiskGame.Controllers
                         GameFinished = null,
                         JoinDate = DateTime.UtcNow,
                         UserId = Singleton.User().UserId,
-                        Active = true
+                        Active = true,
+                        ImageUrl = imageUrl
                     });
-                    Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue, 
-                        gameRoom.GameRoomId, playerName, gameRoom.SoftwareType);
+                    Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue,
+                        gameRoom.GameRoomId, playerName, gameRoom.SoftwareType, imageUrl);
                     return RedirectToAction("Index", "GameStart", new { id = gameRoom.GameRoomId });
                 }
             }
@@ -114,7 +120,7 @@ namespace RiskGame.Controllers
             var recall = ReCallUserGameRoom(id);
             if (recall == "waitroom")
             {
-                return RedirectToAction("WaitRoom","Room", new { id });
+                return RedirectToAction("WaitRoom", "Room", new { id });
             }
 
             var isGameStart = IsGameStart(Singleton.User().UserId, id);
@@ -124,6 +130,7 @@ namespace RiskGame.Controllers
             }
 
             RenderJobType(null);
+            RenderAvartar(null);
             var model = new GameRoomModel
             {
                 GameRoomId = id,
@@ -149,6 +156,7 @@ namespace RiskGame.Controllers
             var roomId = int.Parse(form["Add.GameRoomId"]);
             var playerName = form["Add.PlayerName"];
             var jobType = form["Add.JobType"];
+            var imageUrl = form["Add.ImageUrl"];
             var gameRoom = _service.GameRoom().GetRoomById(roomId);
 
             if (gameRoom == null) return RedirectToAction("Index", "Dashboard");
@@ -164,11 +172,12 @@ namespace RiskGame.Controllers
                 GameFinished = null,
                 JoinDate = DateTime.UtcNow,
                 UserId = Singleton.User().UserId,
-                Active = true
+                Active = true,
+                ImageUrl = imageUrl
             });
 
             Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue,
-                gameRoom.GameRoomId, playerName, gameRoom.SoftwareType);
+                gameRoom.GameRoomId, playerName, gameRoom.SoftwareType, imageUrl);
 
             return RedirectToAction("WaitRoom", "Room", new { id = roomId });
         }
@@ -181,8 +190,8 @@ namespace RiskGame.Controllers
         public ActionResult GetListRoom()
         {
             var r1 = _service.GameRoom().GetAllGameRoom();
-            
-          // var r1 = _service.GameRoom().GetAllUser();
+
+            // var r1 = _service.GameRoom().GetAllUser();
             var model = new List<GameRoomModel>();
             foreach (var item in r1)
             {
@@ -197,13 +206,13 @@ namespace RiskGame.Controllers
                 model.Add(g);
             }
 
-         //   var model = _service.GameRoom().GetAllGameRoom2();
+            //   var model = _service.GameRoom().GetAllGameRoom2();
             return PartialView("_GameRoomList", model);
         }
 
         public ActionResult GetPlayer(int id)
         {
-            var userGameRoom =_service.GameRoom().GetAllUserGameRoom(id);
+            var userGameRoom = _service.GameRoom().GetAllUserGameRoom(id);
             var gameRoom = _service.GameRoom().GetRoomById(id);
             var model = new GameRoomModel
             {
@@ -211,14 +220,10 @@ namespace RiskGame.Controllers
                 UserGameRooms = userGameRoom.ToList(),
                 MaxPlayer = gameRoom.Multiplayer,
                 Player = userGameRoom.Count(),
-                CreateByUserId = gameRoom.UserId,        
+                CreateByUserId = gameRoom.UserId,
             };
             return PartialView("_PlayerList", model);
         }
-
-        
-
-
 
 
         public void RenderSoftwareProcessType(int? value)
@@ -245,6 +250,18 @@ namespace RiskGame.Controllers
                 new SelectListItem { Text = "Start Up (+2 Person)", Value = "0", Selected = true }
             };
             ViewBag.SelectJobType = selectJobType;
+        }
+        public void RenderAvartar(int? value)
+        {
+            var selectAvartar = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Picture 1", Value = "/Content/sufee/images/boy.png", Selected = true },
+                  new SelectListItem { Text = "Picture 2", Value = "/Content/sufee/images/man.png" },
+                    new SelectListItem { Text = "Picture 3", Value = "/Content/sufee/images/man2.png" },
+                      new SelectListItem { Text = "Picture 4", Value = "/Content/sufee/images/girl.png"},
+                         new SelectListItem { Text = "Picture 5", Value = "/Content/sufee/images/girl2.png" }
+            };
+            ViewBag.SelectAvartar = selectAvartar;
         }
         public void RenderMultiPlayer(int? value)
         {
@@ -277,7 +294,7 @@ namespace RiskGame.Controllers
             var serializer = new JavaScriptSerializer();
             cookie = new HttpCookie("UserGame", serializer.Serialize(adminData));
             Response.SetCookie(cookie); //SetCookie() is used for update the cookie.
-            Response.Cookies.Add(cookie);     
+            Response.Cookies.Add(cookie);
         }
 
 
@@ -295,7 +312,7 @@ namespace RiskGame.Controllers
                         if (Singleton.Game() == null)
                         {
                             Singleton.CreateGameSession(currentUserGameRoom.TeamValue, currentUserGameRoom.ProjectValue, currentUserGameRoom.MoneyValue,
-                           currentUserGameRoom.GameRoomId, currentUserGameRoom.PlayerName, currentGameRoom.SoftwareType);
+                           currentUserGameRoom.GameRoomId, currentUserGameRoom.PlayerName, currentGameRoom.SoftwareType, currentUserGameRoom.ImageUrl);
 
                         }
                         return "waitroom";
@@ -308,16 +325,14 @@ namespace RiskGame.Controllers
         public bool IsGameStart(int userId, int gameRoomId)
         {
             var gameRoom = _service.GameRoom().GetGameRoomByUserId(userId, gameRoomId);
-            if(gameRoom != null)
+            if (gameRoom != null)
             {
                 if (gameRoom.StartDate.HasValue)
                 {
                     return true;
-                }          
+                }
             }
             return false;
         }
-
     }
-
 }

@@ -152,7 +152,7 @@ namespace RiskGame.Controllers
 
 
             _service.GameRoom().UpdateUserGameRoom(Singleton.Game().UserId, Singleton.Game().GameRoomId, moneyTotal);
-            Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, moneyTotal, nextTurn);
+            Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, moneyTotal, nextTurn, Singleton.Game().PlayerImageUrl);
 
             return View(model);
         }
@@ -194,7 +194,7 @@ namespace RiskGame.Controllers
             }
             var money = Singleton.Game().Money - moneySummary;
             _service.GameRoom().UpdateUserGameRoom(Singleton.Game().UserId, Singleton.Game().GameRoomId, money);
-            Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, money, Singleton.Game().Turn);
+            Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, money, Singleton.Game().Turn, Singleton.Game().PlayerImageUrl);
             return RedirectToAction("OpenRisk", "Game");
         }
 

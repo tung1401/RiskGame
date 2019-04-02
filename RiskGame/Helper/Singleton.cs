@@ -26,7 +26,7 @@ namespace RiskGame.Helper
         }
 
 
-        public static void CreateGameSession(int team, int project, int money, int roomId, string playerName, int softwareType)
+        public static void CreateGameSession(int team, int project, int money, int roomId, string playerName, int softwareType, string imageUrl)
         {
             HttpCookie cookie = HttpContext.Current.Request.Cookies["Game"];
             var gameData = new GameModel
@@ -39,7 +39,8 @@ namespace RiskGame.Helper
                 PlayerName = playerName,
                 GameRoomId = roomId,
                 SoftwareType = softwareType,
-                Turn = 1
+                Turn = 1,
+                PlayerImageUrl = imageUrl
             };
             var serializer = new JavaScriptSerializer();
             cookie = new HttpCookie("Game", serializer.Serialize(gameData));
@@ -47,7 +48,7 @@ namespace RiskGame.Helper
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
 
-        public static void UpdateGameSession(int team, int project, int money, int turn)
+        public static void UpdateGameSession(int team, int project, int money, int turn, string imageUrl)
         {
             HttpCookie cookie = HttpContext.Current.Request.Cookies["Game"];
             var adminData = new GameModel
@@ -59,7 +60,8 @@ namespace RiskGame.Helper
                 UserId = Singleton.User().UserId,
                 PlayerName = Singleton.Game().PlayerName,
                 GameRoomId = Singleton.Game().GameRoomId,
-                Turn = turn
+                Turn = turn,
+                PlayerImageUrl = imageUrl
             };
             var serializer = new JavaScriptSerializer();
             cookie = new HttpCookie("Game", serializer.Serialize(adminData));

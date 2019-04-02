@@ -4,7 +4,7 @@
 }
 <div class="card">
     <div class="card-header">
-        <strong class="card-title">Leader Board</strong>
+        <strong class="card-title"><i class="fa fa-trophy"> Leader Board</strong>
     </div>
     <div class="card-body">
         <table class="table">
@@ -14,26 +14,30 @@
                     <th scope="col"></th>
                     <th scope="col">Player Name</th>
                     <th scope="col">Money</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">Project</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model.GetResult())
                 {
-                    <tr>
-                        <td>@rank</td>
-                        <td>
-                            <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="~/Content/sufee/images/admin.jpg">
-                        </td>
-                        <td> @item.PlayerName</td>
-                        <td>  @item.MoneyValue.ToString("n0")</td>
-                        <td>
-                            @if (rank == 1)
-                            {
-                                <i class="fa fa-star text-warning"></i>
-                            }
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@rank</td>
+                    <td>
+                        <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="@item.ImageUrl">
+                    </td>
+                    <td>@item.PlayerName</td>
+                    <td>@item.MoneyValue.ToString("n0")</td>
+                    <td>@item.TeamValue</td>
+                    <td>@item.ProjectValue</td>
+                    <td>
+                        @if (rank == 1)
+                        {
+                            <i class="fa fa-star text-warning"></i>
+                        }
+                    </td>
+                </tr>
 
                     rank += 1;
                 }

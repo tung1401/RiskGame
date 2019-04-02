@@ -36,7 +36,9 @@ namespace RiskGame.Entity
         public Nullable<System.DateTime> CreateDate { get; set; }
         public int UserId { get; set; }
         public Nullable<bool> Active { get; set; }
-    
+        public int GameRound { get; set; }
+        public int GoalValue { get; set; }
+
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserGameRoom> UserGameRooms { get; set; }

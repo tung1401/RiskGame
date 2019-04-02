@@ -33,7 +33,8 @@ namespace RiskGame.Controllers
                     Team = Singleton.Game().Team.ToString(),
                     Project = Singleton.Game().Project.ToString(),
                     Rank = "0",
-                    GameStatus = "0"
+                    GameStatus = "0",
+                    
                 },
                 GameRoom = new GameRoomModel
                 {
