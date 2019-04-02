@@ -56,20 +56,31 @@
 
                                 </div>
                             }
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    @Html.Label("Start With Money")
-                                    @Html.TextBox("Add.StartMoney", "100000", new { @class = "form-control", type = "number", required = "required", step = "1", min = 1, max = 999999999, maxlength = 10 })
-                                </div>
-                                <div class="form-group">
-                                    @Html.Label("Goal")<br />
-                                    @Html.DropDownList("Add.Goal", (List<SelectListItem>)ViewBag.SelectGoal, new { @class = "form-control" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.Label("Software Process")
-                                    @Html.DropDownList("Add.SoftwareProcessType", (List<SelectListItem>)ViewBag.SelectSoftwareProcessType, new { @class = "form-control" })
-                                </div>
-                            </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        @Html.Label("Start With Money")
+                                        @Html.TextBox("Add.StartMoney", "100000", new { @class = "form-control", type = "number", required = "required", step = "1", min = 1, max = 999999999, maxlength = 10, onkeyup = "changeMoneyHandler(this)" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Goal")<br />
+                                        @Html.DropDownList("Add.Goal", (List<SelectListItem>)ViewBag.SelectGoal, new { @class = "form-control" })
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-9" style="padding: 0;">
+                                            @Html.Label("Software Process")
+                                            @Html.DropDownList("Add.SoftwareProcessType", (List<SelectListItem>)ViewBag.SelectSoftwareProcessType, new { @class = "form-control" })
+
+                                        </div>
+                                        <div class="col-lg-3" style="padding: 0 0 0 10px;">
+                                            @Html.Label("Round")
+                                            @Html.TextBox("Add.Round", "5", new { @class = "form-control", type = "text", required = "required", step = "1", min = 1, max = 10, maxlength = 2, onkeyup = "changeLimitHandler(this)" })
+
+                                        </div>
+                                         </div>
+
+                                        <div class="form-group">
+                                             </div>
+                                    </div>
                         </div>
                         <div class="row col-sm-6 col-lg-6">
 
@@ -109,3 +120,33 @@
 }
 <br>
 
+
+<script>
+
+    function changeMoneyHandler(element) {
+        element.value = element.value.replace(/[^0-9]/g, '');
+        if (element.value == '' || element.value == 0) {
+            element.value = '';
+        }
+        if (element.value > 999999999) {
+            element.value = 999999999;
+        }
+        if (element.value < 0) {
+            element.value = 1;
+        }
+    }
+
+    function changeLimitHandler(element) {
+        element.value = element.value.replace(/[^0-9]/g, '');
+        if (element.value == '' || element.value == 0) {
+            element.value = '';
+        }
+        if (element.value > 10) {
+            element.value = 10;
+        }
+        if (element.value < 0) {
+            element.value = 1;
+        }
+    }
+
+</script>

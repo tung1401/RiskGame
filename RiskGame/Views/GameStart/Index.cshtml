@@ -10,51 +10,63 @@
     <strong><i class="fa fa-fighter-jet"></i> Game Start</strong>
     @Html.Partial("_HeaderGameInfo")
     @Html.Partial("_HeaderGameCountDown")
+    @Html.Partial("_MarketShared")
 </div>
-<div class="card-header"><strong>Choose Protect Risk</strong></div>
-<div class="card-body">
+    <div class="card-header"><strong>Choose Protect Risk</strong></div>
+    <div class="card-body">
 
-    @using (Html.BeginForm("ProtectRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <td><b>Name</b></td>
-                    <td><b>Level 1</b></td>
-                    <td><b>Level 2</b></td>
-                    <td><b>Level 3</b></td>
-                    <td><b></b></td>
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach (var item in Model.RiskData)
-                {
+        @using (Html.BeginForm("ProtectRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>
-                            @item.Name
-                        </td>
-                        @foreach (var op in item.RiskOption)
-                        {
-
-                            <td>
-                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")" }) @Html.Raw("Protect -") @op.ActionEffectValue
-                            </td>
-                        }
-                        <td><button class="btn btn-danger" style="font-size:small" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>
+                        <td><b>Name</b></td>
+                        <td><b>Level 1</b></td>
+                        <td><b>Level 2</b></td>
+                        <td><b>Level 3</b></td>
+                        <td><b></b></td>
                     </tr>
-                }
+                </thead>
+                <tbody>
 
-            </tbody>
-        </table>
+                    @foreach (var item in Model.RiskData)
+                    {
+                        <tr>
+                            <td>
+                                @item.Name
+                                <span class="badge badge-pill badge-primary">@item.RiskType</span>
+                            </td>
+                            @foreach (var op in item.RiskOption)
+                            {
 
-        <button id="submit" type="submit" class="btn btn-success" style="font-size:large; text-align:center;">Confirm</button>
-    }
+                                <td>
+                                    @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")" }) @Html.Raw("Protect -") @op.ActionEffectValue
+                                </td>
+                            }
+                            <td><button class="btn btn-danger" style="font-size:small" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>
+                        </tr>
+                    }
 
-</div>
-@*<iframe src="http://localhost:50833/GameStart/Index/1066" width="100%" height="600" />*@
+                </tbody>
+            </table>
 
-<script>
+            <button id="submit" type="submit" class="btn btn-success" style="font-size:large; display:block;margin: 0 auto;">Confirm</button>
+        }
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    @*<iframe src="http://localhost:50833/GameStart/Index/1066" width="100%" height="600" />*@
+
+    <script>
 
         function Sum(id, value) {
 
@@ -95,4 +107,4 @@
             document.getElementById('countdown').innerHTML += seconds + 'secs';
         }
         timer = setInterval(showRemaining, 1000);*@
-</script>
+    </script>

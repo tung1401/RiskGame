@@ -26,14 +26,14 @@ namespace RiskGame.Controllers
             var softwareType = Singleton.Game().SoftwareType;
             var listRisk = _workProcessService.GenerateRiskChioceModel(softwareType, Singleton.Game().GameRoomId, Singleton.Game().Turn);
             var list = new List<RiskData>();
-            foreach (var req in listRisk)
+            foreach (var item in listRisk)
             {
                 var risk = new RiskData
                 {
-                    RiskId = req.RiskId,
-                    Name = req.RiskName,
-                    RiskType = req.RiskType.ToString(),
-                    RiskOption = req.RiskOptions.ToList()
+                    RiskId = item.RiskId,
+                    Name = item.RiskName,
+                    RiskType = Enum.GetName(typeof(Const.RiskType), (int)item.RiskType),
+                    RiskOption = item.RiskOptions.ToList()
                 };
                 list.Add(risk);
             }

@@ -28,14 +28,22 @@
                     <div class="weather-category twt-category" style="background:white;">
                         <ul>
                             <li class="active text-success">
-                                <h2>@Singleton.Game().Money</h2>
+                                <h2>@Singleton.Game().Money.ToString("n0")</h2>
                                 Money
                             </li>
                             <li>
+                                <h2>@Singleton.Game().Team</h2>
+                                Team
+                            </li>
+                            <li>
+                                <h2>@Singleton.Game().Project</h2>
+                                project
+                            </li>
+                            <li class="text-danger">
                                 <h2>@Singleton.Game().Turn</h2>
                                 Turn
                             </li>
-                            <li>
+                            <li class="text-info">
                                 <h2>@Singleton.Game().GameRoomId</h2>
                                 GameRoomId
                             </li>
