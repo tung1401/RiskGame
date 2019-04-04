@@ -6,13 +6,13 @@
 <h2>@ViewBag.Title.</h2>
 <br />
 
-@Html.AntiForgeryToken()
+
 <strong>Create a new account.</strong>
 <hr />
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal col-4", role = "form" }))
 {
-
+    @Html.AntiForgeryToken()
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })

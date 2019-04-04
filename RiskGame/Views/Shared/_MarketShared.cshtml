@@ -139,7 +139,7 @@
                         });
 
                         $("#totalGameMoney").text(response.Result.MoneyTotalFormat);
-                        $("#InterveneResultModal .modal-title").text("Intervene Results: (Level:" + response.Result.SuggestLevel + ")");
+                        $("#InterveneResultModal .modal-title").text("Intervene Results: (Level:" + response.Result.InterveneLevel + ")");
                         $(".InterveneBtn button").attr("disabled", true);
                         $("#InterveneResultModal").modal();
                         $(".modal-backdrop").removeClass("modal-backdrop");
