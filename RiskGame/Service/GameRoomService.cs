@@ -356,6 +356,11 @@ namespace KPI.Services.Service
             return _userGameRoom.Get(x => x.UserId == userId && x.GameRoomId == gameRoomId);
         }
 
+        public IEnumerable<UserGameRoom> GetUserGameRoom(int gameRoomId)
+        {
+            return _userGameRoom.GetMany(x => x.GameRoomId == gameRoomId);
+        }
+
         public IEnumerable<GameRoom> GetGameHistory(int userId)
         {
             return _gameRoom.GetManyWith(x => x.UserId == userId, inc => inc.UserGameRooms, inc => inc.User);

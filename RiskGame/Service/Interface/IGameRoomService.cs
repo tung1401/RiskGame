@@ -31,6 +31,7 @@ namespace KPI.Services.Interface
         void UpdateGameRoom(GameRoom gameRoom);
 
         UserGameRoom GetUserGameRoom(int userId, int gameRoomId);
+        IEnumerable<UserGameRoom> GetUserGameRoom(int gameRoomId);
 
     }
 }

@@ -66,22 +66,28 @@ namespace KPI.Services.Service
             _gameBattle.Add(entity);
         }
 
-        public async Task CreateGameAsync(int gameRoomId, int workprocessType)
+        public async Task CreateGameAsync(int gameRoomId, int workprocessType, int round)
         {
-            await Task.Run(() => CreateGame(gameRoomId, workprocessType));
+            await Task.Run(() => CreateGame(gameRoomId, workprocessType, round));
         }
-        public void CreateGame(int gameRoomId, int workprocessType)
+        public void CreateGame(int gameRoomId, int workprocessType, int round)
         {
             try
             {
                 var workProcess = new WorkProcessService();
                 if(workprocessType == (int)SoftwareType.WaterFall)
                 {
-                    workProcess.CreateWaterFallModel(gameRoomId);
+                    //water fall: 5 turn = 1 round
+                    workProcess.CreateWaterFallModel(gameRoomId, round);
+                }
+                else if (workprocessType == (int)SoftwareType.Agile)
+                {
+                    workProcess.CreateAgileWorkModel(gameRoomId, round);
                 }
                 else
                 {
-                    workProcess.CreateCustomWorkProcessModel(gameRoomId, 2);
+                    //custom 1: turn = 1 round
+                    workProcess.CreateCustomWorkProcessModel(gameRoomId, round);
                 }
 
 

@@ -15,7 +15,7 @@ namespace KPI.Services.Interface
 
         IEnumerable<GameBattle> GetGameBattleByGameRoomId(int gameRoomId);
         IEnumerable<GameBattle> GetAllGameBattle();
-        Task CreateGameAsync(int gameRoomId, int workprocessType);
+        Task CreateGameAsync(int gameRoomId, int workprocessType, int round);
         IEnumerable<GameBattle> GetGameBattleOpenRisk(int gameRoomId, int turn);
         void AddUserGameBattleLog(UserGameBattleLog log);
         int GetMaxTurnByRoomId(int gameRoomId);

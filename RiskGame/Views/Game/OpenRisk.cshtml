@@ -23,7 +23,8 @@
     <div class="col-md-6">
 
         <div class="card-header">
-            <strong>User Protect Risks</strong> <span style="font-size:14px;">Total Cost: @Model.UserGameRisk.Sum(x => x.RiskOption.ActionEffectValue)</span>
+            <strong>User Protect Risks</strong> 
+            <span style="font-size:14px;">Total Cost: @(Model.UserGameRisk.Sum(x => x.RiskOption.ActionEffectValue).GetValueOrDefault().ToString("n0"))</span>
         </div>
 
 
@@ -44,9 +45,9 @@
                             @item.Risk.RiskName
                         </td>
                         <td>
-                            @item.RiskOption.RiskLevel
+                            @RenderLevel(item.RiskOption.RiskLevel)
                         </td>
-                        <td> @item.RiskOption.ActionEffectValue </td>
+                        <td> @item.RiskOption.ActionEffectValue.GetValueOrDefault().ToString("n0")</td>
                     </tr>
                 }
 
@@ -57,16 +58,19 @@
     <div class="col-md-6">
 
         <div class="card-header">
-            <strong>Game Risks</strong>
+            <strong>Game Risks</strong> 
+            <span style="font-size:14px;">Total Pay: @(Model.UserGameBattleData.Sum(x => x.EffectMoney).ToString("n0"))</span>
         </div>
 
         <table class="table">
             <thead>
                 <tr>
                     <td><b>RiskName</b></td>
-                    <td><b>ActionEffectType</b></td>
+
                     @*<td><b>ActionEffectValue * Ratio</b></td>*@
                     <td><b>RiskLevel</b></td>
+                    <td><b>ActionEffectValue</b></td>
+                    <td><b>Ratio</b></td>
                     <td><b>Estimate Pay</b></td>
                     <td><b>ProtectStatus</b></td>
                     <td><b>Actual Pay</b></td>
@@ -76,29 +80,33 @@
 
                 @foreach (var item in Model.UserGameBattleData)
                 {
-                    <tr>
-                        <td>
-                            @item.GameBattle.Risk.RiskName
-                        </td>
-                        <td>
-                            @item.GameBattle.ActionEffectType
-                        </td>
-                        @*<td>
-                                @(item.GameBattle.ActionEffectValue * item.GameBattle.Ratio)
-                            </td>*@
-                        <td>
-                            @item.GameBattle.RiskOption.RiskLevel
-                        </td>
-                        <td>
-                            @(item.GameBattle.ActionEffectValue * item.GameBattle.Ratio)
-                        </td>
-                        <td>
-                            @item.ProtectStatus
-                        </td>
-                        <td>
-                            @item.EffectMoney
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        @item.GameBattle.Risk.RiskName
+                    </td>
+
+                    @*<td>
+            @(item.GameBattle.ActionEffectValue * item.GameBattle.Ratio)
+        </td>*@
+                    <td>
+                        @RenderLevel(item.GameBattle.RiskOption.RiskLevel)
+                    </td>
+                    <td>
+                        @item.GameBattle.ActionEffectValue
+                    </td>
+                    <td>
+                        @item.GameBattle.Ratio
+                    </td>
+                    <td>
+                        @((item.GameBattle.ActionEffectValue * item.GameBattle.Ratio).GetValueOrDefault().ToString("n0"))
+                    </td>
+                    <td>
+                        @RenderProtectStatus(item.ProtectStatus)
+                    </td>
+                    <td>
+                        @item.EffectMoney.ToString("n0")
+                    </td>
+                </tr>
                 }
 
             </tbody>
@@ -109,8 +117,39 @@
 
 
 
+@helper RenderLevel(int? level)
+{
+
+    if (level == 1)
+    {
+        <b class="text-danger">@level</b>
+    }
+    else if (level == 2)
+    {
+        <b class="text-warning">@level</b>
+    }
+    else if (level == 3)
+    {
+        <b class="text-success">@level</b>
+    }
+}
 
 
+@helper RenderProtectStatus(string status)
+{
+    if (status.ToUpper().Equals("WIN"))
+    {
+        <b class="text-success text-lg-center">@status</b>
+    }
+    else if (status.ToUpper().Equals("DRAW"))
+    {
+        <b class="text-primary text-lg-center">@status</b>
+    }
+    else if (status.ToUpper().Equals("LOSE"))
+    {
+        <b class="text-danger text-lg-center">@status</b>
+    }
+}
 
 
 

@@ -65,7 +65,7 @@ namespace RiskGame.Controllers
 
             if (gameRoom != null)
             {
-                _service.Game().CreateGameAsync(gameRoom.GameRoomId, gameRoom.SoftwareType);
+                _service.Game().CreateGameAsync(gameRoom.GameRoomId, gameRoom.SoftwareType, gameRoom.GameRound);
                 if (multiPlayer > 1)
                 {
                     //multiplayer > wait room
@@ -231,6 +231,7 @@ namespace RiskGame.Controllers
             var selectSoftwareProcessType = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Water Fall", Value = "0", Selected = true },
+                new SelectListItem { Text = "Agile", Value = "1" },
                 new SelectListItem { Text = "Custom", Value = "9" }
             };
             ViewBag.SelectSoftwareProcessType = selectSoftwareProcessType;

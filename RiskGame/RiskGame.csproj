@@ -280,6 +280,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseGameController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\MarketController.cs" />
     <Compile Include="Controllers\GameHistoryController.cs" />
     <Compile Include="Controllers\GameResultController.cs" />
     <Compile Include="Controllers\GameStartController.cs" />
@@ -1663,6 +1664,7 @@
     <Content Include="Views\GameHistory\Index.cshtml" />
     <Content Include="Views\GameResult\_PlayerResult.cshtml" />
     <Content Include="Views\Shared\_MarketShared.cshtml" />
+    <Content Include="Views\Market\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

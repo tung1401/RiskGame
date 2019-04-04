@@ -9,6 +9,21 @@
                 <strong>
                     Intervene (การแทรกแซงธุรกิจ)
                 </strong>
+                <br />
+                <div class="card">
+                    <div class="card-header">
+                        <strong>User Statistics (ดูความเคลื่อนไหวของคู่แข่ง)</strong><br />
+                        <small>
+                            การศึกษาข้อมูลของคู่แข่งจะทำให้คุณวางแผนสู่ชัยชนะได้ไม่ยาก!
+                        </small>
+                    </div>
+                    <div class="card-body InterveneBtn">
+                        <button type="button" onclick="LookUser(1)" class="btn btn-info btn-lg">Look at Their Status:  1,000</button><br /> <br />
+                        <button type="button" onclick="LookUser(2)" class="btn btn-info btn-lg">Look at their Money: 5,000</button><br /><br />
+                        <button type="button" onclick="LookUser(3)" class="btn btn-info btn-lg">Look at all: 10,000</button>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -30,9 +45,154 @@
         <div class="collapse multi-collapse" id="multiCollapseExample3">
             <div class="card card-body">
                 <strong>Hire Employee (การว่าจ้าง)</strong>
+                <br />
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Expert Suggestion (คำแนะนำจากผู้เชี่ยวชาญ)</strong><br />
+                        <small>
+                            ขอคำแนะนำจากผู้เชี่ยวชาญโดยมีค่าใช้จ่ายคิดตามความละเอียดของข้อมูล
+                        </small>
+                    </div>
+                    <div class="card-body expertBtn">
+                        <button type="button" onclick="Hire(1)" class="btn btn-info btn-lg">Expert Level 1:  5,000</button><br /> <br />
+                        <button type="button" onclick="Hire(2)" class="btn btn-info btn-lg">Expert Level 2: 10,000</button><br /><br />
+                        <button type="button" onclick="Hire(3)" class="btn btn-info btn-lg">Expert Level 3: 30,000</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+<script type="text/javascript">
+
+    function Hire(level)
+    {
+        var r = confirm("Are you sure to hire Expert!");
+        if (r == true) {
+
+            $.ajax({
+                url: '@Url.Action("HireExpertSuggestion", "Market")',
+                type: 'POST',
+                cache: false,
+                async: false,
+                data: { expertLevel: level },
+                success: function (response) {
+
+                    var myModal = $("#expertBody");
+                    myModal.empty();
+
+                    $.each(response.Result.ExpertSuggestion, function (i, data) {
+                        myModal.append("<strong> Risk Level: </strong><span>" + data.Level + "</span>");
+                        myModal.append("<strong> Ratio: </strong><span>" + data.Ratio + "</span>");
+                        myModal.append("<strong> RiskType: </strong><span>" + data.RiskType + "</span>");
+                        myModal.append("<strong> Total Payment: </strong><span>" + data.TotalActualPayValue + "</span>")
+                    });
+
+                    $("#totalGameMoney").text(response.Result.MoneyTotalFormat);
+                    $("#ExpertResultModal .modal-title").text("Expert Suggestion Results: (Level:" + response.Result.SuggestLevel +")");
+                    $(".expertBtn button").attr("disabled", true);
+                    $("#ExpertResultModal").modal();
+                    $(".modal-backdrop").removeClass("modal-backdrop");
+
+                },
+                error: function () {
+                    console.log("Error!");
+                }
+            });
+
+        } else {
+            return false;
+        }
+    }
 
 
+    function LookUser(level)
+    {
+        var r = confirm("Are you sure to Intervene!");
+        if (r == true) {
+
+            $.ajax({
+                url: '@Url.Action("InterveneLookUser", "Market")',
+                type: 'POST',
+                cache: false,
+                async: false,
+                data: { InterveneLevel: level },
+                success: function (response) {
+
+                    if (response.Result == null) {
+                        alert(response.Description);
+                    }
+                    else {
+
+
+
+                        var myModal = $("#InterveneBody");
+                        myModal.empty();
+
+                        $.each(response.Result.InterveneList, function (i, data) {
+                            myModal.append("<strong> Player: </strong><span>" + data.Player + "</span>")
+                            myModal.append("<strong> Project: </strong><span>" + data.CurrentProject + "</span>");
+                            myModal.append("<strong> Team: </strong><span>" + data.CurrentTeam + "</span>");
+                            myModal.append("<strong> Money: </strong><span>" + data.CurrentMoney + "</span>");
+                            myModal.append("<strong> GameStatus: </strong><span>" + data.GameStatus + "</span>")
+                        });
+
+                        $("#totalGameMoney").text(response.Result.MoneyTotalFormat);
+                        $("#InterveneResultModal .modal-title").text("Intervene Results: (Level:" + response.Result.SuggestLevel + ")");
+                        $(".InterveneBtn button").attr("disabled", true);
+                        $("#InterveneResultModal").modal();
+                        $(".modal-backdrop").removeClass("modal-backdrop");
+                    }
+
+                },
+                error: function () {
+                    console.log("Error!");
+                }
+            });
+
+        } else {
+            return false;
+        }
+    }
+
+
+</script>
+
+
+<div id="InterveneResultModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Intervene Results</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="InterveneBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">Accept</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="ExpertResultModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Expert Suggestion Results</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="expertBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">Accept</button>
+            </div>
+        </div>
+    </div>
 </div>

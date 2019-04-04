@@ -15,7 +15,7 @@
     @*<div id="countdown"></div>*@
     @Html.Partial("_HeaderGameInfo")
     @Html.Partial("_HeaderGameCountDown")
-
+    @Html.Partial("_MarketShared")
 
 
 </div>
@@ -30,9 +30,9 @@
             <thead>
                 <tr>
                     <td><b>Name</b></td>
-                    <td><b>Level 1</b></td>
-                    <td><b>Level 2</b></td>
-                    <td><b>Level 3</b></td>
+                    <td class="text-danger"><b>Level 1 (ป้องกัน 25%)</b></td>
+                    <td class="text-warning"><b>Level 2 (ป้องกัน 50%)</b></td>
+                    <td class="text-success"><b>Level 3 (ป้องกัน 100%)</b></td>
                     <td><b></b></td>
                 </tr>
             </thead>
@@ -50,7 +50,7 @@
                         {
 
                             <td>
-                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue
+                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
                             </td>
 
                         }

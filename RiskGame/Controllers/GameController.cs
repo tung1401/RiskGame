@@ -100,7 +100,7 @@ namespace RiskGame.Controllers
                             if (riskProtect.RiskOption.RiskLevel > item.RiskOption.RiskLevel)
                             {
                                 // ไม่ต้องจ่าย ป้องกันได้ 100%
-                                moneyTotal = Singleton.Game().Money;
+                                //moneyTotal = Singleton.Game().Money;
                                 userGameBattleData.ProtectStatus = ProtecStatus.Win.ToString();
                             }
                             else
@@ -108,26 +108,26 @@ namespace RiskGame.Controllers
                                 if (riskProtect.RiskOption.RiskLevel == (int)RiskGameLevel.ThirdLevel)
                                 {
                                     //ป้องกัน 100%
-                                    moneyTotal = Singleton.Game().Money;
+                                   // moneyTotal = Singleton.Game().Money;
                                 }
                                 else if (riskProtect.RiskOption.RiskLevel == (int)RiskGameLevel.SecondLevel)
                                 {
                                     //ป้องกัน 50% จ่าย 50%
                                     effectMoney = (int)(effectItemMoney * 0.5);
-                                    moneyTotal = Singleton.Game().Money - (int)(effectItemMoney * 0.5);
+                                    moneyTotal = moneyTotal - (int)(effectItemMoney * 0.5);
                                 }
                                 else if (riskProtect.RiskOption.RiskLevel == (int)RiskGameLevel.FirstLevel)
                                 {
                                     //ป้องกัน 25% จ่าย 75%
                                     effectMoney = (int)(effectItemMoney * 0.75);
-                                    moneyTotal = Singleton.Game().Money - (int)(effectItemMoney * 0.75);
+                                    moneyTotal = moneyTotal - (int)(effectItemMoney * 0.75);
                                 }
                             }  
                         }
                         else
                         {
                             // ถ้าเลือกแล้ว Level เท่ากัน ป้องกันได้ 100%
-                            moneyTotal = Singleton.Game().Money;
+                           // moneyTotal = Singleton.Game().Money;
                             userGameBattleData.ProtectStatus = ProtecStatus.Draw.ToString();
                         }   
                     }
@@ -135,10 +135,10 @@ namespace RiskGame.Controllers
                     {
                         // ถ้าไม่ได้เลือก หรือ ไม่ได้ป้องกัน จ่าย 100%
                         effectMoney = effectItemMoney;
-                        moneyTotal = Singleton.Game().Money - effectItemMoney;
+                        moneyTotal = moneyTotal - effectItemMoney;
                     }
 
-                    userGameBattleData.EffectMoney = effectMoney.ToString("n0");
+                    userGameBattleData.EffectMoney = effectMoney;
                     model.UserGameBattleData.Add(userGameBattleData);
                 }
             }
@@ -151,9 +151,8 @@ namespace RiskGame.Controllers
                 nextTurn += 1;
             }
 
-
             _service.GameRoom().UpdateUserGameRoom(Singleton.Game().UserId, Singleton.Game().GameRoomId, moneyTotal);
-            Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, moneyTotal, nextTurn, Singleton.Game().PlayerImageUrl);
+            Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, moneyTotal, nextTurn, Singleton.Game().SoftwareType, Singleton.Game().PlayerImageUrl);
 
             return View(model);
         }
@@ -195,7 +194,7 @@ namespace RiskGame.Controllers
             }
             var money = Singleton.Game().Money - moneySummary;
             _service.GameRoom().UpdateUserGameRoom(Singleton.Game().UserId, Singleton.Game().GameRoomId, money);
-            Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, money, Singleton.Game().Turn, Singleton.Game().PlayerImageUrl);
+            Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, money, Singleton.Game().Turn, Singleton.Game().SoftwareType, Singleton.Game().PlayerImageUrl);
             return RedirectToAction("OpenRisk", "Game");
         }
 

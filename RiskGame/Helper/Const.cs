@@ -30,6 +30,7 @@ namespace RiskGame.Helper
         public enum SoftwareType
         {
             WaterFall = 0,
+            Agile = 1,
             Custom = 9
         }
         public enum GoalType
