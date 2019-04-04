@@ -8,10 +8,13 @@
     <strong>Game Results</strong>
     @Html.Partial("_HeaderGameInfo")
 
-    <a href="@Url.Action( "ReDashBoard", "GameResult")" class= "btn btn-primary btn-lg">
-        <i class="ti-home"></i> @Html.Raw("Go to Dashboard")
-    </a>
-    <br/>
+    <section>
+        <a href="@Url.Action( "ReDashBoard", "GameResult")" class="btn btn-primary btn-lg">
+            <i class="ti-home"></i> @Html.Raw("Go to Dashboard")
+        </a>
+    </section>
+    <br />
+    <br />
     <div class="row">
         <div class="col-md-12">
             <div id="GameResultSection"></div>

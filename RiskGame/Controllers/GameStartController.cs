@@ -31,6 +31,7 @@ namespace RiskGame.Controllers
                     RiskId = item.RiskId,
                     Name = item.RiskName,
                     RiskType = Enum.GetName(typeof(Const.RiskType), (int)item.RiskType),
+                    RiskDetail = item.RiskDetail,
                     RiskOption = item.RiskOptions.ToList()
                 };
                 list.Add(risk);

@@ -1,0 +1,22 @@
+﻿@model RiskGame.Models.GameHistoryViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Game History</h2>
+
+@foreach (var item in Model.GameRoomList)
+{
+
+
+    <div>  @item.GameRoomName </div>
+
+    <div> Owner: @item.UserId</div>
+
+
+    foreach (var sitem in item.UserGameRooms)
+    {
+        @sitem.PlayerName
+    }
+}
+

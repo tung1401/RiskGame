@@ -16,6 +16,8 @@ namespace RiskGame.Models
         public int RiskId { get; set; }
         public string Name { get; set; }
         public string RiskType { get; set; }
+        public string RiskDetail { get; set; }
+        public string RiskExpert { get; set; }
         public List<RiskOption> RiskOption { get; set; }
     }
 
