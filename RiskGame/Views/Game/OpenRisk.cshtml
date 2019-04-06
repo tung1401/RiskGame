@@ -23,7 +23,7 @@
     <div class="col-md-6">
 
         <div class="card-header">
-            <strong>User Protect Risks</strong> 
+            <strong>User Protect Risks</strong>
             <span style="font-size:14px;">Total Cost: @(Model.UserGameRisk.Sum(x => x.RiskOption.ActionEffectValue).GetValueOrDefault().ToString("n0"))</span>
         </div>
 
@@ -58,7 +58,7 @@
     <div class="col-md-6">
 
         <div class="card-header">
-            <strong>Game Risks</strong> 
+            <strong>Game Risks</strong>
             <span style="font-size:14px;">Total Pay: @(Model.UserGameBattleData.Sum(x => x.EffectMoney).ToString("n0"))</span>
         </div>
 
@@ -80,33 +80,33 @@
 
                 @foreach (var item in Model.UserGameBattleData)
                 {
-                <tr>
-                    <td>
-                        @item.GameBattle.Risk.RiskName
-                    </td>
+                    <tr>
+                        <td>
+                            @item.GameBattle.Risk.RiskName
+                        </td>
 
-                    @*<td>
-            @(item.GameBattle.ActionEffectValue * item.GameBattle.Ratio)
-        </td>*@
-                    <td>
-                        @RenderLevel(item.GameBattle.RiskOption.RiskLevel)
-                    </td>
-                    <td>
-                        @item.GameBattle.ActionEffectValue
-                    </td>
-                    <td>
-                        @item.GameBattle.Ratio
-                    </td>
-                    <td>
-                        @((item.GameBattle.ActionEffectValue * item.GameBattle.Ratio).GetValueOrDefault().ToString("n0"))
-                    </td>
-                    <td>
-                        @RenderProtectStatus(item.ProtectStatus)
-                    </td>
-                    <td>
-                        @item.EffectMoney.ToString("n0")
-                    </td>
-                </tr>
+                        @*<td>
+                                @(item.GameBattle.ActionEffectValue * item.GameBattle.Ratio)
+                            </td>*@
+                        <td>
+                            @RenderLevel(item.GameBattle.RiskOption.RiskLevel)
+                        </td>
+                        <td>
+                            @item.GameBattle.ActionEffectValue.GetValueOrDefault().ToString("n0")
+                        </td>
+                        <td>
+                            @item.GameBattle.Ratio
+                        </td>
+                        <td>
+                            @((item.GameBattle.ActionEffectValue * item.GameBattle.Ratio).GetValueOrDefault().ToString("n0"))
+                        </td>
+                        <td>
+                            @RenderProtectStatus(item.ProtectStatus)
+                        </td>
+                        <td>
+                            @item.EffectMoney.ToString("n0")
+                        </td>
+                    </tr>
                 }
 
             </tbody>
@@ -131,6 +131,10 @@
     else if (level == 3)
     {
         <b class="text-success">@level</b>
+    }
+    else if (level == 0)
+    {
+        <b class="text-dark">@level</b>
     }
 }
 

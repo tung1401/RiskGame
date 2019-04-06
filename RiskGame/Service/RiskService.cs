@@ -8,6 +8,7 @@ using RiskGame.Repository;
 using RiskGame.Repository.Common;
 using RiskGame.Repository.Interfaces;
 using RiskGame.Entity;
+using static RiskGame.Helper.Const;
 
 namespace KPI.Services.Service
 {
@@ -28,6 +29,21 @@ namespace KPI.Services.Service
         {
             return _risk.GetAllWith(inc => inc.RiskOptions);
         }
+
+        public IEnumerable<Risk> GetAllRiskWithOutZeroLevel()
+        {
+            var risks = GetAllRisk().Select( x=> new Risk
+            {
+                RiskId = x.RiskId,
+                RiskName = x.RiskName,
+                RiskDetail = x.RiskDetail,
+                RiskType = x.RiskType,
+                RiskOptions = x.RiskOptions.Where(m => m.RiskLevel != 0).ToList()
+            });
+
+            return risks;
+        }
+
         public IEnumerable<Risk> GetRiskById(int id)
         {
             return _risk.GetManyWith(x => x.RiskId == id, inc => inc.RiskOptions);
@@ -40,6 +56,10 @@ namespace KPI.Services.Service
         public IEnumerable<RiskOption> GetAllRiskOption()
         {
             return _riskOption.GetAllWith(inc => inc.Risk);
+        }
+        public IEnumerable<RiskOption> GetAllRiskOptionWithoutZeroLevel()
+        {
+            return _riskOption.GetManyWith(x=>x.RiskLevel != (int)RiskGameLevel.ZeroLevel, inc => inc.Risk);
         }
 
         public RiskOption GetRiskOptionById(int riskOptionId, int actionEffectType)

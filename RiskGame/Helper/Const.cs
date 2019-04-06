@@ -40,6 +40,7 @@ namespace RiskGame.Helper
 
         public enum RiskGameLevel
         {
+            ZeroLevel = 0,
             FirstLevel = 1,
             SecondLevel = 2,
             ThirdLevel = 3

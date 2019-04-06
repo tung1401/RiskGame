@@ -28,7 +28,7 @@ namespace RiskGame.Core.WorkProcess
             var listQA = new List<Risk>();
             var listSupport = new List<Risk>();
             // getAll Risk with Risk option
-            var risks = _service.Risk().GetAllRisk();
+            var risks = _service.Risk().GetAllRiskWithOutZeroLevel().ToList();
 
             // separate type
             listReq.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Requirement));
@@ -96,7 +96,7 @@ namespace RiskGame.Core.WorkProcess
             try
             {
                 //get all risk
-                var allRiskOption = _service.Risk().GetAllRiskOption();
+                var allRiskOption = _service.Risk().GetAllRiskOptionWithoutZeroLevel();
                 if (allRiskOption.Any())
                 {
                     var list = new List<GameBattle>();       
@@ -160,7 +160,7 @@ namespace RiskGame.Core.WorkProcess
                 if (gameBattleList.Any())
                 {
 
-                    var allRisks = _service.Risk().GetAllRisk().OrderBy(x => Guid.NewGuid());
+                    var allRisks = _service.Risk().GetAllRiskWithOutZeroLevel().OrderBy(x => Guid.NewGuid());
                     var gameRisks = gameBattleList.Select(x => x.Risk); //หา Risk ใน Game battle
                     //var allRisksExceptGameRisks = allRisks.Except(gameRisks).ToList(); //เอา Risk ทั้งหมดยกเว้นใน Game battle
 
@@ -188,13 +188,13 @@ namespace RiskGame.Core.WorkProcess
                 }
                 else
                 {
-                    risks = _service.Risk().GetAllRisk().OrderBy(x => Guid.NewGuid()).Take(maxTake).ToList();
+                    risks = _service.Risk().GetAllRiskWithOutZeroLevel().OrderBy(x => Guid.NewGuid()).Take(maxTake).ToList();
                 }
             }
             else
             {          
                 var gameRisks = gameBattleList.Select(x => x.Risk); //หา Risk ใน Game battle
-                var allRisksExceptGameRisks = _service.Risk().GetAllRisk().Except(gameRisks).ToList(); //เอา Risk ทั้งหมดยกเว้นใน Game battle
+                var allRisksExceptGameRisks = _service.Risk().GetAllRiskWithOutZeroLevel().Except(gameRisks).ToList(); //เอา Risk ทั้งหมดยกเว้นใน Game battle
 
                 risks.AddRange(gameRisks);
                 risks.AddRange(allRisksExceptGameRisks);
@@ -247,7 +247,7 @@ namespace RiskGame.Core.WorkProcess
         internal RiskSeparateModel GetRiskByTypeData(bool isList)
         {
             var model = new RiskSeparateModel();
-            var risks = _service.Risk().GetAllRisk();
+            var risks = _service.Risk().GetAllRiskWithOutZeroLevel();
             // separate type
             if (isList)
             {

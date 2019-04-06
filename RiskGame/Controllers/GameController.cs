@@ -93,7 +93,7 @@ namespace RiskGame.Controllers
                     var effectItemMoney = item.Ratio.GetValueOrDefault() * item.ActionEffectValue.GetValueOrDefault();
                     var riskProtect = userGameRisk.FirstOrDefault(x => x.RiskId == item.RiskId);
                     var effectMoney = 0;
-                    if (riskProtect != null)
+                    if (riskProtect != null && riskProtect.RiskOption.RiskLevel != (int)RiskGameLevel.ZeroLevel)
                     {
                         if(riskProtect.RiskOption.RiskLevel != item.RiskOption.RiskLevel)
                         {
@@ -122,6 +122,11 @@ namespace RiskGame.Controllers
                                     effectMoney = (int)(effectItemMoney * 0.75);
                                     moneyTotal = moneyTotal - (int)(effectItemMoney * 0.75);
                                 }
+                                else if(riskProtect.RiskOption.RiskLevel == (int)RiskGameLevel.ZeroLevel)
+                                {
+                                    effectMoney = (int)(effectItemMoney * 1);
+                                    moneyTotal = moneyTotal - (int)(effectItemMoney * 1);
+                                }
                             }  
                         }
                         else
@@ -136,6 +141,7 @@ namespace RiskGame.Controllers
                         // ถ้าไม่ได้เลือก หรือ ไม่ได้ป้องกัน จ่าย 100%
                         effectMoney = effectItemMoney;
                         moneyTotal = moneyTotal - effectItemMoney;
+                        userGameBattleData.ProtectStatus = ProtecStatus.Lose.ToString();
                     }
 
                     userGameBattleData.EffectMoney = effectMoney;

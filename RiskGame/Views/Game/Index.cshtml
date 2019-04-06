@@ -30,6 +30,7 @@
             <thead>
                 <tr>
                     <td><b>Name</b></td>
+                    <td class="text-dark"><b>Level 0 (ป้องกัน 0%)</b></td>
                     <td class="text-danger"><b>Level 1 (ป้องกัน 25%)</b></td>
                     <td class="text-warning"><b>Level 2 (ป้องกัน 50%)</b></td>
                     <td class="text-success"><b>Level 3 (ป้องกัน 100%)</b></td>
@@ -40,22 +41,31 @@
 
                 @foreach (var item in Model.RiskData)
                 {
-                    <tr>
-                        <td>
-                            @item.Name
-                            <span class="badge badge-pill badge-primary">@item.RiskType</span>
-                            <div><p class="small">@item.RiskDetail</p></div>
-                        </td>
-                        @foreach (var op in item.RiskOption)
+                <tr>
+                    <td>
+                        @item.Name
+                        <span class="badge badge-pill badge-primary">@item.RiskType</span>
+                        <div><p class="small">@item.RiskDetail</p></div>
+                    </td>
+                    @foreach (var op in item.RiskOption.OrderBy(x => x.RiskLevel))
+                    {
+
+                        if (op.RiskLevel.GetValueOrDefault() == 0)
                         {
-
                             <td>
-                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId) @Html.Raw("Protect -") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
+                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")", @checked = true }) @Html.Raw("Protect -") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
                             </td>
-
                         }
-                        <td><button style="font-size:small; text-align:center;" class="btn btn-danger" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>
-                    </tr>
+                        else
+                        {
+                            <td>
+                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")" }) @Html.Raw("Protect -") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
+                            </td>
+                        }
+
+                    }
+                    <td><button style="font-size:small; text-align:center;" class="btn btn-danger" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>
+                </tr>
                 }
 
             </tbody>

@@ -12,100 +12,71 @@
     @Html.Partial("_HeaderGameCountDown")
     @Html.Partial("_MarketShared")
 </div>
-    <div class="card-header"><strong>Choose Protect Risk</strong></div>
-    <div class="card-body">
+<div class="card-header"><strong>Choose Protect Risk</strong></div>
+<div class="card-body">
 
-        @using (Html.BeginForm("ProtectRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td><b>Name</b></td>
-                        <td class="text-danger"><b>Level 1 (ป้องกัน 25%)</b></td>
-                        <td class="text-warning"><b>Level 2 (ป้องกัน 50%)</b></td>
-                        <td class="text-success"><b>Level 3 (ป้องกัน 100%)</b></td>
-                        <td><b></b></td>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    @foreach (var item in Model.RiskData)
+    @using (Html.BeginForm("ProtectRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <td><b>Name</b></td>
+                    <td class="text-dark"><b>Level 0 (ป้องกัน 0%)</b></td>
+                    <td class="text-danger"><b>Level 1 (ป้องกัน 25%)</b></td>
+                    <td class="text-warning"><b>Level 2 (ป้องกัน 50%)</b></td>
+                    <td class="text-success"><b>Level 3 (ป้องกัน 100%)</b></td>
+                    <td><b></b></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.RiskData)
+                {
+                <tr>
+                    <td>
+                        @item.Name
+                        <span class="badge badge-pill badge-primary">@item.RiskType</span>
+                        <div><p class="small">@item.RiskDetail</p></div>
+                    </td>
+                    @foreach (var op in item.RiskOption.OrderBy(x => x.RiskLevel))
                     {
-                        <tr>
+                        if (op.RiskLevel.GetValueOrDefault() == 0)
+                        {
                             <td>
-                                @item.Name
-                                <span class="badge badge-pill badge-primary">@item.RiskType</span>
-                                <div><p class="small">@item.RiskDetail</p></div>
+                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")" , @checked= true }) @Html.Raw("Protect -") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
                             </td>
-                            @foreach (var op in item.RiskOption)
-                            {
-
-                                <td>
-                                    @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")" }) @Html.Raw("Protect -") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
-                                </td>
-                            }
-                            <td><button class="btn btn-danger" style="font-size:small" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>
-                        </tr>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")" }) @Html.Raw("Protect -") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
+                            </td>
+                        }
                     }
+                    @*<td><button class="btn btn-danger" style="font-size:small" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>*@
+                </tr>
+                }
 
-                </tbody>
-            </table>
+            </tbody>
+        </table>
 
-            <button id="submit" type="submit" class="btn btn-success" style="font-size:large; display:block;margin: 0 auto;">Confirm</button>
-        }
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-    @*<iframe src="http://localhost:50833/GameStart/Index/1066" width="100%" height="600" />*@
-
-    <script>
-
-        function Sum(id, value) {
-
-        }
-
-
-
-    function ClearRisk(name) {
-        $('input[name=' + name+']').prop('checked', false);
+        <button id="submit" type="submit" class="btn btn-success" style="font-size:large; display:block;margin: 0 auto;">Confirm</button>
     }
-    @*var end = new Date('@ViewBag.CountDown'); // viewbag
-        var _second = 1000;
-        var _minute = _second * 60;
-        var _hour = _minute * 60;
-        var _day = _hour * 24;
-        var timer;
+</div>
 
-        function showRemaining() {
-            var now = new Date();
-            var distance = end - now;
-            if (distance < 0) {
 
-                clearInterval(timer);
-                document.getElementById('countdown').innerHTML = 'EXPIRED!';
-                //go to next page auto
-                $("#submit").click();
 
-                return;
-            }
-          //  var days = Math.floor(distance / _day);
-          //  var hours = Math.floor((distance % _day) / _hour);
-            var minutes = Math.floor((distance % _hour) / _minute);
-            var seconds = Math.floor((distance % _minute) / _second);
+@*<iframe src="http://localhost:50833/GameStart/Index/1066" width="100%" height="600" />*@
 
-          //  document.getElementById('countdown').innerHTML = days + 'days ';
-          //  document.getElementById('countdown').innerHTML += hours + 'hrs ';
-            document.getElementById('countdown').innerHTML = minutes + 'mins ';
-            document.getElementById('countdown').innerHTML += seconds + 'secs';
-        }
-        timer = setInterval(showRemaining, 1000);*@
-    </script>
+<script>
+
+function Sum(id, value)
+{
+
+}
+
+function ClearRisk(name)
+{
+     $('input[name=' + name + ']').prop('checked', false);
+}
+                           
+</script>
