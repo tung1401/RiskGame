@@ -92,3 +92,23 @@ SET IDENTITY_INSERT [dbo].[RiskOption] OFF
 INSERT [dbo].[GameBattle] ([GameBattleId], [GameRoomId], [RiskId], [RiskOptionId], [Ratio], [Turn], [ActionEffectType], [ActionEffectValue]) VALUES (1, 1, 1, 1, 1, NULL, NULL, NULL)
 INSERT [dbo].[GameBattle] ([GameBattleId], [GameRoomId], [RiskId], [RiskOptionId], [Ratio], [Turn], [ActionEffectType], [ActionEffectValue]) VALUES (2, 1, 1, 2, 2, NULL, NULL, NULL)
 INSERT [dbo].[GameBattle] ([GameBattleId], [GameRoomId], [RiskId], [RiskOptionId], [Ratio], [Turn], [ActionEffectType], [ActionEffectValue]) VALUES (3, 1, 2, 3, 3, NULL, NULL, NULL)
+
+
+
+
+
+--insert into RiskOption values (1,0,1,0,null,null)
+--insert into RiskOption values (2,0,1,0,null,null)
+--insert into RiskOption values (3,0,1,0,null,null)
+--insert into RiskOption values (4,0,1,0,null,null)
+--insert into RiskOption values (5,0,1,0,null,null)
+--insert into RiskOption values (6,0,1,0,null,null)
+--insert into RiskOption values (7,0,1,0,null,null)
+--insert into RiskOption values (8,0,1,0,null,null)
+--insert into RiskOption values (9,0,1,0,null,null)
+--insert into RiskOption values (10,0,1,0,null,null)
+--insert into RiskOption values (11,0,1,0,null,null)
+
+
+
+

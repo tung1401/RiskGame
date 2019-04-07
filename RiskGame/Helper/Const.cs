@@ -51,5 +51,11 @@ namespace RiskGame.Helper
             Draw = 2,
             Win = 3
         }
+
+        public enum GemeStatus
+        {
+            Playing = 0,
+            GameDone = 1
+        }
     }
 }

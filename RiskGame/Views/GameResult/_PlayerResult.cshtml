@@ -1,4 +1,5 @@
 ﻿@model RiskGame.Models.GameRoomModel
+@using RiskGame.Helper
 @{
     var rank = 1;
 }
@@ -16,28 +17,30 @@
                     <th scope="col">Money</th>
                     <th scope="col">Team</th>
                     <th scope="col">Project</th>
+                    <th scope="col">Game Status</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.GetResult())
+                @foreach (var item in Model.GetResult().OrderByDescending(x => x.GameFinished)) // หากเงินเสมอกันจะเรียงเวลาคนที่เล่นเกมส์ก่อน
                 {
-                <tr>
-                    <td>@rank</td>
-                    <td>
-                        <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="@item.ImageUrl">
-                    </td>
-                    <td>@item.PlayerName</td>
-                    <td>@item.MoneyValue.ToString("n0")</td>
-                    <td>@item.TeamValue</td>
-                    <td>@item.ProjectValue</td>
-                    <td>
-                        @if (rank == 1)
-                        {
-                            <i class="fa fa-star text-warning"></i>
-                        }
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@rank</td>
+                        <td>
+                            <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="@item.ImageUrl">
+                        </td>
+                        <td>@item.PlayerName</td>
+                        <td>@item.MoneyValue.ToString("n0")</td>
+                        <td>@item.TeamValue</td>
+                        <td>@item.ProjectValue</td>
+                        <td>@RenderGameFinished(item.GameFinished.GetValueOrDefault())</td>
+                        <td>
+                            @if (rank == 1 && item.GameFinished.GetValueOrDefault())
+                            {
+                                <i class="fa fa-star text-warning"></i>
+                            }
+                        </td>
+                    </tr>
 
                     rank += 1;
                 }
@@ -45,3 +48,16 @@
         </table>
     </div>
 </div>
+
+@helper RenderGameFinished(bool gameFinished)
+{
+
+    if (gameFinished)
+    {
+        <span class="text-success">@gameFinished.IsGameFinishedFormat()</span>
+    }
+    else
+    {
+        <span class="text-info">@gameFinished.IsGameFinishedFormat()</span>
+    }
+}

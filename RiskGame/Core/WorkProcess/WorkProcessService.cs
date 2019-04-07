@@ -96,7 +96,7 @@ namespace RiskGame.Core.WorkProcess
             try
             {
                 //get all risk
-                var allRiskOption = _service.Risk().GetAllRiskOptionWithoutZeroLevel();
+                var allRiskOption = _service.Risk().GetAllRiskOptionWithoutZeroLevel().ToList();
                 if (allRiskOption.Any())
                 {
                     var list = new List<GameBattle>();       
@@ -160,7 +160,7 @@ namespace RiskGame.Core.WorkProcess
                 if (gameBattleList.Any())
                 {
 
-                    var allRisks = _service.Risk().GetAllRiskWithOutZeroLevel().OrderBy(x => Guid.NewGuid());
+                    var allRisks = _service.Risk().GetAllRisk().OrderBy(x => Guid.NewGuid());
                     var gameRisks = gameBattleList.Select(x => x.Risk); //หา Risk ใน Game battle
                     //var allRisksExceptGameRisks = allRisks.Except(gameRisks).ToList(); //เอา Risk ทั้งหมดยกเว้นใน Game battle
 
@@ -194,7 +194,7 @@ namespace RiskGame.Core.WorkProcess
             else
             {          
                 var gameRisks = gameBattleList.Select(x => x.Risk); //หา Risk ใน Game battle
-                var allRisksExceptGameRisks = _service.Risk().GetAllRiskWithOutZeroLevel().Except(gameRisks).ToList(); //เอา Risk ทั้งหมดยกเว้นใน Game battle
+                var allRisksExceptGameRisks = _service.Risk().GetAllRisk().Except(gameRisks).ToList(); //เอา Risk ทั้งหมดยกเว้นใน Game battle
 
                 risks.AddRange(gameRisks);
                 risks.AddRange(allRisksExceptGameRisks);

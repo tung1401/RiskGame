@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using static RiskGame.Helper.Const;
 
 namespace RiskGame.Helper
 {
@@ -72,6 +73,14 @@ namespace RiskGame.Helper
             }
         }
 
+        public static string IsGameFinishedFormat(this bool value)
+        {
+            if(value)
+            {
+                return "Game Done";
+            }
+            return "Playing";
+        }
 
     }
 }
