@@ -73,7 +73,7 @@ namespace RiskGame.Controllers
                 moneyTotal -= 30000;
             }
 
-            _service.GameRoom().UpdateUserGameRoom(Singleton.Game().UserId, Singleton.Game().GameRoomId, moneyTotal);
+            _service.GameRoom().UpdateUserGameRoom(Singleton.Game().UserId, Singleton.Game().GameRoomId, moneyTotal, turn);
             Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, moneyTotal, turn, Singleton.Game().SoftwareType, Singleton.Game().PlayerImageUrl);
 
             expertSuggestionModel.MoneyTotalFormat = moneyTotal.ToString("n0");
@@ -152,7 +152,7 @@ namespace RiskGame.Controllers
                 moneyTotal -= 10000;
             }
 
-            _service.GameRoom().UpdateUserGameRoom(Singleton.Game().UserId, Singleton.Game().GameRoomId, moneyTotal);
+            _service.GameRoom().UpdateUserGameRoom(Singleton.Game().UserId, Singleton.Game().GameRoomId, moneyTotal, turn);
             Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, moneyTotal, turn, Singleton.Game().SoftwareType, Singleton.Game().PlayerImageUrl);
 
             interveneModel.MoneyTotalFormat = moneyTotal.ToString("n0");

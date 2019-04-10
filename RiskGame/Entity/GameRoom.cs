@@ -38,6 +38,7 @@ namespace RiskGame.Entity
         public Nullable<bool> Active { get; set; }
         public int GameRound { get; set; }
         public int GoalValue { get; set; }
+        public Nullable<bool> IncludeBot { get; set; }
 
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1,5 +1,6 @@
 ﻿using KPI.Services.Interface;
 using KPI.Services.Service;
+using RiskGame.Core.BotExpert;
 using RiskGame.DAL;
 using System;
 using System.Collections.Generic;
@@ -54,8 +55,9 @@ namespace RiskGame.Repository.Common
         }
 
 
-
-
-
+        public IBotExpertService BotExpert()
+        {
+            return new BotExpertService();
+        }
     }
 }

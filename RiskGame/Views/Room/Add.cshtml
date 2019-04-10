@@ -42,7 +42,7 @@
                                     <div class="form-group">
 
                                         @Html.Label("Room Name")
-                                        @Html.TextBox("Add.RoomName", "", new { @class = "form-control", required = "required" })
+                                        @Html.TextBox("Add.RoomName", $"", new { @class = "form-control", required = "required" })
 
                                     </div>
                                     <div class="form-group">
@@ -52,33 +52,39 @@
 
                                 </div>
                             }
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    @Html.Label("Start With Money")
-                                    @Html.TextBox("Add.StartMoney", "100000", new { @class = "form-control", type = "number", required = "required", step = "1", min = 1, max = 999999999, maxlength = 10, onkeyup = "changeMoneyHandler(this)" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.Label("Goal")<br />
-                                    @Html.DropDownList("Add.Goal", (List<SelectListItem>)ViewBag.SelectGoal, new { @class = "form-control" })
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-lg-9" style="padding: 0;">
-                                        @Html.Label("Software Process")
-                                        @Html.DropDownList("Add.SoftwareProcessType", (List<SelectListItem>)ViewBag.SelectSoftwareProcessType, new { @class = "form-control" })
-
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        @Html.Label("Start With Money")
+                                        @Html.TextBox("Add.StartMoney", "100000", new { @class = "form-control", type = "number", required = "required", step = "1", min = 1, max = 999999999, maxlength = 10, onkeyup = "changeMoneyHandler(this)" })
                                     </div>
-                                    <div class="col-lg-3" style="padding: 0 0 0 10px;">
-                                        @Html.Label("Round")
-                                        @Html.TextBox("Add.Round", "", new { @class = "form-control", type = "text", required = "required", step = "1", min = 1, max = 10, maxlength = 2, onkeyup = "changeLimitHandler(this)" })
+                                    <div class="form-group">
+                                        @Html.Label("Goal")<br />
+                                        @Html.DropDownList("Add.Goal", (List<SelectListItem>)ViewBag.SelectGoal, new { @class = "form-control" })
+                                    </div>
+                                    <div class="form-group" style="padding: 0;height: 70px;">
+                                            <div class="col-lg-9" style="padding: 0;">
+                                                @Html.Label("Software Process")
+                                                @Html.DropDownList("Add.SoftwareProcessType", (List<SelectListItem>)ViewBag.SelectSoftwareProcessType, new { @class = "form-control" })
+
+                                            </div>
+                                            <div class="col-lg-3" style="padding: 0 0 0 10px;">
+                                                @Html.Label("Round")
+                                                @Html.TextBox("Add.Round", "", new { @class = "form-control", type = "text", required = "required", step = "1", min = 1, max = 10, maxlength = 2, onkeyup = "changeLimitHandler(this)" })
+                                            </div>
+                                      
+                                    </div>
+                                    @if (isSinglePlayer)
+                                    {
+                                        <div class="form-group">
+                                            @Html.CheckBox("Add.ExpertPlayer", true, new { @class = "" })
+                                            @Html.Raw("Include Expert Player")
+                                        </div>
+                                    }
+                                    <div class="form-group">
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                </div>
-                            </div>
                         </div>
                         <div class="row col-sm-6 col-lg-6">
-
 
                         </div>
                         <div class="row text-center col-sm-6 col-lg-12">

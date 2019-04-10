@@ -289,6 +289,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
+    <Compile Include="Controllers\StoryController.cs" />
+    <Compile Include="Core\BotExpert\BotExpertService.cs" />
+    <Compile Include="Core\BotExpert\IBotExpertService.cs" />
     <Compile Include="Core\WorkProcess\WorkProcessService.cs" />
     <Compile Include="DAL\DataContext.cs" />
     <Compile Include="Entity\GameBattle.cs">
@@ -499,6 +502,8 @@
     <Content Include="Content\sufee\images\avatar\4.jpg" />
     <Content Include="Content\sufee\images\avatar\5.jpg" />
     <Content Include="Content\sufee\images\avatar\6.jpg" />
+    <Content Include="Content\sufee\images\boy.png" />
+    <Content Include="Content\sufee\images\expert.png" />
     <Content Include="Content\sufee\images\flags\1x1\ad.svg" />
     <Content Include="Content\sufee\images\flags\1x1\ae.svg" />
     <Content Include="Content\sufee\images\flags\1x1\af.svg" />
@@ -1265,8 +1270,13 @@
     <Content Include="Content\sufee\images\flag\fr.png" />
     <Content Include="Content\sufee\images\flag\it.png" />
     <Content Include="Content\sufee\images\flag\us.png" />
+    <Content Include="Content\sufee\images\girl.png" />
+    <Content Include="Content\sufee\images\girl2.png" />
+    <Content Include="Content\sufee\images\logo-b.png" />
     <Content Include="Content\sufee\images\logo.png" />
     <Content Include="Content\sufee\images\logo2.png" />
+    <Content Include="Content\sufee\images\man.png" />
+    <Content Include="Content\sufee\images\man2.png" />
     <Content Include="Content\sufee\images\placeholder.png" />
     <Content Include="Content\sufee\images\twitter_corner_black.png" />
     <Content Include="Content\sufee\images\twitter_corner_blue.png" />
@@ -1665,6 +1675,7 @@
     <Content Include="Views\GameResult\_PlayerResult.cshtml" />
     <Content Include="Views\Shared\_MarketShared.cshtml" />
     <Content Include="Views\Market\Index.cshtml" />
+    <Content Include="Views\Story\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

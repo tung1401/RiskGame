@@ -306,6 +306,8 @@ namespace KPI.Services.Service
                 _userGameRoom.Update(userGameRoom);
             }
 
+            if (userGameRoom.IsBot) return true;
+
             var gameRoom = GetRoomById(gameRoomId);
             if (gameRoom != null)
             {
@@ -336,12 +338,13 @@ namespace KPI.Services.Service
             _gameRoom.Update(gameRoom);
         }
 
-        public void UpdateUserGameRoom(int userId, int gameRoomId, int moneyValue)
+        public void UpdateUserGameRoom(int userId, int gameRoomId, int moneyValue, int turnValue)
         {
             var currentGame = GetUserGameRoom(userId, gameRoomId);
             if (currentGame != null && !currentGame.GameFinished.GetValueOrDefault())
             {
                 currentGame.MoneyValue = moneyValue;
+                currentGame.TurnValue = turnValue;
                 _userGameRoom.Update(currentGame);
             }
         }
@@ -356,6 +359,10 @@ namespace KPI.Services.Service
         {
             return _userGameRoom.Get(x => x.UserId == userId && x.GameRoomId == gameRoomId);
         }
+        public UserGameRoom GetUserGameRoom(int gameRoomId, bool isbot, int jobType)
+        {
+            return _userGameRoom.Get(x => x.GameRoomId == gameRoomId && x.IsBot == isbot && x.JobType == jobType);
+        }
 
         public IEnumerable<UserGameRoom> GetUserGameRoom(int gameRoomId)
         {
@@ -369,6 +376,11 @@ namespace KPI.Services.Service
         public GameRoom GetRoomById(int gameRoomId)
         {
             return _gameRoom.Get(x => x.GameRoomId == gameRoomId);
+        }
+
+        public void SaveUserGameRoomAsync(UserGameRoom userGameRoom)
+        {
+            _userGameRoom.AddAsync(userGameRoom);
         }
 
     }

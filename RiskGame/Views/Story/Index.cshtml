@@ -1,0 +1,12 @@
+﻿@model RiskGame.Models.GameRoomModel
+@{
+    ViewBag.Title = "Story Page";
+}
+
+<div class="jumbotron">
+    <strong><i class="fa fa-coffee"></i>Story</strong>
+
+
+
+    <a href="@Url.Action("Index","GameStart",new { id = Model.GameRoomId })">Ready to Play Game</a>
+</div>

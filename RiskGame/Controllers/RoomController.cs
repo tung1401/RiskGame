@@ -1,4 +1,5 @@
-﻿using RiskGame.Helper;
+﻿using RiskGame.Core.WorkProcess;
+using RiskGame.Helper;
 using RiskGame.Models;
 using RiskGame.Repository.Common;
 using System;
@@ -42,7 +43,7 @@ namespace RiskGame.Controllers
             var multiPlayer = int.Parse(form["Add.MultiPlayer"]);
             var round = int.Parse(form["Add.Round"]);
             var imageUrl = form["Add.ImageUrl"];
-
+            var expertPlayer = form["Add.ExpertPlayer"].ToLower() == "false" ? false : true;
             //Initial Game to Game Battle
             //Set game started
 
@@ -60,6 +61,7 @@ namespace RiskGame.Controllers
                 SoftwareType = softwareProcessType,
                 ProjectValue = 0,
                 GameRound = round,
+                IncludeBot = expertPlayer,
                 UserId = Singleton.User().UserId // get from session
             });
 
@@ -78,12 +80,15 @@ namespace RiskGame.Controllers
                         MoneyValue = gameRoom.MoneyValue,
                         ProjectValue = gameRoom.ProjectValue,
                         TeamValue = gameRoom.TeamValue,
+                        TurnValue = 1,
                         GameFinished = null,
                         JoinDate = DateTime.UtcNow,
                         UserId = Singleton.User().UserId,
                         Active = true,
-                        ImageUrl = imageUrl
+                        ImageUrl = imageUrl,
+                        IsBot = false,
                     });
+
                     Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue,
                         gameRoom.GameRoomId, playerName, gameRoom.SoftwareType, imageUrl);
 
@@ -105,11 +110,21 @@ namespace RiskGame.Controllers
                         JoinDate = DateTime.UtcNow,
                         UserId = Singleton.User().UserId,
                         Active = true,
-                        ImageUrl = imageUrl
+                        TurnValue = 1,
+                        ImageUrl = imageUrl,
+                        IsBot = false,
                     });
+
+                    if (expertPlayer == true)
+                    {
+                        //create 2 bot Async
+                        _service.BotExpert().CreateBotExpertAsync(gameRoom);
+                    }
+
                     Singleton.CreateGameSession(gameRoom.TeamValue, gameRoom.ProjectValue, gameRoom.MoneyValue,
                         gameRoom.GameRoomId, playerName, gameRoom.SoftwareType, imageUrl);
-                    return RedirectToAction("Index", "GameStart", new { id = gameRoom.GameRoomId });
+
+                    return RedirectToAction("Index", "Story", new { id = gameRoom.GameRoomId });
                 }
             }
             return RedirectToAction("Index", "Home");
@@ -169,6 +184,7 @@ namespace RiskGame.Controllers
                 MoneyValue = gameRoom.MoneyValue,
                 ProjectValue = gameRoom.ProjectValue,
                 TeamValue = gameRoom.TeamValue,
+                TurnValue = 1,
                 GameFinished = null,
                 JoinDate = DateTime.UtcNow,
                 UserId = Singleton.User().UserId,

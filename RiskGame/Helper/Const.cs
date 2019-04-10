@@ -25,8 +25,11 @@ namespace RiskGame.Helper
 
         public enum JobType
         {
-            StartUp = 0
+            StartUp = 0,
+            ExpertSpecialist = 99,
+            Newbies = 100
         }
+
         public enum SoftwareType
         {
             WaterFall = 0,

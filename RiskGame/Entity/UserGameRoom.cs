@@ -19,6 +19,7 @@ namespace RiskGame.Entity
         public int UserId { get; set; }
         public string PlayerName { get; set; }
         public Nullable<int> JobType { get; set; }
+        public Nullable<int> TurnValue { get; set; }
         public int MoneyValue { get; set; }
         public int ProjectValue { get; set; }
         public int TeamValue { get; set; }
@@ -26,6 +27,7 @@ namespace RiskGame.Entity
         public Nullable<bool> Active { get; set; }
         public Nullable<bool> GameFinished { get; set; }
         public string ImageUrl { get; set; }
+        public bool IsBot { get; set; }
 
         public virtual GameRoom GameRoom { get; set; }
         public virtual User User { get; set; }

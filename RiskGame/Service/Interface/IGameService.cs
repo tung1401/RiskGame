@@ -21,6 +21,7 @@ namespace KPI.Services.Interface
         int GetMaxTurnByRoomId(int gameRoomId);
         bool CheckMaxTurn(int gameRoomId, int turn);
 
+        IEnumerable<UserGameRisk> GetUserGameRisk(int gameRoomId, int turn);
         IEnumerable<UserGameRisk> GetUserGameRisk(int gameRoomId, int turn, int userId);
         UserGameRisk AddUserGameRisk(UserGameRisk entity);
 

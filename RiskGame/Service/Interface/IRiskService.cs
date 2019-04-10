@@ -17,5 +17,6 @@ namespace KPI.Services.Interface
         IEnumerable<RiskOption> GetAllRiskOptionWithoutZeroLevel();
 
         IEnumerable<Risk> GetAllRiskWithOutZeroLevel();
+        IEnumerable<RiskOption> GetAllRiskOptionByRiskId(int riskId, int? level);
     }
 }

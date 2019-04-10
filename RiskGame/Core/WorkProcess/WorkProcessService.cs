@@ -188,7 +188,7 @@ namespace RiskGame.Core.WorkProcess
                 }
                 else
                 {
-                    risks = _service.Risk().GetAllRiskWithOutZeroLevel().OrderBy(x => Guid.NewGuid()).Take(maxTake).ToList();
+                   // risks = _service.Risk().GetAllRisk().OrderBy(x => Guid.NewGuid()).Take(maxTake).ToList();
                 }
             }
             else
@@ -229,6 +229,7 @@ namespace RiskGame.Core.WorkProcess
                         Turn = i,
                         ActionEffectType = riskOptionItem.ActionEffectType,
                         ActionEffectValue = riskOptionItem.ActionEffectValue,
+
                     };
                     gameBattleList.Add(game);
                 }

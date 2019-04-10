@@ -27,11 +27,13 @@ namespace KPI.Services.Interface
 
         IEnumerable<GameRoom> GetGameHistory(int userId);
         GameRoom GetRoomById(int gameRoomId);
-        void UpdateUserGameRoom(int userId, int gameRoomId, int moneyValue);
+        void UpdateUserGameRoom(int userId, int gameRoomId, int moneyValue, int turnValue);
         void UpdateGameRoom(GameRoom gameRoom);
 
         UserGameRoom GetUserGameRoom(int userId, int gameRoomId);
         IEnumerable<UserGameRoom> GetUserGameRoom(int gameRoomId);
+        void SaveUserGameRoomAsync(UserGameRoom userGameRoom);
+        UserGameRoom GetUserGameRoom(int gameRoomId, bool isbot, int jobType);
 
     }
 }

@@ -67,6 +67,15 @@ namespace KPI.Services.Service
             return _riskOption.GetWith(x => x.RiskOptionId == riskOptionId && x.ActionEffectType == actionEffectType, inc => inc.Risk);
         }
 
+        public IEnumerable<RiskOption> GetAllRiskOptionByRiskId(int riskId, int? level)
+        {
+            if (level.HasValue)
+            {
+                return _riskOption.GetMany(x => x.RiskId == riskId && x.RiskLevel == level);
+            }
+            return _riskOption.GetMany(x => x.RiskId == riskId);
+        }
+
         
     }
 }

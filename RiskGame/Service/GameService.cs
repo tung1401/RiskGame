@@ -68,7 +68,18 @@ namespace KPI.Services.Service
 
         public async Task CreateGameAsync(int gameRoomId, int workprocessType, int round)
         {
+
             await Task.Run(() => CreateGame(gameRoomId, workprocessType, round));
+
+            if (workprocessType == (int)SoftwareType.Agile)
+            {
+               // var workProcess = new WorkProcessService();
+               // workProcess.CreateAgileWorkModel(gameRoomId, round);
+            }
+            else
+            {
+               
+            }
         }
         public void CreateGame(int gameRoomId, int workprocessType, int round)
         {
@@ -135,6 +146,13 @@ namespace KPI.Services.Service
         {
            return _userGameRisk.GetManyWith(x => x.GameRoomId == gameRoomId && x.Turn == turn && x.UserId == userId, inc=>inc.RiskOption,includes=>includes.Risk);
         }
+
+        public IEnumerable<UserGameRisk> GetUserGameRisk(int gameRoomId, int turn)
+        {
+            return _userGameRisk.GetManyWith(x => x.GameRoomId == gameRoomId && x.Turn == turn, inc => inc.RiskOption, includes => includes.Risk);
+        }
+
+
         public UserGameRisk AddUserGameRisk(UserGameRisk entity)
         {
             return _userGameRisk.Add(entity);
@@ -145,6 +163,9 @@ namespace KPI.Services.Service
         {
             _gameBattle.AddAsync(gameBattle);
         }
+
+       
+
 
     }
 }
