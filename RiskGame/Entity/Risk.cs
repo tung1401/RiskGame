@@ -27,7 +27,10 @@ namespace RiskGame.Entity
         public string RiskDetail { get; set; }
         public Nullable<int> RiskType { get; set; }
         public Nullable<int> ExpertSuggestion { get; set; }
-    
+        public Nullable<int> RiskProbability { get; set; }
+        public Nullable<int> RiskImpact { get; set; }
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RiskOption> RiskOptions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

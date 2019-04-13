@@ -28,7 +28,8 @@ namespace RiskGame.Entity
         public Nullable<int> ActionEffectValue { get; set; }
         public Nullable<int> RiskImpact { get; set; }
         public Nullable<int> RiskPorture { get; set; }
-    
+        public string RiskImageUrl { get; set; }
+
         public virtual Risk Risk { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserGameRisk> UserGameRisks { get; set; }

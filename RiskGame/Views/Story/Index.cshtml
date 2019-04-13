@@ -1,12 +1,36 @@
 ﻿@model RiskGame.Models.GameRoomModel
 @{
+    //Layout = "~/Views/Shared/_LayoutGame.cshtml";
     ViewBag.Title = "Story Page";
 }
 
 <div class="jumbotron">
-    <strong><i class="fa fa-coffee"></i>Story</strong>
+    <h1><i class="fa fa-briefcase fa-5"></i> User Scenario</h1>
+    <br />
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <strong><i class="fa fa-warning"></i> Info!</strong>
+        <marquee><p style="font-family: Impact; font-size: 18pt;color:black">เรากำลังจะพัฒนาโครงการที่ใช้เทคโนโลยีขั้นสูง เกี่ยวข้องกับคนจำนวนมาก และมีความเป็นนวัตกรรมสูงมาก</p></marquee>
+    </div>
 
+    <div class="card">
+        <div class="card-header">
+            <strong class="card-title" v-if="headerText">What is Risk?</strong>
+        </div>
 
+        <div class="card-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p><strong>ความเสี่ยง (Risk)</strong> หมายถึง เหตุการณ์หรือการกระทำใด ๆ ที่จะเกิดขึ้นภายในสถานการณ์ที่ไม่แน่นอน และจะส่งผลกระทบหรือสร้างความเสียหาย (ทั้งที่เป็นตัวเงินและไม่เป็นตัวเงิน) หรือก่อให้เกิดความล้มเหลวหรือ ลดโอกาสที่จะบรรลุวัตถุประสงค์และเป้าหมายขององค์กร ทั้งในด้านยุทธศาสตร์การปฏิบัติงาน การเงินและ การบริการ ซึ่งเป็นผลกระทบทางบวกด้วยก็ได้ โดยวัดจากผลกระทบ (Impact) ที่ได้รับและโอกาสที่จะเกิด (Likelihood) ของเหตุการณ์</p>
+                    <p><strong>ปัจจัยเสี่ยง (Risk Factor)</strong> หมายถึง ต้นเหตุหรือสาเหตุที่มาของความเสี่ยงที่จะทำให้ไม่บรรลุวัตถุประสงค์ ที่กำหนดไว้ โดยต้องระบุได้ด้วยว่าเหตุการณ์นั้นจะเกิดที่ไหน เมื่อใดและเกิดขึ้นได้อย่างไร และทำไม ทั้งนี้สาเหตุ ของความเสี่ยงที่ระบุควรเป็นสาเหตุที่แท้จริง เพื่อจะได้วิเคราะห์และกำหนดมาตรการลดความเสี่ยงในภายหลัง ได้อย่างถูกต้อง</p>
+                    <p><strong>การประเมินความเสี่ยง (Risk Assessment)</strong> หมายถึง กระบวนการระบุความเสี่ยง การวิเคราะห์ความเสี่ยง และจัดลำดับความเสี่ยง โดยการประเมินจากโอกาสที่จะเกิด (Likelihood) และผลกระทบ (Impact) เมื่อทำการประเมินแล้ว ทำให้ทราบระดับของความเสี่ยง (Degree of Risk) หมายถึง สถานะของความเสี่ยงที่ได้จากการ ประเมินโอกาสและผลกระทบของแต่ละปัจจัยเสี่ยง แบ่งออกเป็น 4 ระดับ คือ สูงมาก สูง ปานกลางและต่ำ</p>
+                    <p><strong> การบริหารความเสี่ยง (Risk Management)</strong> หมายถึง กระบวนการที่ใช้ในการบริหารจัดการให้โอกาส ที่จะเกิดเหตุการณ์ความเสี่ยงลดลง หรือผลกระทบของความเสียหายจากเหตุการณ์ความเสี่ยงลดลงอยู่ในระดับ ที่องค์กรยอมรับได้ ซึ่งการจัดการความเสี่ยง แบ่งโดยสรุปได้เป็น 4 แนวทางหลัก คือการยอมรับ การลด การควบคุม การยกเลิกและการโอนย้ายหรือแบ่งความเสี่ยง</p>
+                    <p><strong>การควบคุม (Control)</strong> หมายถึง นโยบาย แนวทางหรือขั้นตอนปฏิบัติต่างๆ ซึ่งกระทำเพื่อลดความเสี่ยง และทำให้การดำเนินการบรรลุวัตถุประสงค์ แบ่งได้ 4 ประเภท คือ การควบคุมเพื่อการป้องกัน การควบคุมเพื่อ ให้ตรวจสอบ การควบคุมเพื่อการชี้แนะและการควบคุมเพื่อการแก้ไข</p>
+                </div>
+            </div>
+        </div>
 
-    <a href="@Url.Action("Index","GameStart",new { id = Model.GameRoomId })">Ready to Play Game</a>
+    </div>
+    <section>
+        <a class="btn btn-success" href="@Url.Action("Index","GameStart",new { id = Model.GameRoomId })">Ready to Play Game <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+    </section>
 </div>
