@@ -200,8 +200,7 @@ namespace RiskGame.Controllers
                 }
             }
 
-
-            var gameRoom = _service.GameRoom().GetGameRoomByUserId(Singleton.Game().UserId, Singleton.Game().GameRoomId);
+            var gameRoom = _service.GameRoom().GetRoomById(Singleton.Game().GameRoomId);
             if (gameRoom.IncludeBot.GetValueOrDefault() == true) {
 
                 var botTurn = Singleton.Game().Turn;
@@ -209,10 +208,10 @@ namespace RiskGame.Controllers
                 _service.BotExpert().BotProtectRiskAsync(botGameRoomId, botTurn, (int)JobType.ExpertSpecialist);
                 _service.BotExpert().BotProtectRiskAsync(botGameRoomId, botTurn, (int)JobType.Newbies);
             }
-            if (gameRoom != null)
-            {
-                gameRoom.MoneyValue = Singleton.Game().Money - moneySummary;
-            }
+            //if (gameRoom != null)
+            //{
+            //    gameRoom.MoneyValue = Singleton.Game().Money - moneySummary;
+            //}
             var money = Singleton.Game().Money - moneySummary;
             _service.GameRoom().UpdateUserGameRoom(Singleton.Game().UserId, Singleton.Game().GameRoomId, money, Singleton.Game().Turn);
             Singleton.UpdateGameSession(Singleton.Game().Team, Singleton.Game().Project, money, Singleton.Game().Turn, Singleton.Game().SoftwareType, Singleton.Game().PlayerImageUrl);

@@ -25,3 +25,5 @@ ON ro.RiskOptionId = gb.RiskOptionId
 where GameRoomId in (select top 1 gameroomId from GameRoom order by  1 desc)
 
 select  * from UserGameRisk where GameRoomId in (select top 1 gameroomId from GameRoom order by  1 desc)
+
+select  * from UserGameroom where GameRoomId in (select top 1 gameroomId from GameRoom order by  1 desc)

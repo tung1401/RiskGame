@@ -62,16 +62,16 @@
                                         @Html.DropDownList("Add.Goal", (List<SelectListItem>)ViewBag.SelectGoal, new { @class = "form-control" })
                                     </div>
                                     <div class="form-group" style="padding: 0;height: 70px;">
-                                            <div class="col-lg-9" style="padding: 0;">
-                                                @Html.Label("Software Process")
-                                                @Html.DropDownList("Add.SoftwareProcessType", (List<SelectListItem>)ViewBag.SelectSoftwareProcessType, new { @class = "form-control" })
+                                        <div class="col-lg-9" style="padding: 0;">
+                                            @Html.Label("Software Process")
+                                            @Html.DropDownList("Add.SoftwareProcessType", (List<SelectListItem>)ViewBag.SelectSoftwareProcessType, new { @class = "form-control" })
 
-                                            </div>
-                                            <div class="col-lg-3" style="padding: 0 0 0 10px;">
-                                                @Html.Label("Round")
-                                                @Html.TextBox("Add.Round", "", new { @class = "form-control", type = "text", required = "required", step = "1", min = 1, max = 10, maxlength = 2, onkeyup = "changeLimitHandler(this)" })
-                                            </div>
-                                      
+                                        </div>
+                                        <div class="col-lg-3" style="padding: 0 0 0 10px;">
+                                            @Html.Label("Round")
+                                            @Html.TextBox("Add.Round", "", new { @class = "form-control", type = "text", required = "required", step = "1", min = 1, max = 10, maxlength = 2, onkeyup = "changeLimitHandler(this)" })
+                                        </div>
+
                                     </div>
                                     @if (isSinglePlayer)
                                     {
@@ -79,6 +79,10 @@
                                             @Html.CheckBox("Add.ExpertPlayer", true, new { @class = "" })
                                             @Html.Raw("Include Expert Player")
                                         </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.Hidden("Add.ExpertPlayer", false)
                                     }
                                     <div class="form-group">
                                     </div>
@@ -102,9 +106,7 @@
                     <strong class="card-title">Create Character</strong>
                 </div>
                 <div class="card-body">
-
-                    <div class="form-group">
-                     
+                    <div class="form-group">             
                         <div class="col-lg-6" style="padding: 0;">
                             @Html.Label("Player Avartar")
 
@@ -112,9 +114,7 @@
                         </div>
                         <div class="col-lg-6" style="padding: 0;">
                             <img id="myAvartar" class="align-self-center rounded-circle" style="height: 95px;text-align: center;display: block;margin: 0 auto;" alt="" src="/Content/sufee/images/boy.png">
-                        </div>
-                       
-
+                        </div>  
                     </div>
 
                     <div class="form-group">
