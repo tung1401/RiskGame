@@ -77,7 +77,13 @@ namespace RiskGame.Controllers
             var openRisk = _service.Game().GetGameBattleOpenRisk(Singleton.Game().GameRoomId, Singleton.Game().Turn);
             if (openRisk.Any())
             {
-                model.GameBattles = openRisk.ToList();
+                model.GameBattles = openRisk.ToList();            
+                var gameBattleData = _service.Game().GetGameBattleData(openRisk.ToList());
+                var javaScriptSearilizer = new JavaScriptSerializer();
+                var searializedObject = javaScriptSearilizer.Serialize(gameBattleData);
+                model.OpenRiskGameBattleModelArray = searializedObject;
+
+
                 var userGameRisk = _service.Game().GetUserGameRisk(Singleton.Game().GameRoomId,
                     Singleton.Game().Turn, Singleton.Game().UserId);
 

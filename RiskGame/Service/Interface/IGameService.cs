@@ -1,4 +1,5 @@
 ﻿using RiskGame.Entity;
+using RiskGame.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,5 +27,10 @@ namespace KPI.Services.Interface
         UserGameRisk AddUserGameRisk(UserGameRisk entity);
 
         void SaveGameBattleAsync(GameBattle gameBattle);
+
+
+
+        //Custom Model
+        List<GameBattleData> GetGameBattleData(List<GameBattle> gameBattles);
     }
 }

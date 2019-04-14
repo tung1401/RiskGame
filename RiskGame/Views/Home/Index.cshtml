@@ -1,7 +1,8 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
+@using RiskGame.Models
+@using System.Web.Script.Serialization
 @*<iframe src="~/DashBoard" width="100%" height="500px" />*@
 
 @section BreadCrumb{
@@ -107,20 +108,123 @@
         }
     </script>
     @*<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+        <script>
+
+
+            Swal.fire({
+                title: 'Error!',
+                text: 'Do you want to continue',
+                type: 'error',
+                confirmButtonText: 'Cool'
+            })
+
+
+        </script>*@
+
+
+
+        @*var javaScriptSearilizer = new JavaScriptSerializer();
+        var list = new OpenRiskGameBattleModel
+        {
+            RiskGameBattleData = new List<GameBattleData>
+{
+    new GameBattleData
+    {
+        title ="ความเสี่ยงที่คุณได้รับมีทั้งหมด",
+        type = "warning"
+    },
+    new GameBattleData
+    {
+        title ="3 ความเสี่ยง คือ",
+        type = "warning"
+    },
+    new GameBattleData
+    {
+        title ="1",
+        imageUrl = "/Content/sufee/images/logo.png"
+    },
+    new GameBattleData
+    {
+        title ="2",
+        imageUrl = "/Content/sufee/images/logo.png"
+    },
+    new GameBattleData
+    {
+        title ="3",
+        imageUrl = "/Content/sufee/images/logo.png"
+    },
+}
+        };
+
+
+
+        var searializedObject = javaScriptSearilizer.Serialize(list);
+    
+
     <script>
-
-
-        Swal.fire({
-            title: 'Error!',
-            text: 'Do you want to continue',
-            type: 'error',
-            confirmButtonText: 'Cool'
-        })
-
-
+        var searializedObject = @Html.Raw(searializedObject)
+        Swal.queue(searializedObject.RiskGameBattleData);
     </script>*@
+
+
+
 }
 else
 {
-    @Html.Raw(" Please Login")
+    <h1>@Html.Raw("Welcome to The Risk Game")</h1>
+    <br />
+    <div class="row">
+        <div class="col-sm-6 col-lg-4">
+            <img src="~/Content/sufee/images/riskorsafe_300.png">
+        </div>
+
+        <div class="col-sm-6 col-lg-6">
+            <h2>คำอธิบายเกมส์</h2>
+
+        </div>
+    </div>
+
+    <script>
+
+                                        //  $.ajax({
+                                        //      url: '/Home/GetOpenRiskGameBattle',
+                                        //    contentType: 'application/html ; charset:utf-8',
+                                        //    type: 'GET',
+                                        //    dataType: 'JSON',
+                                        //}).success(function (data) {
+                                        //    debugger;
+                                        //    Swal.queue(data.Result.RiskGameBattleData);
+
+
+                                        //}).error(function () {
+
+                                        //});
+
+
+
+                                        //Swal.queue([
+                                        //    { title: "ความเสี่ยงที่คุณได้รับมีทั้งหมด", type: "warning" },
+                                        //    { title: "3 ความเสี่ยง คือ", type: "warning" },
+                                        //    {
+                                        //        title: "1x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
+                                        //    },
+                                        //    {
+                                        //        title: "2x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
+                                        //    },
+                                        //    {
+                                        //        title: "3x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
+                                        //    }
+                                        //]);
+
+                                        //Swal.fire({
+                                        //    title: 'Sweet!',
+                                        //    text: 'Modal with a custom image.',
+                                        //    imageUrl: 'https://unsplash.it/400/200',
+                                        //    imageWidth: 400,
+                                        //    imageHeight: 200,
+                                        //    imageAlt: 'Custom image',
+                                        //    animation: false
+                                        //})
+                                        //Swal.fire({ title: "<i class='fa fa-lock' style='margin-top: 5px;'></i>&nbsp;กรุณาล็อกอินเพื่อเข้าสู่ระบบ", type: "info"});
+    </script>
 }

@@ -10,6 +10,7 @@ using RiskGame.Repository.Interfaces;
 using RiskGame.Entity;
 using RiskGame.Core.WorkProcess;
 using static RiskGame.Helper.Const;
+using RiskGame.Models;
 
 namespace KPI.Services.Service
 {
@@ -164,8 +165,30 @@ namespace KPI.Services.Service
             _gameBattle.AddAsync(gameBattle);
         }
 
-       
 
+        public List<GameBattleData> GetGameBattleData(List<GameBattle> gameBattles)
+        {           
+             var riskGameBattleDataList = new List<GameBattleData>
+             {
+                    new GameBattleData
+                    {
+                        title ="ความเสี่ยงที่คุณได้รับมีทั้งหมด",
+                        type = "warning"
+                    },
+                    new GameBattleData
+                    {
+                        title =$"{gameBattles.Count} ความเสี่ยง คือ",
+                        type = "warning"
+                    },     
+            };
 
+            var list = gameBattles.Select(x => new GameBattleData
+            {
+                title = $"{x.Risk.RiskName} level: {x.RiskOption.RiskLevel}",
+                imageUrl = x.RiskOption.RiskImageUrl
+            });
+            riskGameBattleDataList.AddRange(list);
+            return riskGameBattleDataList;
+        }
     }
 }

@@ -1277,9 +1277,19 @@
     <Content Include="Content\sufee\images\logo2.png" />
     <Content Include="Content\sufee\images\man.png" />
     <Content Include="Content\sufee\images\man2.png" />
+    <Content Include="Content\sufee\images\newbies.png" />
     <Content Include="Content\sufee\images\placeholder.png" />
+    <Content Include="Content\sufee\images\riskorsafe.png" />
+    <Content Include="Content\sufee\images\riskorsafe_300.png" />
     <Content Include="Content\sufee\images\twitter_corner_black.png" />
     <Content Include="Content\sufee\images\twitter_corner_blue.png" />
+    <Content Include="Content\SweetAlert2\enhancers.js" />
+    <Content Include="Content\SweetAlert2\globalState.js" />
+    <Content Include="Content\SweetAlert2\instanceMethods.js" />
+    <Content Include="Content\SweetAlert2\privateProps.js" />
+    <Content Include="Content\SweetAlert2\staticMethods.js" />
+    <Content Include="Content\SweetAlert2\SweetAlert.js" />
+    <Content Include="Content\SweetAlert2\sweetalert2.js" />
     <Content Include="DAL\DBScript\SupportScript.txt" />
     <Content Include="DAL\DBScript\DBScript.txt" />
     <Content Include="Entity\Model1.Context.tt">
@@ -1605,6 +1615,11 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\SweetAlert2\animations.scss" />
+    <Content Include="Content\SweetAlert2\mixins.scss" />
+    <Content Include="Content\SweetAlert2\sweetalert2.scss" />
+    <Content Include="Content\SweetAlert2\toasts.scss" />
+    <Content Include="Content\SweetAlert2\variables.scss" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1620,6 +1635,13 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="SweetAlert2\enhancers.js" />
+    <Content Include="SweetAlert2\globalState.js" />
+    <Content Include="SweetAlert2\instanceMethods.js" />
+    <Content Include="SweetAlert2\privateProps.js" />
+    <Content Include="SweetAlert2\staticMethods.js" />
+    <Content Include="SweetAlert2\SweetAlert.js" />
+    <Content Include="SweetAlert2\sweetalert2.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1676,6 +1698,11 @@
     <Content Include="Views\Shared\_MarketShared.cshtml" />
     <Content Include="Views\Market\Index.cshtml" />
     <Content Include="Views\Story\Index.cshtml" />
+    <Content Include="SweetAlert2\variables.scss" />
+    <Content Include="SweetAlert2\toasts.scss" />
+    <Content Include="SweetAlert2\sweetalert2.scss" />
+    <Content Include="SweetAlert2\mixins.scss" />
+    <Content Include="SweetAlert2\animations.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

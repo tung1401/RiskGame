@@ -1,6 +1,7 @@
 ﻿using RiskGame.DAL;
 using RiskGame.Entity;
 using RiskGame.Helper;
+using RiskGame.Models;
 using RiskGame.Repository;
 using RiskGame.Repository.Common;
 using System;
@@ -40,6 +41,44 @@ namespace RiskGame.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [HttpGet]
+        public JsonResult GetOpenRiskGameBattle()
+        {
+            var list = new OpenRiskGameBattleModel
+            {
+                RiskGameBattleData = new List<GameBattleData>
+                {
+                    new GameBattleData
+                    {
+                        title ="ความเสี่ยงที่คุณได้รับมีทั้งหมด",
+                        type = "warning"
+                    },
+                    new GameBattleData
+                    {
+                        title ="3 ความเสี่ยง คือ",
+                        type = "warning"
+                    },
+                    new GameBattleData
+                    {
+                        title ="1",
+                        imageUrl = "/Content/sufee/images/logo.png"
+                    },
+                    new GameBattleData
+                    {
+                        title ="2",
+                        imageUrl = "/Content/sufee/images/logo.png"
+                    },
+                    new GameBattleData
+                    {
+                        title ="3",
+                        imageUrl = "/Content/sufee/images/logo.png"
+                    },
+                }
+            };
+            var response = CommonFunction.GetResponse(list != null, string.Empty, list);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
     }
 }
