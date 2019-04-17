@@ -24,24 +24,25 @@ namespace RiskGame.Repository.Common
         public IRiskService Risk()
         {
             return new RiskService(
-                new RiskRepository(_db),
-                 new RiskOptionRepository(_db)
+                 new RiskRepository(_db),
+                 new RiskOptionRepository(_db),
+                 new RiskNewsRepository(_db)
                 );
         }
         public IGameService Game()
         {
             return new GameService(
-                new GameBattleRepository(_db),
-                 new UserGameBattleRepository(_db),
-                  new UserGameBattleLogRepository(_db),
-                  new UserGameRiskRepository(_db)
+                   new GameBattleRepository(_db),
+                   new UserGameBattleRepository(_db),
+                   new UserGameBattleLogRepository(_db),
+                   new UserGameRiskRepository(_db)
                 );
         }
         public IGameRoomService GameRoom()
         {
             return new GameRoomService(
-                new GameRoomRepository(_db),
-                new UserGameRoomRepository(_db)
+                   new GameRoomRepository(_db),
+                   new UserGameRoomRepository(_db)
                 //new UserGameRoomRepository(_db)
                 );
         }
@@ -50,7 +51,7 @@ namespace RiskGame.Repository.Common
         public IUserService User()
         {
             return new UserService(
-                new UserRepository(_db)
+                   new UserRepository(_db)
                 );
         }
 

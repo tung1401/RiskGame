@@ -306,7 +306,7 @@ namespace KPI.Services.Service
                 _userGameRoom.Update(userGameRoom);
             }
 
-            if (userGameRoom.IsBot) return true;
+            if (userGameRoom.IsBot.GetValueOrDefault()) return true;
 
             var gameRoom = GetRoomById(gameRoomId);
             if (gameRoom != null)

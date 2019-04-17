@@ -12,28 +12,22 @@ namespace RiskGame.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class RiskOption
+    public partial class RiskNews
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public RiskOption()
+        public RiskNews()
         {
-            this.UserGameRisks = new HashSet<UserGameRisk>();
             this.GameBattles = new HashSet<GameBattle>();
         }
     
-        public int RiskOptionId { get; set; }
-        public Nullable<int> RiskId { get; set; }
-        public Nullable<int> RiskLevel { get; set; }
-        public Nullable<int> ActionEffectType { get; set; }
-        public Nullable<int> ActionEffectValue { get; set; }
-        public Nullable<int> RiskImpact { get; set; }
-        public Nullable<int> RiskPorture { get; set; }
-        public string RiskImageUrl { get; set; }
+        public int RiskNewsId { get; set; }
+        public int RiskId { get; set; }
+        public string RiskNewsDetail { get; set; }
+        public Nullable<int> RiskNewsProbability { get; set; }
+        public Nullable<int> RiskNewsImpact { get; set; }
     
-        public virtual Risk Risk { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserGameRisk> UserGameRisks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GameBattle> GameBattles { get; set; }
+        public virtual Risk Risk { get; set; }
     }
 }

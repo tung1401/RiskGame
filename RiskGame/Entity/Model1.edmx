@@ -17,6 +17,7 @@
           <Property Name="Turn" Type="int" />
           <Property Name="ActionEffectType" Type="int" />
           <Property Name="ActionEffectValue" Type="int" />
+          <Property Name="RiskNewsId" Type="int" />
         </EntityType>
         <EntityType Name="GameRoom">
           <Key>
@@ -35,6 +36,9 @@
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Active" Type="bit" />
+          <Property Name="GameRound" Type="int" Nullable="false" />
+          <Property Name="GoalValue" Type="int" />
+          <Property Name="IncludeBot" Type="bit" />
         </EntityType>
         <EntityType Name="Risk">
           <Key>
@@ -45,6 +49,18 @@
           <Property Name="RiskDetail" Type="nvarchar(max)" />
           <Property Name="RiskType" Type="int" />
           <Property Name="ExpertSuggestion" Type="int" />
+          <Property Name="RiskProbability" Type="int" />
+          <Property Name="RiskImpact" Type="int" />
+        </EntityType>
+        <EntityType Name="RiskNews">
+          <Key>
+            <PropertyRef Name="RiskNewsId" />
+          </Key>
+          <Property Name="RiskNewsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RiskId" Type="int" Nullable="false" />
+          <Property Name="RiskNewsDetail" Type="nvarchar(max)" />
+          <Property Name="RiskNewsProbability" Type="int" />
+          <Property Name="RiskNewsImpact" Type="int" />
         </EntityType>
         <EntityType Name="RiskOption">
           <Key>
@@ -57,6 +73,7 @@
           <Property Name="ActionEffectValue" Type="int" />
           <Property Name="RiskImpact" Type="int" />
           <Property Name="RiskPorture" Type="int" />
+          <Property Name="RiskImageUrl" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="UserGameBattle">
           <Key>
@@ -110,12 +127,15 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="PlayerName" Type="nvarchar(max)" />
           <Property Name="JobType" Type="int" />
+          <Property Name="TurnValue" Type="int" />
           <Property Name="MoneyValue" Type="int" Nullable="false" />
           <Property Name="ProjectValue" Type="int" Nullable="false" />
           <Property Name="TeamValue" Type="int" Nullable="false" />
           <Property Name="JoinDate" Type="datetime" />
           <Property Name="Active" Type="bit" />
           <Property Name="GameFinished" Type="bit" />
+          <Property Name="ImageUrl" Type="nvarchar(max)" />
+          <Property Name="IsBot" Type="bit" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -126,6 +146,7 @@
           <Property Name="FirstName" Type="nvarchar(max)" />
           <Property Name="LastName" Type="nvarchar(max)" />
           <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="BotExpert" Type="int" />
         </EntityType>
         <Association Name="FK_GameBattle_GameRoom">
           <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
@@ -151,6 +172,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_GameBattle_RiskNews">
+          <End Role="RiskNews" Type="Self.RiskNews" Multiplicity="0..1" />
+          <End Role="GameBattle" Type="Self.GameBattle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RiskNews">
+              <PropertyRef Name="RiskNewsId" />
+            </Principal>
+            <Dependent Role="GameBattle">
+              <PropertyRef Name="RiskNewsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GameBattle_RiskOption">
           <End Role="RiskOption" Type="Self.RiskOption" Multiplicity="1" />
           <End Role="GameBattle" Type="Self.GameBattle" Multiplicity="*" />
@@ -172,6 +205,18 @@
             </Principal>
             <Dependent Role="GameRoom">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RiskNews_Risk">
+          <End Role="Risk" Type="Self.Risk" Multiplicity="1" />
+          <End Role="RiskNews" Type="Self.RiskNews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risk">
+              <PropertyRef Name="RiskId" />
+            </Principal>
+            <Dependent Role="RiskNews">
+              <PropertyRef Name="RiskId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -323,6 +368,7 @@
           <EntitySet Name="GameBattle" EntityType="Self.GameBattle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GameRoom" EntityType="Self.GameRoom" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Risk" EntityType="Self.Risk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RiskNews" EntityType="Self.RiskNews" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RiskOption" EntityType="Self.RiskOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserGameBattle" EntityType="Self.UserGameBattle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserGameBattleLog" EntityType="Self.UserGameBattleLog" Schema="dbo" store:Type="Tables" />
@@ -337,6 +383,10 @@
             <End Role="Risk" EntitySet="Risk" />
             <End Role="GameBattle" EntitySet="GameBattle" />
           </AssociationSet>
+          <AssociationSet Name="FK_GameBattle_RiskNews" Association="Self.FK_GameBattle_RiskNews">
+            <End Role="RiskNews" EntitySet="RiskNews" />
+            <End Role="GameBattle" EntitySet="GameBattle" />
+          </AssociationSet>
           <AssociationSet Name="FK_GameBattle_RiskOption" Association="Self.FK_GameBattle_RiskOption">
             <End Role="RiskOption" EntitySet="RiskOption" />
             <End Role="GameBattle" EntitySet="GameBattle" />
@@ -344,6 +394,10 @@
           <AssociationSet Name="FK_GameRoom_User" Association="Self.FK_GameRoom_User">
             <End Role="Users" EntitySet="Users" />
             <End Role="GameRoom" EntitySet="GameRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RiskNews_Risk" Association="Self.FK_RiskNews_Risk">
+            <End Role="Risk" EntitySet="Risk" />
+            <End Role="RiskNews" EntitySet="RiskNews" />
           </AssociationSet>
           <AssociationSet Name="FK_RiskOption_Risk" Association="Self.FK_RiskOption_Risk">
             <End Role="Risk" EntitySet="Risk" />
@@ -472,6 +526,15 @@
             <End Role="GameBattle" EntitySet="GameBattles" />
             <End Role="UserGameBattleLog" EntitySet="UserGameBattleLogs" />
           </AssociationSet>
+          <EntitySet Name="RiskNews" EntityType="Model.RiskNew" />
+          <AssociationSet Name="FK_GameBattle_RiskNews" Association="Model.FK_GameBattle_RiskNews">
+            <End Role="RiskNew" EntitySet="RiskNews" />
+            <End Role="GameBattle" EntitySet="GameBattles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RiskNews_Risk" Association="Model.FK_RiskNews_Risk">
+            <End Role="Risk" EntitySet="Risks" />
+            <End Role="RiskNew" EntitySet="RiskNews" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="GameRoom">
           <Key>
@@ -495,6 +558,9 @@
           <NavigationProperty Name="UserGameBattleLogs" Relationship="Model.FK_UserGameBattleLog_GameRoom" FromRole="GameRoom" ToRole="UserGameBattleLog" />
           <NavigationProperty Name="UserGameRisks" Relationship="Model.FK_UserGameRisk_GameRoom" FromRole="GameRoom" ToRole="UserGameRisk" />
           <NavigationProperty Name="GameBattles" Relationship="Model.FK_GameBattle_GameRoom" FromRole="GameRoom" ToRole="GameBattle" />
+          <Property Name="GameRound" Type="Int32" Nullable="false" />
+          <Property Name="GoalValue" Type="Int32" />
+          <Property Name="IncludeBot" Type="Boolean" />
         </EntityType>
         <EntityType Name="Risk">
           <Key>
@@ -508,6 +574,9 @@
           <NavigationProperty Name="RiskOptions" Relationship="Model.FK_RiskOption_Risk" FromRole="Risk" ToRole="RiskOption" />
           <NavigationProperty Name="UserGameRisks" Relationship="Model.FK_UserGameRisk_Risk" FromRole="Risk" ToRole="UserGameRisk" />
           <NavigationProperty Name="GameBattles" Relationship="Model.FK_GameBattle_Risk" FromRole="Risk" ToRole="GameBattle" />
+          <Property Name="RiskProbability" Type="Int32" />
+          <Property Name="RiskImpact" Type="Int32" />
+          <NavigationProperty Name="RiskNews" Relationship="Model.FK_RiskNews_Risk" FromRole="Risk" ToRole="RiskNew" />
         </EntityType>
         <EntityType Name="RiskOption">
           <Key>
@@ -523,6 +592,7 @@
           <NavigationProperty Name="Risk" Relationship="Model.FK_RiskOption_Risk" FromRole="RiskOption" ToRole="Risk" />
           <NavigationProperty Name="UserGameRisks" Relationship="Model.FK_UserGameRisk_RiskOption" FromRole="RiskOption" ToRole="UserGameRisk" />
           <NavigationProperty Name="GameBattles" Relationship="Model.FK_GameBattle_RiskOption" FromRole="RiskOption" ToRole="GameBattle" />
+          <Property Name="RiskImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="UserGameBattle">
           <Key>
@@ -558,6 +628,9 @@
           <Property Name="GameFinished" Type="Boolean" />
           <NavigationProperty Name="GameRoom" Relationship="Model.FK_UserGameRoom_GameRoom" FromRole="UserGameRoom" ToRole="GameRoom" />
           <NavigationProperty Name="User" Relationship="Model.FK_UserGameRoom_User" FromRole="UserGameRoom" ToRole="User" />
+          <Property Name="TurnValue" Type="Int32" />
+          <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsBot" Type="Boolean" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -573,6 +646,7 @@
           <NavigationProperty Name="UserGameRooms" Relationship="Model.FK_UserGameRoom_User" FromRole="User" ToRole="UserGameRoom" />
           <NavigationProperty Name="UserGameBattleLogs" Relationship="Model.FK_UserGameBattleLog_User" FromRole="User" ToRole="UserGameBattleLog" />
           <NavigationProperty Name="UserGameRisks" Relationship="Model.FK_UserGameRisk_User" FromRole="User" ToRole="UserGameRisk" />
+          <Property Name="BotExpert" Type="Int32" />
         </EntityType>
         <Association Name="FK_GameRoom_User">
           <End Type="Model.User" Role="User" Multiplicity="1" />
@@ -758,6 +832,8 @@
           <NavigationProperty Name="RiskOption" Relationship="Model.FK_GameBattle_RiskOption" FromRole="GameBattle" ToRole="RiskOption" />
           <NavigationProperty Name="UserGameBattles" Relationship="Model.FK_UserGameBattle_GameBattle" FromRole="GameBattle" ToRole="UserGameBattle" />
           <NavigationProperty Name="UserGameBattleLogs" Relationship="Model.FK_UserGameBattleLog_GameBattle" FromRole="GameBattle" ToRole="UserGameBattleLog" />
+          <Property Name="RiskNewsId" Type="Int32" />
+          <NavigationProperty Name="RiskNew" Relationship="Model.FK_GameBattle_RiskNews" FromRole="GameBattle" ToRole="RiskNew" />
         </EntityType>
         <Association Name="FK_GameBattle_GameRoom">
           <End Type="Model.GameRoom" Role="GameRoom" Multiplicity="1" />
@@ -819,6 +895,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="RiskNew">
+          <Key>
+            <PropertyRef Name="RiskNewsId" />
+          </Key>
+          <Property Name="RiskNewsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RiskId" Type="Int32" Nullable="false" />
+          <Property Name="RiskNewsDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RiskNewsProbability" Type="Int32" />
+          <Property Name="RiskNewsImpact" Type="Int32" />
+          <NavigationProperty Name="GameBattles" Relationship="Model.FK_GameBattle_RiskNews" FromRole="RiskNew" ToRole="GameBattle" />
+          <NavigationProperty Name="Risk" Relationship="Model.FK_RiskNews_Risk" FromRole="RiskNew" ToRole="Risk" />
+        </EntityType>
+        <Association Name="FK_GameBattle_RiskNews">
+          <End Type="Model.RiskNew" Role="RiskNew" Multiplicity="0..1" />
+          <End Type="Model.GameBattle" Role="GameBattle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RiskNew">
+              <PropertyRef Name="RiskNewsId" />
+            </Principal>
+            <Dependent Role="GameBattle">
+              <PropertyRef Name="RiskNewsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RiskNews_Risk">
+          <End Type="Model.Risk" Role="Risk" Multiplicity="1" />
+          <End Type="Model.RiskNew" Role="RiskNew" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risk">
+              <PropertyRef Name="RiskId" />
+            </Principal>
+            <Dependent Role="RiskNew">
+              <PropertyRef Name="RiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -828,6 +940,9 @@
           <EntitySetMapping Name="GameRooms">
             <EntityTypeMapping TypeName="Model.GameRoom">
               <MappingFragment StoreEntitySet="GameRoom">
+                <ScalarProperty Name="IncludeBot" ColumnName="IncludeBot" />
+                <ScalarProperty Name="GoalValue" ColumnName="GoalValue" />
+                <ScalarProperty Name="GameRound" ColumnName="GameRound" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
@@ -847,6 +962,8 @@
           <EntitySetMapping Name="Risks">
             <EntityTypeMapping TypeName="Model.Risk">
               <MappingFragment StoreEntitySet="Risk">
+                <ScalarProperty Name="RiskImpact" ColumnName="RiskImpact" />
+                <ScalarProperty Name="RiskProbability" ColumnName="RiskProbability" />
                 <ScalarProperty Name="ExpertSuggestion" ColumnName="ExpertSuggestion" />
                 <ScalarProperty Name="RiskType" ColumnName="RiskType" />
                 <ScalarProperty Name="RiskDetail" ColumnName="RiskDetail" />
@@ -858,6 +975,7 @@
           <EntitySetMapping Name="RiskOptions">
             <EntityTypeMapping TypeName="Model.RiskOption">
               <MappingFragment StoreEntitySet="RiskOption">
+                <ScalarProperty Name="RiskImageUrl" ColumnName="RiskImageUrl" />
                 <ScalarProperty Name="RiskPorture" ColumnName="RiskPorture" />
                 <ScalarProperty Name="RiskImpact" ColumnName="RiskImpact" />
                 <ScalarProperty Name="ActionEffectValue" ColumnName="ActionEffectValue" />
@@ -887,6 +1005,9 @@
           <EntitySetMapping Name="UserGameRooms">
             <EntityTypeMapping TypeName="Model.UserGameRoom">
               <MappingFragment StoreEntitySet="UserGameRoom">
+                <ScalarProperty Name="IsBot" ColumnName="IsBot" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="TurnValue" ColumnName="TurnValue" />
                 <ScalarProperty Name="GameFinished" ColumnName="GameFinished" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
@@ -904,6 +1025,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="Model.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="BotExpert" ColumnName="BotExpert" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -945,6 +1067,7 @@
           <EntitySetMapping Name="GameBattles">
             <EntityTypeMapping TypeName="Model.GameBattle">
               <MappingFragment StoreEntitySet="GameBattle">
+                <ScalarProperty Name="RiskNewsId" ColumnName="RiskNewsId" />
                 <ScalarProperty Name="ActionEffectValue" ColumnName="ActionEffectValue" />
                 <ScalarProperty Name="ActionEffectType" ColumnName="ActionEffectType" />
                 <ScalarProperty Name="Turn" ColumnName="Turn" />
@@ -953,6 +1076,17 @@
                 <ScalarProperty Name="RiskId" ColumnName="RiskId" />
                 <ScalarProperty Name="GameRoomId" ColumnName="GameRoomId" />
                 <ScalarProperty Name="GameBattleId" ColumnName="GameBattleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RiskNews">
+            <EntityTypeMapping TypeName="Model.RiskNew">
+              <MappingFragment StoreEntitySet="RiskNews">
+                <ScalarProperty Name="RiskNewsImpact" ColumnName="RiskNewsImpact" />
+                <ScalarProperty Name="RiskNewsProbability" ColumnName="RiskNewsProbability" />
+                <ScalarProperty Name="RiskNewsDetail" ColumnName="RiskNewsDetail" />
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+                <ScalarProperty Name="RiskNewsId" ColumnName="RiskNewsId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

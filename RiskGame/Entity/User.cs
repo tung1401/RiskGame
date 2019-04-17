@@ -30,7 +30,7 @@ namespace RiskGame.Entity
         public string LastName { get; set; }
         public string Email { get; set; }
         public Nullable<int> BotExpert { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GameRoom> GameRooms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

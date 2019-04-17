@@ -20,6 +20,7 @@ namespace RiskGame.Entity
             this.RiskOptions = new HashSet<RiskOption>();
             this.UserGameRisks = new HashSet<UserGameRisk>();
             this.GameBattles = new HashSet<GameBattle>();
+            this.RiskNews = new HashSet<RiskNews>();
         }
     
         public int RiskId { get; set; }
@@ -29,13 +30,14 @@ namespace RiskGame.Entity
         public Nullable<int> ExpertSuggestion { get; set; }
         public Nullable<int> RiskProbability { get; set; }
         public Nullable<int> RiskImpact { get; set; }
-
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RiskOption> RiskOptions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserGameRisk> UserGameRisks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GameBattle> GameBattles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RiskNews> RiskNews { get; set; }
     }
 }

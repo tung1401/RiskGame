@@ -22,43 +22,50 @@ namespace RiskGame.Core.WorkProcess
 
         public void CreateWaterFallModel(int gameRoomId, int round)
         {
-            var listReq = new List<Risk>();
-            var listDesign = new List<Risk>();
-            var listDev = new List<Risk>();
-            var listQA = new List<Risk>();
-            var listSupport = new List<Risk>();
-            // getAll Risk with Risk option
-            var risks = _service.Risk().GetAllRiskWithOutZeroLevel().ToList();
-
-            // separate type
-            listReq.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Requirement));
-            listDesign.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Design));
-            listDev.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Implement));
-            listQA.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Testing));
-            listSupport.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Support));
-
-            var gameBattleList = new List<GameBattle>();
-
-            //take Random
-            var turn = 0;
-            for (int i = 0; i < round; i++)
+            try
             {
-                if (i > 0)
+                var listReq = new List<Risk>();
+                var listDesign = new List<Risk>();
+                var listDev = new List<Risk>();
+                var listQA = new List<Risk>();
+                var listSupport = new List<Risk>();
+                // getAll Risk with Risk option
+                var risks = _service.Risk().GetAllRiskWithOutZeroLevel().ToList();
+
+                // separate type
+                listReq.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Requirement));
+                listDesign.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Design));
+                listDev.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Implement));
+                listQA.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Testing));
+                listSupport.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Support));
+
+                var gameBattleList = new List<GameBattle>();
+
+                //take Random
+                var turn = 0;
+                for (int i = 0; i < round; i++)
                 {
-                    turn += 5;
-                }
+                    if (i > 0)
+                    {
+                        turn += 5;
+                    }
 
-                gameBattleList.AddRange(GenerateWorkProcess(gameRoomId, listReq, ((int)RiskType.Requirement + turn)));
-                gameBattleList.AddRange(GenerateWorkProcess(gameRoomId, listDesign, ((int)RiskType.Design + turn)));
-                gameBattleList.AddRange(GenerateWorkProcess(gameRoomId, listDev, ((int)RiskType.Implement + turn)));
-                gameBattleList.AddRange(GenerateWorkProcess(gameRoomId, listQA, ((int)RiskType.Testing + turn)));
-                gameBattleList.AddRange(GenerateWorkProcess(gameRoomId, listSupport, ((int)RiskType.Support + turn)));
+                    gameBattleList.AddRange(GenerateWorkProcess(gameRoomId, listReq, ((int)RiskType.Requirement + turn)));
+                    gameBattleList.AddRange(GenerateWorkProcess(gameRoomId, listDesign, ((int)RiskType.Design + turn)));
+                    gameBattleList.AddRange(GenerateWorkProcess(gameRoomId, listDev, ((int)RiskType.Implement + turn)));
+                    gameBattleList.AddRange(GenerateWorkProcess(gameRoomId, listQA, ((int)RiskType.Testing + turn)));
+                    gameBattleList.AddRange(GenerateWorkProcess(gameRoomId, listSupport, ((int)RiskType.Support + turn)));
+                }
+                //save DB
+                foreach (var gameBattle in gameBattleList)
+                {
+                    _service.Game().SaveGameBattleAsync(gameBattle);
+                }
             }
-            //save DB
-            foreach (var gameBattle in gameBattleList)
+            catch(Exception ex)
             {
-               _service.Game().SaveGameBattleAsync(gameBattle);
-            }                
+
+            }
         }
 
         private List<GameBattle> GenerateWorkProcess(int gameRoomId, List<Risk> risks, int turn)
@@ -73,6 +80,13 @@ namespace RiskGame.Core.WorkProcess
                     var riskOption = risk.RiskOptions.FirstOrDefault(x => x.RiskLevel == randomRiskOptionLevel);
                     if (riskOption != null)
                     {
+                        int? riskNewsId = null;
+                        var riskNews = GetRandomRiskNews(risk.RiskId, risk.RiskProbability.GetValueOrDefault());
+                        if (riskNews != null)
+                        {
+                            riskNewsId = riskNews.RiskNewsId;
+                        }
+
                         var game = new GameBattle
                         {
                             GameRoomId = gameRoomId,
@@ -82,6 +96,7 @@ namespace RiskGame.Core.WorkProcess
                             Turn = turn,
                             ActionEffectType = riskOption.ActionEffectType,
                             ActionEffectValue = riskOption.ActionEffectValue,
+                            RiskNewsId = riskNewsId
                         };
                         gameBattleList.Add(game);
                     }
@@ -113,6 +128,14 @@ namespace RiskGame.Core.WorkProcess
                             if (!listRiskInTurn.Any(x => x.RiskId == risk.Risk.RiskId) || !listRiskInTurn.Any())
                             {
                                 listRiskInTurn.Add(risk.Risk);
+
+                                int? riskNewsId = null;
+                                var riskNews = GetRandomRiskNews(risk.Risk.RiskId, risk.Risk.RiskProbability.GetValueOrDefault());
+                                if (riskNews != null)
+                                {
+                                    riskNewsId = riskNews.RiskNewsId;
+                                }
+
                                 var gameBattle = new GameBattle
                                 {
                                     GameRoomId = gameRoomId,
@@ -122,6 +145,7 @@ namespace RiskGame.Core.WorkProcess
                                     Turn = turn,
                                     ActionEffectType = risk.ActionEffectType,
                                     ActionEffectValue = risk.ActionEffectValue,
+                                    RiskNewsId = riskNewsId
                                 };
                                 _service.Game().SaveGameBattleAsync(gameBattle);
                             }
@@ -220,6 +244,13 @@ namespace RiskGame.Core.WorkProcess
                 {
                     var riskOptionItem = item.RiskOptions.OrderBy(x => Guid.NewGuid()).FirstOrDefault();
 
+                    int? riskNewsId = null;
+                    var riskNews = GetRandomRiskNews(item.RiskId, item.RiskProbability.GetValueOrDefault());
+                    if (riskNews != null)
+                    {
+                        riskNewsId = riskNews.RiskNewsId;
+                    }
+
                     var game = new GameBattle
                     {
                         GameRoomId = gameRoomId,
@@ -245,6 +276,10 @@ namespace RiskGame.Core.WorkProcess
 
         }
 
+
+
+
+        //Internal helper method
         internal RiskSeparateModel GetRiskByTypeData(bool isList)
         {
             var model = new RiskSeparateModel();
@@ -267,6 +302,17 @@ namespace RiskGame.Core.WorkProcess
                 model.Support = risks.Where(x => x.RiskType == (int)RiskType.Support).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
             }
             return model;
+        }
+
+        internal RiskNews GetRandomRiskNews(int riskId, int riskProbability)
+        {
+            //random for risk news
+            var isNews = CommonFunction.IsProbability(riskProbability);
+            if (isNews)
+            {
+                return _service.Risk().GetRandomRiskNews(riskId);
+            }
+            return null;
         }
     }
 

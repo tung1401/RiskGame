@@ -25,35 +25,35 @@
                     <td class="text-danger"><b>Level 1 (ป้องกัน 25%)</b></td>
                     <td class="text-warning"><b>Level 2 (ป้องกัน 50%)</b></td>
                     <td class="text-success"><b>Level 3 (ป้องกัน 100%)</b></td>
-                    <td><b></b></td>
+                    @*<td><b></b></td>*@
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model.RiskData)
                 {
-                <tr>
-                    <td>
-                        @item.Name
-                        <span class="badge badge-pill badge-primary">@item.RiskType</span>
-                        <div><p class="small">@item.RiskDetail</p></div>
-                    </td>
-                    @foreach (var op in item.RiskOption.OrderBy(x => x.RiskLevel))
-                    {
-                        if (op.RiskLevel.GetValueOrDefault() == 0)
+                    <tr>
+                        <td>
+                            @item.Name
+                            <span class="badge badge-pill badge-primary">@item.RiskType</span>
+                            <div><p class="small">@item.RiskDetail</p></div>
+                        </td>
+                        @foreach (var op in item.RiskOption.OrderBy(x => x.RiskLevel))
                         {
-                            <td>
-                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")" , @checked= true }) @Html.Raw("Protect -") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
-                            </td>
+                            if (op.RiskLevel.GetValueOrDefault() == 0)
+                            {
+                                <td>
+                                    @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")", @checked = true }) @Html.Raw("") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")" }) @Html.Raw("-") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
+                                </td>
+                            }
                         }
-                        else
-                        {
-                            <td>
-                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")" }) @Html.Raw("Protect -") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
-                            </td>
-                        }
-                    }
-                    @*<td><button class="btn btn-danger" style="font-size:small" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>*@
-                </tr>
+                        @*<td><button class="btn btn-danger" style="font-size:small" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>*@
+                    </tr>
                 }
 
             </tbody>
@@ -61,13 +61,18 @@
 
         <button id="submit" type="submit" class="btn btn-success" style="font-size:large; display:block;margin: 0 auto;">Confirm</button>
     }
+    <br />
+    <div class="rows col-md-12">
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <strong><i class="fa fa-newspaper-o"></i> Breaking News!</strong>
+            <marquee><strong id="riskNewsMarguee" style="">BBC รายงานว่ามีกลุ่ม Hacker ตะวันออกกลางได้ทำการเจาะระบบ Cloud ของ Microsoft และ Amazon คาดว่าข้อมูลของผู้ใช้งานกว่า 5ล้านราย จะมีผลกระทบ</strong></marquee>
+        </div>
+    </div>
 </div>
-
-
 
 @*<iframe src="http://localhost:50833/GameStart/Index/1066" width="100%" height="600" />*@
 
-<script>
+<script type="text/javascript">
 
 function Sum(id, value)
 {
@@ -78,5 +83,13 @@ function ClearRisk(name)
 {
      $('input[name=' + name + ']').prop('checked', false);
 }
-                           
+
+
+    function GetNews(turn, gameRoomId) {
+
+    }
+
+
+
+
 </script>

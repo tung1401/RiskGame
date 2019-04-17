@@ -29,6 +29,7 @@ namespace RiskGame.Entity
         public Nullable<int> Turn { get; set; }
         public Nullable<int> ActionEffectType { get; set; }
         public Nullable<int> ActionEffectValue { get; set; }
+        public Nullable<int> RiskNewsId { get; set; }
     
         public virtual GameRoom GameRoom { get; set; }
         public virtual Risk Risk { get; set; }
@@ -37,5 +38,6 @@ namespace RiskGame.Entity
         public virtual ICollection<UserGameBattle> UserGameBattles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserGameBattleLog> UserGameBattleLogs { get; set; }
+        public virtual RiskNews RiskNews { get; set; }
     }
 }

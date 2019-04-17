@@ -318,6 +318,9 @@
     <Compile Include="Entity\Risk.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\RiskNew.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\RiskOption.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -358,8 +361,10 @@
     <Compile Include="Repository\Common\IRepository.cs" />
     <Compile Include="Repository\Common\Repository.cs" />
     <Compile Include="Repository\GameBattleRepository.cs" />
+    <Compile Include="Repository\Interfaces\IRiskNewsRepository.cs" />
     <Compile Include="Repository\Interfaces\IUserGameBattleLogRepository.cs" />
     <Compile Include="Repository\Interfaces\IUserGameRiskRepository.cs" />
+    <Compile Include="Repository\RiskNewsRepository.cs" />
     <Compile Include="Repository\UserGameBattleLogRepository.cs" />
     <Compile Include="Repository\UserGameRiskRepository.cs" />
     <Compile Include="Repository\UserGameRoomRepository.cs" />

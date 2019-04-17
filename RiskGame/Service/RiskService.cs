@@ -17,11 +17,12 @@ namespace KPI.Services.Service
         private readonly CommonServiceFactory _service = new CommonServiceFactory();
         private readonly IRiskRepository _risk;
         private readonly IRiskOptionRepository _riskOption;
-
-        public RiskService(RiskRepository risk, RiskOptionRepository riskOption)
+        private readonly IRiskNewsRepository _riskNews;
+        public RiskService(RiskRepository risk, RiskOptionRepository riskOption, RiskNewsRepository riskNews)
         {
             _risk = risk;
             _riskOption = riskOption;
+            _riskNews = riskNews;
         }
 
         //
@@ -76,6 +77,14 @@ namespace KPI.Services.Service
             return _riskOption.GetMany(x => x.RiskId == riskId);
         }
 
-        
+        public RiskNews GetRandomRiskNews(int riskId)
+        {
+            var allNews = _riskNews.GetMany(x => x.RiskId == riskId);
+            if (allNews.Any())
+            {
+                return allNews.OrderBy(r => Guid.NewGuid()).FirstOrDefault();
+            }
+            return null;
+        }      
     }
 }

@@ -30,6 +30,9 @@
         <AssociationConnector Association="Model.FK_GameBattle_RiskOption" />
         <AssociationConnector Association="Model.FK_UserGameBattle_GameBattle" />
         <AssociationConnector Association="Model.FK_UserGameBattleLog_GameBattle" />
+        <EntityTypeShape EntityType="Model.RiskNew" Width="1.5" PointX="8.25" PointY="6.375" />
+        <AssociationConnector Association="Model.FK_GameBattle_RiskNews" />
+        <AssociationConnector Association="Model.FK_RiskNews_Risk" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

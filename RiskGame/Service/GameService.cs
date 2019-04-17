@@ -101,30 +101,6 @@ namespace KPI.Services.Service
                     //custom 1: turn = 1 round
                     workProcess.CreateCustomWorkProcessModel(gameRoomId, round);
                 }
-
-
-                //get all risk
-                //var allRiskOption = _service.Risk().GetAllRiskOption();
-                //if (allRiskOption.Any())
-                //{
-                //    var list = new List<GameBattle>();
-                //    var turn = 0;
-                //    foreach (var risk in allRiskOption.OrderBy(x => Guid.NewGuid()).Take(take))
-                //    {
-                //        turn++;
-                //        var game = new GameBattle
-                //        {
-                //            GameRoomId = gameRoomId,
-                //            RiskId = risk.RiskId.GetValueOrDefault(),
-                //            RiskOptionId = risk.RiskOptionId,
-                //            Ratio = new Random().Next(1, 2),
-                //            Turn = turn,
-                //            ActionEffectType = risk.ActionEffectType,
-                //            ActionEffectValue = risk.ActionEffectValue,
-                //        };
-                //        _gameBattle.AddAsync(game);
-                //    }
-                //}
             }
             catch(Exception ex)
             {

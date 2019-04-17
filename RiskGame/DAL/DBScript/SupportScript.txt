@@ -27,3 +27,14 @@ where GameRoomId in (select top 1 gameroomId from GameRoom order by  1 desc)
 select  * from UserGameRisk where GameRoomId in (select top 1 gameroomId from GameRoom order by  1 desc)
 
 select  * from UserGameroom where GameRoomId in (select top 1 gameroomId from GameRoom order by  1 desc)
+
+
+/*Update RiskOption*/
+DECLARE @RISKID INT = 15
+select * from risk where riskId = @RISKID
+select * from riskoption where riskId = @RISKID
+
+Insert riskoption values (@RISKID,0,1,xxx,null,null,null)
+Insert riskoption values (@RISKID,1,1,xxx,null,null,null)
+Insert riskoption values (@RISKID,2,1,xxx,null,null,null)
+Insert riskoption values (@RISKID,3,1,xxx,null,null,null)

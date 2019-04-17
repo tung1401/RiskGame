@@ -31,6 +31,22 @@ namespace RiskGame.Helper
             };
         }
 
+        private static readonly Random getrandomProbability = new Random();
+        public static bool IsProbability(int? prob = null)
+        {
+            //ถ้า Prob น้อย โอกาสได้น้อย, ถ้า Prob มาก โอกาสได้มาก: 
+            var defaultProb = prob.HasValue && prob > 0 ? prob / 10.0 : 0.50;
+            lock (getrandomProbability)
+            {
+                var randomProb = getrandomProbability.NextDouble();
+                if(randomProb <= defaultProb)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private static readonly Random getrandom = new Random();
         public static int RandomNumber(int min, int max)
         {
