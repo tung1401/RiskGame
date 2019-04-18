@@ -229,51 +229,57 @@ namespace RiskGame.Core.WorkProcess
 
         public void CreateAgileWorkModel(int gameRoomId, int round)
         {
-            var gameBattleList = new List<GameBattle>();
-            for (int i = 1; i <= round; i++)
+            try
             {
-                var model = GetRiskByTypeData(false);
-                var randomTake = CommonFunction.RandomNumber(1, 5);
-                var risks = new List<Risk>
+                var gameBattleList = new List<GameBattle>();
+                for (int i = 1; i <= round; i++)
+                {
+                    var model = GetRiskByTypeData(false);
+                    var randomTake = CommonFunction.RandomNumber(1, 5);
+                    var risks = new List<Risk>
                 {
                       model.Req,  model.Design,  model.Dev,  model.QA,  model.Support
 
                 }.OrderBy(x => Guid.NewGuid()).Take(randomTake);
 
-                foreach (var item in risks)
-                {
-                    var riskOptionItem = item.RiskOptions.OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-
-                    int? riskNewsId = null;
-                    var riskNews = GetRandomRiskNews(item.RiskId, item.RiskProbability.GetValueOrDefault());
-                    if (riskNews != null)
+                    foreach (var item in risks)
                     {
-                        riskNewsId = riskNews.RiskNewsId;
+                        var riskOptionItem = item.RiskOptions.OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+
+                        int? riskNewsId = null;
+                        var riskNews = GetRandomRiskNews(item.RiskId, item.RiskProbability.GetValueOrDefault());
+                        if (riskNews != null)
+                        {
+                            riskNewsId = riskNews.RiskNewsId;
+                        }
+
+                        var game = new GameBattle
+                        {
+                            GameRoomId = gameRoomId,
+                            RiskId = item.RiskId,
+                            RiskOptionId = riskOptionItem.RiskOptionId,
+                            Ratio = CommonFunction.RandomNumber(1, 3),
+                            Turn = i,
+                            ActionEffectType = riskOptionItem.ActionEffectType,
+                            ActionEffectValue = riskOptionItem.ActionEffectValue,
+                            RiskNewsId = riskNewsId
+                        };
+                        gameBattleList.Add(game);
                     }
-
-                    var game = new GameBattle
-                    {
-                        GameRoomId = gameRoomId,
-                        RiskId = item.RiskId,
-                        RiskOptionId = riskOptionItem.RiskOptionId,
-                        Ratio = CommonFunction.RandomNumber(1, 3),
-                        Turn = i,
-                        ActionEffectType = riskOptionItem.ActionEffectType,
-                        ActionEffectValue = riskOptionItem.ActionEffectValue,
-
-                    };
-                    gameBattleList.Add(game);
                 }
-            }
 
-            if (gameBattleList.Any())
-            {
-                foreach (var gameBattle in gameBattleList)
+                if (gameBattleList.Any())
                 {
-                    _service.Game().SaveGameBattleAsync(gameBattle);
+                    foreach (var gameBattle in gameBattleList)
+                    {
+                        _service.Game().SaveGameBattleAsync(gameBattle);
+                    }
                 }
             }
+            catch(Exception ex)
+            {
 
+            }
         }
 
 

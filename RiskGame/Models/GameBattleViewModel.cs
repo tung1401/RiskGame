@@ -40,7 +40,8 @@ namespace RiskGame.Models
         public GameBattle GameBattle { set; get; }
         public string ProtectStatus { set; get; } // Can Win/Draw/Lost
         public int EffectMoney { set; get; } // Effect after open List
-
+        public int? RiskNewsImpact { set; get; }
+        public double RiskNewsImpactPercent { set; get; }
     }
 
 

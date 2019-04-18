@@ -129,7 +129,7 @@ namespace RiskGame.Core.BotExpert
                     };
                     // save bot expert user game Risk
                     _service.Game().AddUserGameRisk(botExpertUserGameRisk);
-                }  
+                }
             }
 
             //Calculate Protect Risk
@@ -138,7 +138,7 @@ namespace RiskGame.Core.BotExpert
             var moneyForProtectRisk = botExpertUserGameRiskList.Sum(x => x.RiskOption.ActionEffectValue);
             currentMoney = currentMoney - moneyForProtectRisk.GetValueOrDefault();
             _service.GameRoom().UpdateUserGameRoom(userId, gameRoomId, currentMoney, turn);
-          
+
             var moneyTotal = CalculateRiskCostToBot(userId, gameRoomId, currentMoney, gameBattleInThisTurn, botExpertUserGameRiskList);
 
             // update game room
@@ -154,7 +154,7 @@ namespace RiskGame.Core.BotExpert
         public int AnalystRiskOption(int jobType, GameBattle gameBattle, int riskId)
         {
             var riskOptionId = 0;
-            if(jobType == (int)JobType.ExpertSpecialist)
+            if (jobType == (int)JobType.ExpertSpecialist)
             {
                 if (gameBattle != null)
                 {
@@ -189,7 +189,7 @@ namespace RiskGame.Core.BotExpert
             };
 
             foreach (var item in listGameBattle)
-            {             
+            {
                 var effectItemMoney = item.Ratio.GetValueOrDefault() * item.ActionEffectValue.GetValueOrDefault();
                 var riskProtect = userGameRisk.FirstOrDefault(x => x.RiskId == item.RiskId);
                 var effectMoney = 0;
@@ -209,6 +209,7 @@ namespace RiskGame.Core.BotExpert
                             {
                                 //ป้องกัน 100%
                                 // moneyTotal = Singleton.Game().Money;
+                                userGameBattleData.ProtectStatus = ProtecStatus.Win.ToString();
                             }
                             else if (riskProtect.RiskOption.RiskLevel == (int)RiskGameLevel.SecondLevel)
                             {
@@ -241,10 +242,27 @@ namespace RiskGame.Core.BotExpert
                     // ถ้าไม่ได้เลือก หรือ ไม่ได้ป้องกัน จ่าย 100%
                     effectMoney = effectItemMoney;
                     moneyTotal = moneyTotal - effectItemMoney;
-                    userGameBattleData.ProtectStatus = ProtecStatus.Lose.ToString();
+                }
+
+                // ถ้าแพ้ และ มีข่าว จะโดนผลกระทบเพิ่ม
+                if (item.RiskNewsId != null && userGameBattleData.ProtectStatus == ProtecStatus.Lose.ToString())
+                {
+                    // fact impact
+                    var riskNews = _service.Risk().GetRiskNewsById(item.RiskNewsId.GetValueOrDefault());
+                    if (riskNews != null)
+                    {
+                        var riskNewsImpactPercent = CommonFunction.RiskImpactFormat(riskNews.RiskNewsImpact.GetValueOrDefault());
+                        var riskNewsImpact = (int)(effectItemMoney * riskNewsImpactPercent);
+
+                        moneyTotal = moneyTotal - riskNewsImpact;
+                        effectMoney = effectMoney + riskNewsImpact;
+
+                        userGameBattleData.RiskNewsImpactPercent = riskNewsImpactPercent;
+                        userGameBattleData.RiskNewsImpact = riskNewsImpact; // ค่าเงิน
+                    }
                 }
             }
-            return moneyTotal;       
+            return moneyTotal;
         }
     }
 }

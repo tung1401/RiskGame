@@ -46,9 +46,18 @@ namespace KPI.Services.Service
         {
             return _gameBattle.GetManyWith(x => x.GameRoomId == gameRoomId && x.Turn == turn, inc => inc.Risk, includes => includes.Risk.RiskOptions);
         }
+
+        public IEnumerable<GameBattle> GetGameBattleInTurn(int gameRoomId, int turn)
+        {
+            return _gameBattle.GetManyWith(x => x.GameRoomId == gameRoomId && x.Turn == turn, inc => inc.Risk, 
+                includes => includes.Risk.RiskOptions, includes => includes.RiskNews);
+        }
+
         public int GetMaxTurnByRoomId(int gameRoomId)
         {
             var data = _gameBattle.GetLastOrderBy(x => x.GameRoomId == gameRoomId, x=>x.Turn.GetValueOrDefault());
+            if (data == null) return 0;
+
             return data.Turn.GetValueOrDefault();
         }
 

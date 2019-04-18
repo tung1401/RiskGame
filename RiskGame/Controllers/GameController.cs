@@ -114,7 +114,8 @@ namespace RiskGame.Controllers
                                 if (riskProtect.RiskOption.RiskLevel == (int)RiskGameLevel.ThirdLevel)
                                 {
                                     //ป้องกัน 100%
-                                   // moneyTotal = Singleton.Game().Money;
+                                    // moneyTotal = Singleton.Game().Money;
+                                    userGameBattleData.ProtectStatus = ProtecStatus.Win.ToString();
                                 }
                                 else if (riskProtect.RiskOption.RiskLevel == (int)RiskGameLevel.SecondLevel)
                                 {
@@ -147,7 +148,24 @@ namespace RiskGame.Controllers
                         // ถ้าไม่ได้เลือก หรือ ไม่ได้ป้องกัน จ่าย 100%
                         effectMoney = effectItemMoney;
                         moneyTotal = moneyTotal - effectItemMoney;
-                        userGameBattleData.ProtectStatus = ProtecStatus.Lose.ToString();
+                    }
+
+                    // ถ้าแพ้ และ มีข่าว จะโดนผลกระทบเพิ่ม
+                    if (item.RiskNewsId != null && userGameBattleData.ProtectStatus == ProtecStatus.Lose.ToString())
+                    {
+                        // fact impact
+                        var riskNews = _service.Risk().GetRiskNewsById(item.RiskNewsId.GetValueOrDefault());
+                        if (riskNews != null)
+                        {
+                            var riskNewsImpactPercent = CommonFunction.RiskImpactFormat(riskNews.RiskNewsImpact.GetValueOrDefault());
+                            var riskNewsImpact = (int)(effectItemMoney * riskNewsImpactPercent);
+
+                            moneyTotal = moneyTotal - riskNewsImpact;
+                            effectMoney = effectMoney + riskNewsImpact;
+
+                            userGameBattleData.RiskNewsImpactPercent = riskNewsImpactPercent;
+                            userGameBattleData.RiskNewsImpact = riskNewsImpact; // ค่าเงิน
+                        }
                     }
 
                     userGameBattleData.EffectMoney = effectMoney;

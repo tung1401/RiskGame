@@ -85,6 +85,11 @@ namespace KPI.Services.Service
                 return allNews.OrderBy(r => Guid.NewGuid()).FirstOrDefault();
             }
             return null;
-        }      
+        }
+        
+        public RiskNews GetRiskNewsById(int riskNewsId)
+        {
+            return _riskNews.Get(x=>x.RiskNewsId == riskNewsId);
+        }
     }
 }

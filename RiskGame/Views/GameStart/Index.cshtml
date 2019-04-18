@@ -7,7 +7,7 @@
 }
 
 <div class="jumbotron">
-    <strong><i class="fa fa-fighter-jet"></i> Game Start</strong>
+    <h2><i class="fa fa-fighter-jet"></i> Game Start</h2>
     @Html.Partial("_HeaderGameInfo")
     @Html.Partial("_HeaderGameCountDown")
     @Html.Partial("_MarketShared")
@@ -62,10 +62,10 @@
         <button id="submit" type="submit" class="btn btn-success" style="font-size:large; display:block;margin: 0 auto;">Confirm</button>
     }
     <br />
-    <div class="rows col-md-12">
+    <div class="rows col-md-12" id="newsBox" style="display:none;">
         <div class="alert alert-warning alert-dismissible" role="alert">
             <strong><i class="fa fa-newspaper-o"></i> Breaking News!</strong>
-            <marquee><strong id="riskNewsMarguee" style="">BBC รายงานว่ามีกลุ่ม Hacker ตะวันออกกลางได้ทำการเจาะระบบ Cloud ของ Microsoft และ Amazon คาดว่าข้อมูลของผู้ใช้งานกว่า 5ล้านราย จะมีผลกระทบ</strong></marquee>
+            <marquee><strong id="riskNewsMarguee" style=""></strong></marquee>
         </div>
     </div>
 </div>
@@ -74,22 +74,35 @@
 
 <script type="text/javascript">
 
-function Sum(id, value)
-{
+    $(document).ready(function () {
 
-}
+        GetRiskNews(@Singleton.Game().GameRoomId,@Singleton.Game().Turn);
+    });
 
-function ClearRisk(name)
-{
-     $('input[name=' + name + ']').prop('checked', false);
-}
-
-
-    function GetNews(turn, gameRoomId) {
+    function Sum(id, value) {
 
     }
 
+    function ClearRisk(name) {
+        $('input[name=' + name + ']').prop('checked', false);
+    }
 
+    function GetRiskNews(gameRoomId, turn) {
+        $.ajax({
+            url: '/Risk/GetRiskNews',
+            contentType: 'application/html ; charset:utf-8',
+            type: 'GET',
+            dataType: 'JSON',
+            data: { gameRoomId: gameRoomId, turn: turn }
+        }).success(function (data) {
+            if (data.Result == "") {
 
+            } else {
+                $("#newsBox").show();
+                $("#riskNewsMarguee").html(data.Result);
+            }
+        }).error(function () {
 
+        });
+    }
 </script>

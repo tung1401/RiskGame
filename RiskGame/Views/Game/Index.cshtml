@@ -75,50 +75,46 @@
     }
 
     <br/>
-    <div class="rows col-md-12">
+    <div class="rows col-md-12" id="newsBox" style="display:none;">
         <div class="alert alert-warning alert-dismissible" role="alert">
             <strong><i class="fa fa-newspaper-o"></i> Breaking News!</strong>
-            <marquee><strong id="riskNewsMarguee" style="">BBC รายงานว่ามีกลุ่ม Hacker ตะวันออกกลางได้ทำการเจาะระบบ Cloud ของ Microsoft และ Amazon คาดว่าข้อมูลของผู้ใช้งานกว่า 5ล้านราย จะมีผลกระทบ</strong></marquee>
+            <marquee><strong id="riskNewsMarguee" style=""></strong></marquee>
         </div>
     </div>
 </div>
 
 
-
-
-
 <script type="text/javascript">
+
+    $(document).ready(function () {
+
+        GetRiskNews(@Singleton.Game().GameRoomId,@Singleton.Game().Turn);
+    });
+
+    function Sum(id, value) {
+
+    }
+
     function ClearRisk(name) {
         $('input[name=' + name + ']').prop('checked', false);
     }
-   @*/* var end = new Date('@ViewBag.CountDown'); // viewbag
-        var _second = 1000;
-        var _minute = _second * 60;
-        var _hour = _minute * 60;
-        var _day = _hour * 24;
-        var timer;
 
-        function showRemaining() {
-            var now = new Date();
-            var distance = end - now;
-            if (distance < 0) {
-
-                clearInterval(timer);
-                document.getElementById('countdown').innerHTML = 'EXPIRED!';
-                //go to next page auto
-                $("#submit").click();
-
-                return;
+    function GetRiskNews(gameRoomId, turn) {
+        $.ajax({
+            url: '/Risk/GetRiskNews',
+            contentType: 'application/html ; charset:utf-8',
+            type: 'GET',
+            dataType: 'JSON',
+            data: { gameRoomId: gameRoomId, turn: turn }
+        }).success(function (data) {
+            if (data.Result == "") {
+                
+            } else {
+                $("#newsBox").show();
+                $("#riskNewsMarguee").html(data.Result);
             }
-          //  var days = Math.floor(distance / _day);
-          //  var hours = Math.floor((distance % _day) / _hour);
-            var minutes = Math.floor((distance % _hour) / _minute);
-            var seconds = Math.floor((distance % _minute) / _second);
+        }).error(function () {
 
-          //  document.getElementById('countdown').innerHTML = days + 'days ';
-          //  document.getElementById('countdown').innerHTML += hours + 'hrs ';
-            document.getElementById('countdown').innerHTML = minutes + 'mins ';
-            document.getElementById('countdown').innerHTML += seconds + 'secs';
-        }
-        timer = setInterval(showRemaining, 1000);*/*@
+        });
+    }
 </script>

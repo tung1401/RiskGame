@@ -32,5 +32,6 @@ namespace KPI.Services.Interface
 
         //Custom Model
         List<GameBattleData> GetGameBattleData(List<GameBattle> gameBattles);
+        IEnumerable<GameBattle> GetGameBattleInTurn(int gameRoomId, int turn);
     }
 }

@@ -98,5 +98,9 @@ namespace RiskGame.Helper
             return "Playing";
         }
 
+        public static double RiskImpactFormat(int riskImpact)
+        {
+            return riskImpact * 0.10;
+        }
     }
 }

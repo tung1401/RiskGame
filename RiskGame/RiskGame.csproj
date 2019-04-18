@@ -289,6 +289,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
+    <Compile Include="Controllers\RiskController.cs" />
     <Compile Include="Controllers\StoryController.cs" />
     <Compile Include="Core\BotExpert\BotExpertService.cs" />
     <Compile Include="Core\BotExpert\IBotExpertService.cs" />
