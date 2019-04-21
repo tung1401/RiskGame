@@ -12,7 +12,7 @@
 
 </div>
 <div class="rows col-12">
-    <div class="col-md-6">
+    <div class="col-md-5">
 
         <div class="card-header">
             <strong>User Protect Risks</strong>
@@ -50,13 +50,11 @@
         </table>
     </div>
 
-    <div class="col-md-6">
-
+    <div class="col-md-7">
         <div class="card-header">
             <strong>Game Risks</strong>
             <span style="font-size:14px;">Total Pay: @(Model.UserGameBattleData.Sum(x => x.EffectMoney).ToString("n0"))</span>
         </div>
-
         <table class="table">
             <thead>
                 <tr>
@@ -77,6 +75,7 @@
                     <tr>
                         <td>
                             @item.GameBattle.Risk.RiskName
+                            <div><p class="small">@item.GameBattle.Risk.RiskDetail</p></div>
                         </td>
                         <td>
                             @RenderLevel(item.GameBattle.RiskOption.RiskLevel)
@@ -139,7 +138,7 @@
 
     if (level == 1)
     {
-        <i class="text-danger fa fa-star"></i>
+        <i class="text-success fa fa-star"></i>
     }
     else if (level == 2)
     {
@@ -148,7 +147,7 @@
     }
     else if (level == 3)
     {
-        <i class="text-success fa fa-star"></i><i class="text-success fa fa-star"></i><i class="text-success fa fa-star"></i>
+        <i class="text-danger fa fa-star"></i><i class="text-danger fa fa-star"></i><i class="text-danger fa fa-star"></i>
     }
     else if (level == 0)
     {

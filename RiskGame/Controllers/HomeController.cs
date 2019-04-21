@@ -17,11 +17,15 @@ namespace RiskGame.Controllers
         private readonly CommonServiceFactory _service = new CommonServiceFactory();
         public ActionResult Index()
         {
-            /*var r1 =  CommonFunction.IsProbability(1);
-            var r2 = CommonFunction.IsProbability();
-            var r3 = CommonFunction.IsProbability(10);
-            var r4 = CommonFunction.IsProbability(5);
-            var r5 = CommonFunction.IsProbability(6);*/
+            var t6 = 6 % 5;
+            var t7 = 7 % 5;
+            var t8 = 8 % 5;
+            var t9 = 9 % 5;
+            var t10 = 10 % 5;
+            var t11 = 11 % 5;
+            var t12 = 12 % 5;
+            var t13 = 13 % 5;
+            var t14 = 14 % 5;
 
             return View();
         }

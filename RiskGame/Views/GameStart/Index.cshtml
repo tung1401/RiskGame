@@ -22,9 +22,9 @@
                 <tr>
                     <td><b>Name</b></td>
                     <td class="text-dark"><b>Level 0 (ป้องกัน 0%)</b></td>
-                    <td class="text-danger"><b>Level 1 (ป้องกัน 25%)</b></td>
+                    <td class="text-success"><b>Level 1 (ป้องกัน 25%)</b></td>
                     <td class="text-warning"><b>Level 2 (ป้องกัน 50%)</b></td>
-                    <td class="text-success"><b>Level 3 (ป้องกัน 100%)</b></td>
+                    <td class="text-danger"><b>Level 3 (ป้องกัน 100%)</b></td>
                     @*<td><b></b></td>*@
                 </tr>
             </thead>
@@ -62,10 +62,9 @@
         <button id="submit" type="submit" class="btn btn-success" style="font-size:large; display:block;margin: 0 auto;">Confirm</button>
     }
     <br />
-    <div class="rows col-md-12" id="newsBox" style="display:none;">
-        <div class="alert alert-warning alert-dismissible" role="alert">
+    <div class="" id="newsBox" style="display:none;">
+        <div class="alert alert-warning alert-dismissible" role="alert" id="riskNewsMarguee">
             <strong><i class="fa fa-newspaper-o"></i> Breaking News!</strong>
-            <marquee><strong id="riskNewsMarguee" style=""></strong></marquee>
         </div>
     </div>
 </div>
@@ -99,7 +98,7 @@
 
             } else {
                 $("#newsBox").show();
-                $("#riskNewsMarguee").html(data.Result);
+                $("#riskNewsMarguee").append('<marquee>' + data.Result + '</marquee>');
             }
         }).error(function () {
 

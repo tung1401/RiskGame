@@ -9,12 +9,13 @@ namespace RiskGame.Helper
     {
         public enum RiskType
         {
+            General = 0,
             Requirement = 1,
             Design = 2,
             Implement = 3,
             Testing = 4,
             Support = 5,
-            Training = 6
+            Training = 6,          
         }
         public enum ActionEffectType
         {

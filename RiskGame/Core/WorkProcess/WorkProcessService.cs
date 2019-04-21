@@ -29,15 +29,16 @@ namespace RiskGame.Core.WorkProcess
                 var listDev = new List<Risk>();
                 var listQA = new List<Risk>();
                 var listSupport = new List<Risk>();
+                var listAll = new List<Risk>();
                 // getAll Risk with Risk option
                 var risks = _service.Risk().GetAllRiskWithOutZeroLevel().ToList();
 
                 // separate type
-                listReq.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Requirement));
-                listDesign.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Design));
-                listDev.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Implement));
-                listQA.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Testing));
-                listSupport.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Support));
+                listReq.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Requirement || x.RiskType == (int)RiskType.General));
+                listDesign.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Design || x.RiskType == (int)RiskType.General));
+                listDev.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Implement || x.RiskType == (int)RiskType.General));
+                listQA.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Testing || x.RiskType == (int)RiskType.General));
+                listSupport.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Support || x.RiskType == (int)RiskType.General));
 
                 var gameBattleList = new List<GameBattle>();
 
@@ -62,7 +63,7 @@ namespace RiskGame.Core.WorkProcess
                     _service.Game().SaveGameBattleAsync(gameBattle);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -76,33 +77,62 @@ namespace RiskGame.Core.WorkProcess
                 var randomTake = CommonFunction.RandomNumber(1, risks.Count);
                 foreach (var risk in risks.OrderBy(x => Guid.NewGuid()).Take(randomTake))
                 {
-                    var randomRiskOptionLevel = CommonFunction.RandomNumber(1,3);
-                    var riskOption = risk.RiskOptions.FirstOrDefault(x => x.RiskLevel == randomRiskOptionLevel);
-                    if (riskOption != null)
+                    var isProbability = true;
+                    if (risk.RiskType == (int)RiskType.General)
                     {
-                        int? riskNewsId = null;
-                        var riskNews = GetRandomRiskNews(risk.RiskId, risk.RiskProbability.GetValueOrDefault());
-                        if (riskNews != null)
-                        {
-                            riskNewsId = riskNews.RiskNewsId;
-                        }
+                        isProbability = CommonFunction.IsProbability(risk.RiskProbability);
+                    }
 
-                        var game = new GameBattle
+                    if (isProbability)
+                    {
+                        var randomRiskOptionLevel = CommonFunction.RandomNumber(1, 3);
+                        var riskOption = risk.RiskOptions.FirstOrDefault(x => x.RiskLevel == randomRiskOptionLevel);
+                        if (riskOption != null)
                         {
-                            GameRoomId = gameRoomId,
-                            RiskId = risk.RiskId,
-                            RiskOptionId = riskOption.RiskOptionId,
-                            Ratio = CommonFunction.RandomNumber(1, 3),
-                            Turn = turn,
-                            ActionEffectType = riskOption.ActionEffectType,
-                            ActionEffectValue = riskOption.ActionEffectValue,
-                            RiskNewsId = riskNewsId
-                        };
-                        gameBattleList.Add(game);
+                            int? riskNewsId = null;
+                            var riskNews = GetRandomRiskNews(risk.RiskId, risk.RiskProbability.GetValueOrDefault());
+                            if (riskNews != null)
+                            {
+                                riskNewsId = riskNews.RiskNewsId;
+                            }
+
+                            var game = new GameBattle
+                            {
+                                GameRoomId = gameRoomId,
+                                RiskId = risk.RiskId,
+                                RiskOptionId = riskOption.RiskOptionId,
+                                Ratio = CommonFunction.RandomNumber(1, 3),
+                                Turn = turn,
+                                ActionEffectType = riskOption.ActionEffectType,
+                                ActionEffectValue = riskOption.ActionEffectValue,
+                                RiskNewsId = riskNewsId
+                            };
+                            gameBattleList.Add(game);
+                        }
                     }
                 }
+
+                if (!gameBattleList.Any())
+                {
+                    var defaultRisk = risks.OrderBy(x => Guid.NewGuid()).LastOrDefault();
+                    var riskOption = defaultRisk.RiskOptions.FirstOrDefault(x => x.RiskLevel == (int)RiskGameLevel.FirstLevel);
+                    var game = new GameBattle
+                    {
+                        GameRoomId = gameRoomId,
+                        RiskId = defaultRisk.RiskId,
+                        RiskOptionId = riskOption.RiskOptionId,
+                        Ratio = CommonFunction.RandomNumber(1, 3),
+                        Turn = turn,
+                        ActionEffectType = riskOption.ActionEffectType,
+                        ActionEffectValue = riskOption.ActionEffectValue
+                        // no news
+                    };
+                    gameBattleList.Add(game);
+                }
+
+                return gameBattleList;
             }
-            return gameBattleList;
+            return null;
         }
 
         public void CreateCustomWorkProcessModel(int gameRoomId, int round)
@@ -114,14 +144,14 @@ namespace RiskGame.Core.WorkProcess
                 var allRiskOption = _service.Risk().GetAllRiskOptionWithoutZeroLevel().ToList();
                 if (allRiskOption.Any())
                 {
-                    var list = new List<GameBattle>();       
+                    var list = new List<GameBattle>();
                     for (int turn = 1; turn <= round; turn++)
                     {
                         var randomTake = CommonFunction.RandomNumber(1, 5);
                         var listRiskInTurn = new List<Risk>();
 
                         var riskOptionRandom = allRiskOption.OrderBy(x => Guid.NewGuid()).Take(randomTake)
-                            .GroupBy(d => d.Risk.RiskId).Select(x=>x.FirstOrDefault());
+                            .GroupBy(d => d.Risk.RiskId).Select(x => x.FirstOrDefault());
 
                         foreach (var risk in riskOptionRandom)
                         {
@@ -150,7 +180,7 @@ namespace RiskGame.Core.WorkProcess
                                 _service.Game().SaveGameBattleAsync(gameBattle);
                             }
                         }
-                    } 
+                    }
                 }
             }
             catch (Exception ex)
@@ -161,22 +191,29 @@ namespace RiskGame.Core.WorkProcess
 
         public List<Risk> GenerateRiskChioceModel(int softwareType, int gameRoomId, int turn)
         {
-            var maxTake = 5;
+            var maxTake = 10;
             var risks = new List<Risk>();
             var gameBattleList = _service.Game().GetGameBattleOpenRisk(gameRoomId, turn);
             if (softwareType == (int)SoftwareType.WaterFall)
             {
                 if (gameBattleList.Any())
                 {
-                    var risk = gameBattleList.LastOrDefault().Risk;
-                    if (risk != null)
+                    //TODO Fix bug
+                    var riskInGame = gameBattleList.LastOrDefault(x => x.Risk.RiskType != (int)RiskType.General);
+                    if (riskInGame != null)
                     {
-                        risks = _service.Risk().GetRiskByType(risk.RiskType.GetValueOrDefault()).ToList();
+                        var risk = riskInGame.Risk;
+                        risks = _service.Risk().GetRiskByType(risk.RiskType.GetValueOrDefault(), true).ToList();
+                    }
+                    else
+                    {
+                        var riskType = CalculateRiskTypeFromWaterFallTurn(turn);
+                        risks = _service.Risk().GetRiskByType(riskType, true).ToList();
                     }
                 }
                 else
                 {
-                    risks = _service.Risk().GetRiskByType((int)RiskType.Requirement).ToList();
+                    risks = _service.Risk().GetRiskByType((int)RiskType.Requirement, true).ToList();
                 }
             }
             else if (softwareType == (int)SoftwareType.Agile)
@@ -188,9 +225,9 @@ namespace RiskGame.Core.WorkProcess
                     var gameRisks = gameBattleList.Select(x => x.Risk); //หา Risk ใน Game battle
                     //var allRisksExceptGameRisks = allRisks.Except(gameRisks).ToList(); //เอา Risk ทั้งหมดยกเว้นใน Game battle
 
-                    if(!gameRisks.Any(x => x.RiskType == (int)RiskType.Requirement))
+                    if (!gameRisks.Any(x => x.RiskType == (int)RiskType.Requirement))
                     {
-                        risks.Add(allRisks.Where(x=>x.RiskType == (int)RiskType.Requirement).FirstOrDefault());
+                        risks.Add(allRisks.Where(x => x.RiskType == (int)RiskType.Requirement).FirstOrDefault());
                     }
                     if (!gameRisks.Any(x => x.RiskType == (int)RiskType.Design))
                     {
@@ -212,19 +249,37 @@ namespace RiskGame.Core.WorkProcess
                 }
                 else
                 {
-                   // risks = _service.Risk().GetAllRisk().OrderBy(x => Guid.NewGuid()).Take(maxTake).ToList();
+                    // risks = _service.Risk().GetAllRisk().OrderBy(x => Guid.NewGuid()).Take(maxTake).ToList();
                 }
             }
             else
-            {          
+            {
                 var gameRisks = gameBattleList.Select(x => x.Risk); //หา Risk ใน Game battle
                 var allRisksExceptGameRisks = _service.Risk().GetAllRisk().Except(gameRisks).ToList(); //เอา Risk ทั้งหมดยกเว้นใน Game battle
 
                 risks.AddRange(gameRisks);
                 risks.AddRange(allRisksExceptGameRisks);
-                risks = risks.Take(maxTake).ToList();
+                if (risks.Count >= maxTake)
+                {
+                    risks = risks.Take(maxTake).ToList();
+                }
             }
             return risks.OrderBy(x => Guid.NewGuid()).ToList();
+        }
+
+        private int CalculateRiskTypeFromWaterFallTurn(int turn)
+        {
+            if (turn <= 5)
+            {
+                return turn;
+            }
+
+            if (turn % 5 == 0)
+            {
+                return 5;
+            }
+
+            return turn % 5;
         }
 
         public void CreateAgileWorkModel(int gameRoomId, int round)
@@ -276,14 +331,11 @@ namespace RiskGame.Core.WorkProcess
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
         }
-
-
-
 
         //Internal helper method
         internal RiskSeparateModel GetRiskByTypeData(bool isList)
@@ -293,19 +345,19 @@ namespace RiskGame.Core.WorkProcess
             // separate type
             if (isList)
             {
-                model.ListReq.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Requirement));
-                model.ListDesign.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Design));
-                model.ListDev.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Implement));
-                model.ListQA.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Testing));
-                model.ListSupport.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Support));
+                model.ListReq.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Requirement || x.RiskType == (int)RiskType.General));
+                model.ListDesign.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Design || x.RiskType == (int)RiskType.General));
+                model.ListDev.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Implement || x.RiskType == (int)RiskType.General));
+                model.ListQA.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Testing || x.RiskType == (int)RiskType.General));
+                model.ListSupport.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Support || x.RiskType == (int)RiskType.General));
             }
             else
             {
-                model.Req = risks.Where(x => x.RiskType == (int)RiskType.Requirement).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-                model.Design = risks.Where(x => x.RiskType == (int)RiskType.Design).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-                model.Dev = risks.Where(x => x.RiskType == (int)RiskType.Implement).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-                model.QA = risks.Where(x => x.RiskType == (int)RiskType.Testing).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-                model.Support = risks.Where(x => x.RiskType == (int)RiskType.Support).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+                model.Req = risks.Where(x => x.RiskType == (int)RiskType.Requirement || x.RiskType == (int)RiskType.General).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+                model.Design = risks.Where(x => x.RiskType == (int)RiskType.Design || x.RiskType == (int)RiskType.General).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+                model.Dev = risks.Where(x => x.RiskType == (int)RiskType.Implement || x.RiskType == (int)RiskType.General).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+                model.QA = risks.Where(x => x.RiskType == (int)RiskType.Testing || x.RiskType == (int)RiskType.General).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+                model.Support = risks.Where(x => x.RiskType == (int)RiskType.Support || x.RiskType == (int)RiskType.General).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
             }
             return model;
         }

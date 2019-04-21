@@ -49,8 +49,13 @@ namespace KPI.Services.Service
         {
             return _risk.GetManyWith(x => x.RiskId == id, inc => inc.RiskOptions);
         }
-        public IEnumerable<Risk> GetRiskByType(int type)
+        public IEnumerable<Risk> GetRiskByType(int type, bool includeGeneral)
         {
+            if (includeGeneral)
+            {
+                return _risk.GetManyWith(x => x.RiskType == type || x.RiskType == (int)RiskType.General, inc => inc.RiskOptions);
+            }
+
             return _risk.GetManyWith(x => x.RiskType == type,inc => inc.RiskOptions);
         }
 
