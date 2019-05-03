@@ -1,4 +1,7 @@
-﻿
+﻿USE [cnxdevso_RiskProd]
+EXEC sp_addrolemember 'db_owner', 'RiskProd'
+
+
 Declare @GameroomId INT = 2083
 
 select * from GameBattle gb Inner Join Risk r ON r.riskId = gb.RiskId
