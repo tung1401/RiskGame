@@ -256,7 +256,10 @@ namespace RiskGame.Controllers
         {
             var selectGoal = new List<SelectListItem>
             {
-                new SelectListItem { Text = "Max Money", Value = "0", Selected = true }
+                new SelectListItem { Text = "Max Money", Value = "0", Selected = true },
+                new SelectListItem { Text = "Money Over 50 Percent", Value = "1", Selected = false },
+                new SelectListItem { Text = "Money Over 60 Percent", Value = "2", Selected = false },
+                new SelectListItem { Text = "Money Over 75 Percent", Value = "3", Selected = false }
             };
             ViewBag.SelectGoal = selectGoal;
         }

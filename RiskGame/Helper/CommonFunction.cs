@@ -102,5 +102,21 @@ namespace RiskGame.Helper
         {
             return riskImpact * 0.10;
         }
+
+        public static string GoalStatus(int? goal, int money, int maxMoney)
+        {
+            if (!goal.HasValue) return null;
+
+            var diffValue = (money / maxMoney) * 100;
+
+            if (goal == 1)
+            {
+                if(diffValue <= maxMoney * 0.50)
+                {
+                    return $"Under 50 %";
+                }
+            }
+            return "";
+        }
     }
 }

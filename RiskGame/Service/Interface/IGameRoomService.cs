@@ -34,6 +34,8 @@ namespace KPI.Services.Interface
         IEnumerable<UserGameRoom> GetUserGameRoom(int gameRoomId);
         void SaveUserGameRoomAsync(UserGameRoom userGameRoom);
         UserGameRoom GetUserGameRoom(int gameRoomId, bool isbot, int jobType);
+        IEnumerable<UserGameRoom> GetUserHistoryGame(int userId);
+        GameRoom GetGameHistoryDetail(int gameRoomId);
 
     }
 }

@@ -1,0 +1,188 @@
+﻿@model RiskGame.Models.GameHistoryViewModel
+@using RiskGame.Models
+@using RiskGame.Helper
+@using System.Runtime
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Game History</h2>
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">Information</strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table2" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Game Room Id</th>
+                                    <th>Game Room Name</th>
+                                    <th>Multiplayer</th>
+                                    <th>Software Type</th>
+                                    <th>Player Name</th>
+                                    <th>Money</th>
+                                    <th>Date</th>
+                                    <th>Rank</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.GameRoom.UserGameRooms.OrderByDescending(x => x.MoneyValue).ToList())
+                                {
+
+                                    var classTable = "";
+                                    if (item.UserId == Singleton.User().UserId)
+                                    {
+                                        classTable = "lightskyblueBg";
+                                    }
+
+                                    <tr class=" @classTable">
+                                        <td>@item.GameRoomId</td>
+                                        <td>@item.GameRoom.GameRoomName</td>
+                                        <td>@item.GameRoom.Multiplayer</td>
+                                        <td>@Enum.GetName(typeof(Const.SoftwareType), (int)item.GameRoom.SoftwareType)</td>
+                                        <td>@item.PlayerName</td>
+                                        <td>@item.MoneyValue.ToString("n0")</td>
+                                        <td>
+                                            @item.JoinDate.GetValueOrDefault().ToString("dd/MM/yyyy hh:mm:ss tt")
+                                        </td>
+                                        <td>
+                                            @if (item.GameRoom.UserGameRooms.Count > 1)
+                                            {
+                                                @(item.GameRoom.UserGameRooms.OrderByDescending(x => x.MoneyValue).ToList().FindIndex(x => x.UserId == item.UserId) + 1)
+                                            }
+                                            else
+                                            {
+                                                @Html.Raw("-")
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">User Risk Awareness</strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table3" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Turn</th>
+                                    <th>Risk Name</th>
+                                    <th>Risk Type</th>
+                                    <th>Risk Level</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.GameRoom.UserGameRisks.Where(x=>x.UserId == Singleton.User().UserId).OrderBy(o => o.Turn))
+                                {
+
+                                    var riskOption = Model.RiskOptionList.FirstOrDefault(x => x.RiskOptionId == item.RiskOptionId);
+                                    if (riskOption.RiskLevel != 0)
+                                    {
+                                        <tr class="">
+                                            <td>@item.Turn</td>
+                                            <td>@riskOption.Risk.RiskName</td>
+                                            <td>@riskOption.Risk.RiskType</td>
+                                            <td>@riskOption.RiskLevel</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">Risk In Game</strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table4" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Turn</th>
+                                    <th>Risk Name</th>
+                                    <th>Risk Type</th>
+                                    <th>Risk Level</th>
+                                    <th>External Effect</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.GameRoom.GameBattles.OrderBy(o => o.Turn))
+                                {
+
+                                    var riskOption = Model.RiskOptionList.FirstOrDefault(x => x.RiskOptionId == item.RiskOptionId);
+
+                                    <tr class="">
+                                        <td>@item.Turn</td>
+                                        <td>@riskOption.Risk.RiskName</td>
+                                        <td>@riskOption.Risk.RiskType</td>
+                                        <td>@riskOption.RiskLevel</td>
+                                        <td>@(item.RiskNewsId != null ? "true" : "" )</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+
+
+
+
+<script src="~/Content/sufee/assets/js/lib/data-table/datatables.min.js"></script>
+<script src="~/Content/sufee/assets/js/lib/data-table/dataTables.bootstrap.min.js"></script>
+<script src="~/Content/sufee/assets/js/lib/data-table/dataTables.buttons.min.js"></script>
+<script src="~/Content/sufee/assets/js/lib/data-table/buttons.bootstrap.min.js"></script>
+<script src="~/Content/sufee/assets/js/lib/data-table/jszip.min.js"></script>
+<script src="~/Content/sufee/assets/js/lib/data-table/pdfmake.min.js"></script>
+<script src="~/Content/sufee/assets/js/lib/data-table/vfs_fonts.js"></script>
+<script src="~/Content/sufee/assets/js/lib/data-table/buttons.html5.min.js"></script>
+<script src="~/Content/sufee/assets/js/lib/data-table/buttons.print.min.js"></script>
+<script src="~/Content/sufee/assets/js/lib/data-table/buttons.colVis.min.js"></script>
+<script src="~/Content/sufee/assets/js/lib/data-table/datatables-init.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#bootstrap-data-table2').dataTable({
+            "order": [[0, 'desc']]
+        });
+        $('#bootstrap-data-table3').dataTable({
+            "order": [[0, 'asc']],
+            "searching": false,
+            "lengthChange": false
+
+        });
+        $('#bootstrap-data-table4').dataTable({
+            "order": [[0, 'asc']],
+            "searching": false,
+            "lengthChange": false
+
+        });
+  
+    });
+</script>

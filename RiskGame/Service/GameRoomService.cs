@@ -223,10 +223,11 @@ namespace KPI.Services.Service
             return _userGameRoom.GetManyWith(x => x.GameRoomId == gameRoomId, inc => inc.GameRoom.GameBattles, inc => inc.User);
         }
 
-
-
-
-
+        public GameRoom GetGameHistoryDetail(int gameRoomId)
+        {
+            return _gameRoom.GetWith(x => x.GameRoomId == gameRoomId, inc => inc.GameBattles, inc => inc.User ,      
+                inc => inc.UserGameRooms, includes => includes.UserGameRisks);
+        }
         public IEnumerable<GameRoomModel> GetAllGameRoom2()
         {
             var gameRooms = new List<GameRoomModel>();
@@ -367,6 +368,11 @@ namespace KPI.Services.Service
         public IEnumerable<UserGameRoom> GetUserGameRoom(int gameRoomId)
         {
             return _userGameRoom.GetMany(x => x.GameRoomId == gameRoomId);
+        }
+
+        public IEnumerable<UserGameRoom> GetUserHistoryGame(int userId)
+        {
+            return _userGameRoom.GetManyWith(x => x.UserId == userId, inc=> inc.GameRoom.UserGameRooms);
         }
 
         public IEnumerable<GameRoom> GetGameHistory(int userId)

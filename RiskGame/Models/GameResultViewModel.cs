@@ -22,6 +22,8 @@ namespace RiskGame.Models
         public string Rank { set; get; }
         public string Money { set; get; }
         public string Team { set; get; }
+        public string Goal { set; get; }
+        public string GoalStatus { set; get; }
         public string Project { set; get; }
         public string GameStatus { set; get; }
     }

@@ -288,6 +288,7 @@
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\RiskController.cs" />
     <Compile Include="Controllers\StoryController.cs" />
@@ -396,6 +397,34 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\risks\10\10-1.png" />
+    <Content Include="Content\risks\10\10-2.png" />
+    <Content Include="Content\risks\10\10-3.png" />
+    <Content Include="Content\risks\15\15-1.png" />
+    <Content Include="Content\risks\15\15-2.png" />
+    <Content Include="Content\risks\15\15-3.png" />
+    <Content Include="Content\risks\17\17-1.png" />
+    <Content Include="Content\risks\17\17-2.png" />
+    <Content Include="Content\risks\17\17-3.png" />
+    <Content Include="Content\risks\20\20-1.png" />
+    <Content Include="Content\risks\20\20-2.png" />
+    <Content Include="Content\risks\20\20-3.png" />
+    <Content Include="Content\risks\21\21-1.png" />
+    <Content Include="Content\risks\21\21-2.png" />
+    <Content Include="Content\risks\21\21-3.png" />
+    <Content Include="Content\risks\4\4-1.png" />
+    <Content Include="Content\risks\4\4-2.png" />
+    <Content Include="Content\risks\4\4-3.png" />
+    <Content Include="Content\risks\9\9-1.png" />
+    <Content Include="Content\risks\9\9-2.png" />
+    <Content Include="Content\risks\9\9-3.png" />
+    <Content Include="Content\slide\slide1.jpg" />
+    <Content Include="Content\slide\slide2-1.jpg" />
+    <Content Include="Content\slide\slide2.jpg" />
+    <Content Include="Content\slide\slide3.jpg" />
+    <Content Include="Content\slide\slide4-1.jpg" />
+    <Content Include="Content\slide\slide4.jpg" />
+    <Content Include="Content\slide\slide5.png" />
     <Content Include="Content\sufee\assets\css\animate.css" />
     <Content Include="Content\sufee\assets\css\bootstrap-select.css" />
     <Content Include="Content\sufee\assets\css\bootstrap.css" />
@@ -1296,6 +1325,7 @@
     <Content Include="Content\SweetAlert2\staticMethods.js" />
     <Content Include="Content\SweetAlert2\SweetAlert.js" />
     <Content Include="Content\SweetAlert2\sweetalert2.js" />
+    <Content Include="DAL\DBScript\RiskScript.txt" />
     <Content Include="DAL\DBScript\SupportScript.txt" />
     <Content Include="DAL\DBScript\DBScript.txt" />
     <Content Include="Entity\Model1.Context.tt">
@@ -1709,10 +1739,13 @@
     <Content Include="SweetAlert2\sweetalert2.scss" />
     <Content Include="SweetAlert2\mixins.scss" />
     <Content Include="SweetAlert2\animations.scss" />
+    <Content Include="Views\Shared\_RiskSlideShow.cshtml" />
+    <Content Include="Views\GameHistory\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Report\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

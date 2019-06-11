@@ -33,12 +33,28 @@ namespace RiskGame.Core.WorkProcess
                 // getAll Risk with Risk option
                 var risks = _service.Risk().GetAllRiskWithOutZeroLevel().ToList();
 
+                listAll.AddRange(risks.Where(x => x.RiskType == (int)RiskType.General));
+
+                var generalReq = listAll.OrderBy(x => Guid.NewGuid()).Take(5).ToList();
                 // separate type
-                listReq.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Requirement || x.RiskType == (int)RiskType.General));
-                listDesign.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Design || x.RiskType == (int)RiskType.General));
-                listDev.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Implement || x.RiskType == (int)RiskType.General));
-                listQA.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Testing || x.RiskType == (int)RiskType.General));
-                listSupport.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Support || x.RiskType == (int)RiskType.General));
+                listReq.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Requirement));
+                listReq.AddRange(generalReq);
+
+                var generalDesign = listAll.OrderBy(x => Guid.NewGuid()).Take(5).ToList();
+                listDesign.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Design));
+                listDesign.AddRange(generalDesign);
+
+                var generalDev = listAll.OrderBy(x => Guid.NewGuid()).Take(5).ToList();
+                listDev.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Implement));
+                listDev.AddRange(generalDev);
+
+                var generalQA = listAll.OrderBy(x => Guid.NewGuid()).Take(5).ToList();
+                listQA.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Testing));
+                listQA.AddRange(generalQA);
+
+                var generalSupport = listAll.OrderBy(x => Guid.NewGuid()).Take(5).ToList();
+                listSupport.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Support));
+                listSupport.AddRange(generalSupport);
 
                 var gameBattleList = new List<GameBattle>();
 
@@ -74,7 +90,8 @@ namespace RiskGame.Core.WorkProcess
             var gameBattleList = new List<GameBattle>();
             if (risks.Any())
             {
-                var randomTake = CommonFunction.RandomNumber(1, risks.Count);
+                var maxRisk = risks.Count > 15 ? 15 : risks.Count;
+                var randomTake = CommonFunction.RandomNumber(1, maxRisk);
                 foreach (var risk in risks.OrderBy(x => Guid.NewGuid()).Take(randomTake))
                 {
                     var isProbability = true;
@@ -220,13 +237,53 @@ namespace RiskGame.Core.WorkProcess
             {
                 if (gameBattleList.Any())
                 {
-
                     var allRisks = _service.Risk().GetAllRisk().OrderBy(x => Guid.NewGuid());
                     var gameRisks = gameBattleList.Select(x => x.Risk); //หา Risk ใน Game battle
-                    //var allRisksExceptGameRisks = allRisks.Except(gameRisks).ToList(); //เอา Risk ทั้งหมดยกเว้นใน Game battle
+                    var allRisksExceptGameRisks = allRisks.Except(gameRisks).ToList(); //เอา Risk ทั้งหมดยกเว้นใน Game battle
 
+                    var expectItem = 2;
+                    var reqCount = gameRisks.Count(x => x.RiskType == (int)RiskType.Requirement);
+                    var designCount = gameRisks.Count(x => x.RiskType == (int)RiskType.Design);
+                    var devCount = gameRisks.Count(x => x.RiskType == (int)RiskType.Implement);
+                    var qaCount = gameRisks.Count(x => x.RiskType == (int)RiskType.Testing);
+                    var supportCount = gameRisks.Count(x => x.RiskType == (int)RiskType.Support);
+                    var generalCount = gameRisks.Count(x => x.RiskType == (int)RiskType.General);
+
+                    if (reqCount < expectItem)
+                    {
+                        risks.AddRange(allRisksExceptGameRisks.Where(x => x.RiskType == (int)RiskType.Requirement)
+                            .OrderBy(x => Guid.NewGuid()).Take(expectItem - reqCount));
+                    }
+                    if (designCount < expectItem)
+                    {
+                        risks.AddRange(allRisksExceptGameRisks.Where(x => x.RiskType == (int)RiskType.Design)
+                            .OrderBy(x => Guid.NewGuid()).Take(expectItem - designCount));
+                    }
+                    if (devCount < expectItem)
+                    {
+                        risks.AddRange(allRisksExceptGameRisks.Where(x => x.RiskType == (int)RiskType.Implement)
+                            .OrderBy(x => Guid.NewGuid()).Take(expectItem - devCount));
+                    }
+                    if (qaCount < expectItem)
+                    {
+                        risks.AddRange(allRisksExceptGameRisks.Where(x => x.RiskType == (int)RiskType.Testing)
+                            .OrderBy(x => Guid.NewGuid()).Take(expectItem - qaCount));
+                    }
+                    if (supportCount < expectItem)
+                    {
+                        risks.AddRange(allRisksExceptGameRisks.Where(x => x.RiskType == (int)RiskType.Support)
+                            .OrderBy(x => Guid.NewGuid()).Take(expectItem - supportCount));
+                    }
+                    if (generalCount < expectItem)
+                    {
+                        risks.AddRange(allRisksExceptGameRisks.Where(x => x.RiskType == (int)RiskType.General)
+                            .OrderBy(x => Guid.NewGuid()).Take(expectItem - generalCount));
+                    }
+
+                    /*
                     if (!gameRisks.Any(x => x.RiskType == (int)RiskType.Requirement))
                     {
+                        if(gameRisks.Count(x=>x.RiskType == (int)RiskType.Requirement) > 2)
                         risks.Add(allRisks.Where(x => x.RiskType == (int)RiskType.Requirement).FirstOrDefault());
                     }
                     if (!gameRisks.Any(x => x.RiskType == (int)RiskType.Design))
@@ -244,7 +301,7 @@ namespace RiskGame.Core.WorkProcess
                     if (!gameRisks.Any(x => x.RiskType == (int)RiskType.Support))
                     {
                         risks.Add(allRisks.Where(x => x.RiskType == (int)RiskType.Support).FirstOrDefault());
-                    }
+                    }*/
                     risks.AddRange(gameRisks);
                 }
                 else

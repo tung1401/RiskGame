@@ -28,10 +28,12 @@ namespace RiskGame.Controllers
                 {
                     GameBattleId = Singleton.Game().GameBattleId,
                     GameRoomId = Singleton.Game().GameRoomId,
-                    PlayerName  = Singleton.Game().PlayerName,
+                    PlayerName = Singleton.Game().PlayerName,
                     Money = Singleton.Game().Money.ToString(),
                     Team = Singleton.Game().Team.ToString(),
                     Project = Singleton.Game().Project.ToString(),
+                    Goal = Enum.GetName(typeof(Const.GoalType), gameRoom.Goal),
+                    GoalStatus = "",
                     Rank = "0",
                     GameStatus = "0",
                     

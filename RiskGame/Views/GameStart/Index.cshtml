@@ -17,7 +17,7 @@
 
     @using (Html.BeginForm("ProtectRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-        <table class="table">
+        <table class="table table-light table-hover">
             <thead>
                 <tr>
                     <td><b>Name</b></td>
@@ -33,8 +33,8 @@
                 {
                     <tr>
                         <td>
-                            @item.Name
                             <span class="badge badge-pill badge-primary">@item.RiskType</span>
+                            @item.Name
                             <div><p class="small">@item.RiskDetail</p></div>
                         </td>
                         @foreach (var op in item.RiskOption.OrderBy(x => x.RiskLevel))

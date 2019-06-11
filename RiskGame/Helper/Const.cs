@@ -39,7 +39,10 @@ namespace RiskGame.Helper
         }
         public enum GoalType
         {
-            Money = 0
+            MaxMoney = 0,
+            MoneyOver50Percent = 1,
+            MoneyOver60Percent = 2,
+            MoneyOver75Percent = 3
         }
 
         public enum RiskGameLevel

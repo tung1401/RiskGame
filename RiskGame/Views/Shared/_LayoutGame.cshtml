@@ -29,8 +29,15 @@
 
 
 </head>
-<body>  
+<body>
     @RenderBody()
     @RenderSection("scripts", required: false)
+
+
+    <div class="content mt-3">
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Risk Game Application</p>
+        </footer>
+    </div>
 </body>
 </html>

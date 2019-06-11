@@ -12,7 +12,7 @@
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <strong>Use a local account to log in.</strong>
+                <strong>Use account to log in.</strong>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
@@ -45,9 +45,9 @@
         </div>
         <br/>
 
-        <div id="socialLoginForm">
+        @*<div id="socialLoginForm">
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </div>
+        </div>*@
     </div>
     <div class="col-md-8">
        

@@ -1,4 +1,6 @@
 ﻿@{
+    /**/
+
     ViewBag.Title = "Home Page";
 }
 @using RiskGame.Models
@@ -14,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-8">
+        @*<div class="col-sm-8">
             <div class="page-header float-right">
                 <div class="page-title">
                     <ol class="breadcrumb text-right">
@@ -22,7 +24,7 @@
                     </ol>
                 </div>
             </div>
-        </div>
+        </div>*@
     </div>
 }
 @if (Request.IsAuthenticated)
@@ -61,11 +63,7 @@
     </div>
 
     <div class="col-sm-12 col-lg-12">
-
-        <div id="gameRoomTable"></div>
-
-
-
+        <div id="gameRoomTable" style="min-height:560px;"></div>
     </div>
 
 
@@ -76,7 +74,6 @@
         $(function () {
             // Declare a proxy to reference the hub.
             var notifications = $.connection.gameHub;
-            debugger;
             //debugger;
             // Create a function that the hub can call to broadcast messages.
             notifications.client.updateMessages = function () {
@@ -123,48 +120,48 @@
 
 
 
-        @*var javaScriptSearilizer = new JavaScriptSerializer();
-        var list = new OpenRiskGameBattleModel
+    @*var javaScriptSearilizer = new JavaScriptSerializer();
+                var list = new OpenRiskGameBattleModel
+                {
+                    RiskGameBattleData = new List<GameBattleData>
         {
-            RiskGameBattleData = new List<GameBattleData>
-{
-    new GameBattleData
-    {
-        title ="ความเสี่ยงที่คุณได้รับมีทั้งหมด",
-        type = "warning"
-    },
-    new GameBattleData
-    {
-        title ="3 ความเสี่ยง คือ",
-        type = "warning"
-    },
-    new GameBattleData
-    {
-        title ="1",
-        imageUrl = "/Content/sufee/images/logo.png"
-    },
-    new GameBattleData
-    {
-        title ="2",
-        imageUrl = "/Content/sufee/images/logo.png"
-    },
-    new GameBattleData
-    {
-        title ="3",
-        imageUrl = "/Content/sufee/images/logo.png"
-    },
-}
-        };
+            new GameBattleData
+            {
+                title ="ความเสี่ยงที่คุณได้รับมีทั้งหมด",
+                type = "warning"
+            },
+            new GameBattleData
+            {
+                title ="3 ความเสี่ยง คือ",
+                type = "warning"
+            },
+            new GameBattleData
+            {
+                title ="1",
+                imageUrl = "/Content/sufee/images/logo.png"
+            },
+            new GameBattleData
+            {
+                title ="2",
+                imageUrl = "/Content/sufee/images/logo.png"
+            },
+            new GameBattleData
+            {
+                title ="3",
+                imageUrl = "/Content/sufee/images/logo.png"
+            },
+        }
+                };
 
 
 
-        var searializedObject = javaScriptSearilizer.Serialize(list);
-    
+                var searializedObject = javaScriptSearilizer.Serialize(list);
 
-    <script>
-        var searializedObject = @Html.Raw(searializedObject)
-        Swal.queue(searializedObject.RiskGameBattleData);
-    </script>*@
+
+            <script>
+                var searializedObject = @Html.Raw(searializedObject)
+                Swal.queue(searializedObject.RiskGameBattleData);
+            </script>*@
 
 
 
@@ -173,58 +170,84 @@ else
 {
     <h1>@Html.Raw("Welcome to The Risk Game")</h1>
     <br />
+
+    @Html.Partial("_RiskSlideShow")
+
+    <br />
     <div class="row">
-        <div class="col-sm-6 col-lg-4">
-            <img src="~/Content/sufee/images/riskorsafe_300.png">
+        <div class="col-sm-6 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3><strong class="card-title">ที่มา</strong></h3>
+                </div>
+                <div class="card-body">
+                    <span>การพัฒนาซอฟต์แวร์ไม่ว่าองค์กรไหนหรือรูปแบบใดให้ประสบผลสำเร็จได้นั้น ย่อมมีปัญหา <br />และปัจจัยมากมายที่จะส่งผลกระทบกับโครงการทั้งก่อนเริ่มโครงการ ระหว่างดำเนินการและใกล้เวลาสิ้นสุดโครงการ <br />โดยจุดเริ่มต้นของการพัฒนาซอฟต์แวร์ คือ การเก็บความต้องการของลูกค้าเป็นอันดับแรก<br />ในขั้นตอนนี้เป็นหัวใจสำคัญที่สามารถชี้วัดได้ว่าโครงการจะสามารถดำเนินการต่อไปในทิศทางใด <br />ผู้จัดการโครงการจะต้องวิเคราะห์และประเมินสถานการณ์ในด้านต่าง ๆ เช่น ระยะเวลาของ <br />โครงการภายใต้กรอบเวลาที่จำกัด ขั้นตอนในการดำเนินงานและปฏิบัติการ <br />การใช้ทรัพยากรที่มีอยู่ให้เกิดประสิทธิภาพสูงสุด การบริหารจัดการงบประมาณ เป็นต้น <br />ซึ่งจากปัญหาข้างต้นเมื่อนำมารวบรวม วิเคราะห์แล้วพบว่าปัญหาที่ผ่านมา คือ ความเสี่ยงที่อาจเกิดขึ้นได้ในอนาคต <br />จึงมีแนวคิดในการพัฒนา โปรแกรมการจำลองสถานการณ์ความเสี่ยงในการพัฒนาซอฟต์แวร์บนเว็บแอพลิเคชัน <br />เพื่อศึกษาและเข้าใจ และรวบรวมปัญหาที่ส่งผลต่อการพัฒนาซอฟต์แวร์</span>
+                </div>
+            </div>
+            @*<img src="~/Content/sufee/images/riskorsafe_300.png">*@
         </div>
 
-        <div class="col-sm-6 col-lg-6">
-            <h2>คำอธิบายเกมส์</h2>
-
+        <div class="col-sm-6 col-lg-6 col-md-6 text-left">
+            <div class="card">
+                <div class="card-header">
+                    <h3><strong class="card-title"> คำอธิบายเกมส์</strong></h3>
+                </div>
+                <div class="card-body">
+                    <ol class="vue-ordered" style="padding:0 10px;">
+                        <li>คุณสามารถเล่นแข่งกับ BOT หรือจะเล่นแบบ Multiplayer ก็ได้ คุณจะได้รับงบประมาณตั้งต้นโครงการจำนวน 1 ล้านเหรียญ</li>
+                        <li>คุณจะตกอยู่ในสถานการณ์ที่จะต้องเจอความเสี่ยงผ่านรูปแบบการทำงาน Work Process ต่าง ๆ เช่น Water Fall, Agile หรือ No Methodology ซึ่งเหตุการณ์ต่าง ๆ ก็จะแตกต่างกันในแต่ละรอบ</li>
+                        <li>พอผ่านทุกขั้นตอนการทำงานไปได้ ผู้ที่เหลืองบประมาณเยอะที่สุดจะเป็นฝ่ายได้รับชัยชนะ เกมส์นี้วัดกันที่ความคิด การตัดสินใจ การเรียนรู้และประสบการณ์ที่ผ่านมา รวมถึงโชคชะตาที่ไม่สามารถกำหนดได้</li>
+                    </ol>
+                </div>
+            </div>
         </div>
     </div>
-
+    <br /><br /><br /><br /><br />
     <script>
 
-                                        //  $.ajax({
-                                        //      url: '/Home/GetOpenRiskGameBattle',
-                                        //    contentType: 'application/html ; charset:utf-8',
-                                        //    type: 'GET',
-                                        //    dataType: 'JSON',
-                                        //}).success(function (data) {
-                                        //    debugger;
-                                        //    Swal.queue(data.Result.RiskGameBattleData);
+
+                                                                //  $.ajax({
+                                                                //      url: '/Home/GetOpenRiskGameBattle',
+                                                                //    contentType: 'application/html ; charset:utf-8',
+                                                                //    type: 'GET',
+                                                                //    dataType: 'JSON',
+                                                                //}).success(function (data) {
+                                                                //    debugger;
+                                                                //    Swal.queue(data.Result.RiskGameBattleData);
 
 
-                                        //}).error(function () {
+                                                                //}).error(function () {
 
-                                        //});
+                                                                //});
 
 
 
-                                        //Swal.queue([
-                                        //    { title: "ความเสี่ยงที่คุณได้รับมีทั้งหมด", type: "warning" },
-                                        //    { title: "3 ความเสี่ยง คือ", type: "warning" },
-                                        //    {
-                                        //        title: "1x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
-                                        //    },
-                                        //    {
-                                        //        title: "2x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
-                                        //    },
-                                        //    {
-                                        //        title: "3x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
-                                        //    }
-                                        //]);
+                                                                //Swal.queue([
+                                                                //    { title: "ความเสี่ยงที่คุณได้รับมีทั้งหมด", type: "warning" },
+                                                                //    { title: "3 ความเสี่ยง คือ", type: "warning" },
+                                                                //    {
+                                                                //        title: "1x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
+                                                                //    },
+                                                                //    {
+                                                                //        title: "2x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
+                                                                //    },
+                                                                //    {
+                                                                //        title: "3x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
+                                                                //    }
+                                                                //]);
 
-                                        //Swal.fire({
-                                        //    title: 'Sweet!',
-                                        //    text: 'Modal with a custom image.',
-                                        //    imageUrl: 'https://unsplash.it/400/200',
-                                        //    imageWidth: 400,
-                                        //    imageHeight: 200,
-                                        //    imageAlt: 'Custom image',
-                                        //    animation: false
-                                        //})
-                                        //Swal.fire({ title: "<i class='fa fa-lock' style='margin-top: 5px;'></i>&nbsp;กรุณาล็อกอินเพื่อเข้าสู่ระบบ", type: "info"});
+                                                                //Swal.fire({
+                                                                //    title: 'Sweet!',
+                                                                //    text: 'Modal with a custom image.',
+                                                                //    imageUrl: 'https://unsplash.it/400/200',
+                                                                //    imageWidth: 400,
+                                                                //    imageHeight: 200,
+                                                                //    imageAlt: 'Custom image',
+                                                                //    animation: false
+                                                                //})
+                                                                //Swal.fire({ title: "<i class='fa fa-lock' style='margin-top: 5px;'></i>&nbsp;กรุณาล็อกอินเพื่อเข้าสู่ระบบ", type: "info"});
     </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 }
