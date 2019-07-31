@@ -13,7 +13,6 @@
 </div>
 <div class="rows col-12">
     <div class="col-md-5">
-
         <div class="card-header">
             <strong>User Protect Risks</strong>
             <span style="font-size:14px;">Total Cost: @(Model.UserGameRisk.Sum(x => x.RiskOption.ActionEffectValue).GetValueOrDefault().ToString("n0"))</span>
@@ -53,7 +52,7 @@
     <div class="col-md-7">
         <div class="card-header">
             <strong>Game Risks</strong>
-            <p>Total Pay:</p><b style="font-size:14px;" class="text-danger"> @(Model.UserGameBattleData.Sum(x => x.EffectMoney).ToString("n0"))</b>
+            <span>Total Pay: <b style="font-size:14px;" class="text-danger"> @(Model.UserGameBattleData.Sum(x => x.EffectMoney).ToString("n0"))</b></span>
         </div>
         <table class="table table-hover">
             <thead class="thead-dark">

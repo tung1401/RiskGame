@@ -347,12 +347,13 @@ namespace RiskGame.Core.WorkProcess
                 for (int i = 1; i <= round; i++)
                 {
                     var model = GetRiskByTypeData(false);
-                    var randomTake = CommonFunction.RandomNumber(1, 5);
+                    var randomTake = CommonFunction.RandomNumber(3, 6);
                     var risks = new List<Risk>
-                {
-                      model.Req,  model.Design,  model.Dev,  model.QA,  model.Support
-
-                }.OrderBy(x => Guid.NewGuid()).Take(randomTake);
+                    {
+                          model.Req,  model.Design,  model.Dev,  model.QA,  model.Support
+                    }
+                    .Union(model.ListGeneral)
+                    .OrderBy(x => Guid.NewGuid()).Take(randomTake);
 
                     foreach (var item in risks)
                     {
@@ -407,14 +408,16 @@ namespace RiskGame.Core.WorkProcess
                 model.ListDev.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Implement || x.RiskType == (int)RiskType.General));
                 model.ListQA.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Testing || x.RiskType == (int)RiskType.General));
                 model.ListSupport.AddRange(risks.Where(x => x.RiskType == (int)RiskType.Support || x.RiskType == (int)RiskType.General));
+
             }
             else
             {
-                model.Req = risks.Where(x => x.RiskType == (int)RiskType.Requirement || x.RiskType == (int)RiskType.General).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-                model.Design = risks.Where(x => x.RiskType == (int)RiskType.Design || x.RiskType == (int)RiskType.General).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-                model.Dev = risks.Where(x => x.RiskType == (int)RiskType.Implement || x.RiskType == (int)RiskType.General).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-                model.QA = risks.Where(x => x.RiskType == (int)RiskType.Testing || x.RiskType == (int)RiskType.General).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-                model.Support = risks.Where(x => x.RiskType == (int)RiskType.Support || x.RiskType == (int)RiskType.General).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+                model.Req = risks.Where(x => x.RiskType == (int)RiskType.Requirement).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+                model.Design = risks.Where(x => x.RiskType == (int)RiskType.Design).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+                model.Dev = risks.Where(x => x.RiskType == (int)RiskType.Implement).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+                model.QA = risks.Where(x => x.RiskType == (int)RiskType.Testing).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+                model.Support = risks.Where(x => x.RiskType == (int)RiskType.Support).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+                model.ListGeneral = risks.Where(x => x.RiskType == (int)RiskType.General).OrderBy(x => Guid.NewGuid()).Take(5).ToList(); // get top 5 for random
             }
             return model;
         }
@@ -431,10 +434,6 @@ namespace RiskGame.Core.WorkProcess
         }
     }
 
-
-
-
-
     public class RiskSeparateModel
     {
         public List<Risk> ListReq { set; get; }
@@ -442,15 +441,13 @@ namespace RiskGame.Core.WorkProcess
         public List<Risk> ListDev { set; get; }
         public List<Risk> ListQA { set; get; }
         public List<Risk> ListSupport { set; get; }
+        public List<Risk> ListGeneral { set; get; }
 
         public Risk Req { set; get; }
         public Risk Design { set; get; }
         public Risk Dev { set; get; }
         public Risk QA { set; get; }
         public Risk Support { set; get; }
-
-
-
+        public Risk General { set; get; }
     }
-
 }

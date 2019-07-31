@@ -17,14 +17,14 @@
             </div>
         </div>
         @*<div class="col-sm-8">
-            <div class="page-header float-right">
-                <div class="page-title">
-                    <ol class="breadcrumb text-right">
-                        <li class="active">Dashboard</li>
-                    </ol>
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li class="active">Dashboard</li>
+                        </ol>
+                    </div>
                 </div>
-            </div>
-        </div>*@
+            </div>*@
     </div>
 }
 @if (Request.IsAuthenticated)
@@ -65,6 +65,7 @@
     <div class="col-sm-12 col-lg-12">
         <div id="gameRoomTable" style="min-height:560px;"></div>
     </div>
+
 
 
 
@@ -165,6 +166,8 @@
 
 
 
+
+
 }
 else
 {
@@ -202,50 +205,77 @@ else
             </div>
         </div>
     </div>
+
+
+    <div class="row">
+        <div class="col-sm-6 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3><strong class="card-title">วิธีการเล่น</strong></h3>
+                </div>
+                <div class="card-body">
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/204925938bac476fafd550bfacc7264a" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+                </div>
+            </div>
+            @*<img src="~/Content/sufee/images/riskorsafe_300.png">*@
+        </div>
+
+        <div class="col-sm-6 col-lg-6 col-md-6 text-left">
+            <div class="card">
+                <div class="card-header">
+                    <h3><strong class="card-title">แบบประเมิน</strong></h3>
+                </div>
+                <div class="card-body">
+                    <a class="text-info" href="https://docs.google.com/forms/d/e/1FAIpQLScyMJNgsl9Y3dexzTT3K1deU_w-xNqpFZUHC-gpfp11QpEb3A/viewform" target="_blank"> แบบประเมินเกมส์ RiskGame.net</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <br /><br /><br /><br /><br />
     <script>
 
 
-                                                                //  $.ajax({
-                                                                //      url: '/Home/GetOpenRiskGameBattle',
-                                                                //    contentType: 'application/html ; charset:utf-8',
-                                                                //    type: 'GET',
-                                                                //    dataType: 'JSON',
-                                                                //}).success(function (data) {
-                                                                //    debugger;
-                                                                //    Swal.queue(data.Result.RiskGameBattleData);
+                                                                                                //  $.ajax({
+                                                                                                //      url: '/Home/GetOpenRiskGameBattle',
+                                                                                                //    contentType: 'application/html ; charset:utf-8',
+                                                                                                //    type: 'GET',
+                                                                                                //    dataType: 'JSON',
+                                                                                                //}).success(function (data) {
+                                                                                                //    debugger;
+                                                                                                //    Swal.queue(data.Result.RiskGameBattleData);
 
 
-                                                                //}).error(function () {
+                                                                                                //}).error(function () {
 
-                                                                //});
+                                                                                                //});
 
 
 
-                                                                //Swal.queue([
-                                                                //    { title: "ความเสี่ยงที่คุณได้รับมีทั้งหมด", type: "warning" },
-                                                                //    { title: "3 ความเสี่ยง คือ", type: "warning" },
-                                                                //    {
-                                                                //        title: "1x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
-                                                                //    },
-                                                                //    {
-                                                                //        title: "2x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
-                                                                //    },
-                                                                //    {
-                                                                //        title: "3x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
-                                                                //    }
-                                                                //]);
+                                                                                                //Swal.queue([
+                                                                                                //    { title: "ความเสี่ยงที่คุณได้รับมีทั้งหมด", type: "warning" },
+                                                                                                //    { title: "3 ความเสี่ยง คือ", type: "warning" },
+                                                                                                //    {
+                                                                                                //        title: "1x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
+                                                                                                //    },
+                                                                                                //    {
+                                                                                                //        title: "2x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
+                                                                                                //    },
+                                                                                                //    {
+                                                                                                //        title: "3x", imageUrl: '/Content/sufee/images/logo.png', imageWidth: 400, imageHeight: 200,
+                                                                                                //    }
+                                                                                                //]);
 
-                                                                //Swal.fire({
-                                                                //    title: 'Sweet!',
-                                                                //    text: 'Modal with a custom image.',
-                                                                //    imageUrl: 'https://unsplash.it/400/200',
-                                                                //    imageWidth: 400,
-                                                                //    imageHeight: 200,
-                                                                //    imageAlt: 'Custom image',
-                                                                //    animation: false
-                                                                //})
-                                                                //Swal.fire({ title: "<i class='fa fa-lock' style='margin-top: 5px;'></i>&nbsp;กรุณาล็อกอินเพื่อเข้าสู่ระบบ", type: "info"});
+                                                                                                //Swal.fire({
+                                                                                                //    title: 'Sweet!',
+                                                                                                //    text: 'Modal with a custom image.',
+                                                                                                //    imageUrl: 'https://unsplash.it/400/200',
+                                                                                                //    imageWidth: 400,
+                                                                                                //    imageHeight: 200,
+                                                                                                //    imageAlt: 'Custom image',
+                                                                                                //    animation: false
+                                                                                                //})
+                                                                                                //Swal.fire({ title: "<i class='fa fa-lock' style='margin-top: 5px;'></i>&nbsp;กรุณาล็อกอินเพื่อเข้าสู่ระบบ", type: "info"});
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
