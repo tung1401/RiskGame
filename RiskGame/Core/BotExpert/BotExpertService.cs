@@ -158,7 +158,21 @@ namespace RiskGame.Core.BotExpert
             {
                 if (gameBattle != null)
                 {
-                    riskOptionId = gameBattle.RiskOptionId;
+                    //Opportunity to expert Specialist Thinking
+                    var expertSpecialistRandomLevel = CommonFunction.RandomNumber(1, 10);
+                    if (expertSpecialistRandomLevel > 2)
+                    {
+                        riskOptionId = gameBattle.RiskOptionId;
+                    }
+                    else
+                    {
+                        var randomLevel = CommonFunction.RandomNumber(0, 2);
+                        var allRiskOption = _service.Risk().GetAllRiskOptionByRiskId(riskId, randomLevel);
+                        if (allRiskOption.Any())
+                        {
+                            riskOptionId = allRiskOption.FirstOrDefault().RiskOptionId;
+                        }
+                    }
                 }
                 else
                 {

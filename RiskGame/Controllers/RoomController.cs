@@ -246,8 +246,8 @@ namespace RiskGame.Controllers
         {
             var selectSoftwareProcessType = new List<SelectListItem>
             {
-                new SelectListItem { Text = "Water Fall", Value = "0", Selected = true },
-                new SelectListItem { Text = "Agile", Value = "1" },
+                new SelectListItem { Text = "Water Fall", Value = "0" },
+                new SelectListItem { Text = "Agile", Value = "1", Selected = true },
                 new SelectListItem { Text = "Custom", Value = "9" }
             };
             ViewBag.SelectSoftwareProcessType = selectSoftwareProcessType;

@@ -28,7 +28,7 @@ namespace KPI.Services.Service
         //
         public IEnumerable<Risk> GetAllRisk()
         {
-            return _risk.GetAllWith(inc => inc.RiskOptions);
+            return _risk.GetManyWith(x => x.Active == true, inc => inc.RiskOptions);
         }
 
         public IEnumerable<Risk> GetAllRiskWithOutZeroLevel()
@@ -47,30 +47,35 @@ namespace KPI.Services.Service
 
         public IEnumerable<Risk> GetRiskById(int id)
         {
-            return _risk.GetManyWith(x => x.RiskId == id, inc => inc.RiskOptions);
+            return _risk.GetManyWith(x => x.RiskId == id && x.Active == true, inc => inc.RiskOptions);
         }
         public IEnumerable<Risk> GetRiskByType(int type, bool includeGeneral)
         {
             if (includeGeneral)
             {
-                return _risk.GetManyWith(x => x.RiskType == type || x.RiskType == (int)RiskType.General, inc => inc.RiskOptions);
+                return _risk.GetManyWith(x => (x.RiskType == type || x.RiskType == (int)RiskType.General) && x.Active == true, inc => inc.RiskOptions);
             }
 
-            return _risk.GetManyWith(x => x.RiskType == type,inc => inc.RiskOptions);
+            return _risk.GetManyWith(x => x.RiskType == type && x.Active == true, inc => inc.RiskOptions);
         }
 
         public IEnumerable<RiskOption> GetAllRiskOption()
         {
-            return _riskOption.GetAllWith(inc => inc.Risk);
+            return _riskOption.GetAllWith(inc => inc.Risk).Where(x => x.Risk.Active == true);
         }
         public IEnumerable<RiskOption> GetAllRiskOptionWithoutZeroLevel()
         {
-            return _riskOption.GetManyWith(x=>x.RiskLevel != (int)RiskGameLevel.ZeroLevel, inc => inc.Risk);
+            return _riskOption.GetManyWith(x => x.RiskLevel != (int)RiskGameLevel.ZeroLevel, inc => inc.Risk).Where(x => x.Risk.Active == true);
         }
 
         public RiskOption GetRiskOptionById(int riskOptionId, int actionEffectType)
         {
-            return _riskOption.GetWith(x => x.RiskOptionId == riskOptionId && x.ActionEffectType == actionEffectType, inc => inc.Risk);
+            var query = _riskOption.GetManyWith(x => x.RiskOptionId == riskOptionId && x.ActionEffectType == actionEffectType, inc => inc.Risk).Where(x=>x.Risk.Active == true);
+            if (query.Any())
+            {
+                return query.FirstOrDefault();
+            }
+            return null;
         }
 
         public IEnumerable<RiskOption> GetAllRiskOptionByRiskId(int riskId, int? level)
@@ -94,7 +99,7 @@ namespace KPI.Services.Service
         
         public RiskNews GetRiskNewsById(int riskNewsId)
         {
-            return _riskNews.Get(x=>x.RiskNewsId == riskNewsId);
+            return _riskNews.Get(x => x.RiskNewsId == riskNewsId);
         }
     }
 }
