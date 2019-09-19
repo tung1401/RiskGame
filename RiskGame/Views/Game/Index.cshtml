@@ -44,7 +44,9 @@
                     <tr>
                         <td>
                             <span class="badge badge-pill badge-primary">@item.RiskType</span>
-                            @item.Name                           
+                            @item.Name
+                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Probability: @item.RiskProbability Impact: @item.RiskImpact">
+                            </i>
                             <div><p class="small">@item.RiskDetail</p></div>
                         </td>
                         @foreach (var op in item.RiskOption.OrderBy(x => x.RiskLevel))
@@ -71,7 +73,7 @@
             </tbody>
         </table>
 
-        <button id="submit" type="submit" class="btn btn-success" style="font-size:large; display:block;margin: 0 auto;">Confirm</button>
+        <button id="submit" type="submit" class="btn btn-success" style=" display:block;margin: 0 auto;font-size: x-large;text-align: center; border-radius: 8px;box-shadow: 0 4px darkgrey;">Confirm</button>
     }
 
     <br />
@@ -86,7 +88,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-
+        $('[data-toggle="tooltip"]').tooltip();
         GetRiskNews(@Singleton.Game().GameRoomId,@Singleton.Game().Turn);
     });
 

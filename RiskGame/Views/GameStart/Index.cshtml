@@ -2,7 +2,7 @@
 @using RiskGame.Helper
 @{
     Layout = "~/Views/Shared/_LayoutGame.cshtml";
-    ViewBag.Title = "Game Start Page";
+    ViewBag.Title = "Game Start";
     ViewBag.CountDown = DateTime.Now.AddMinutes(5.05);
 }
 
@@ -17,49 +17,53 @@
 
     @using (Html.BeginForm("ProtectRisk", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-        <table class="table table-light table-hover">
-            <thead>
+    <table class="table table-light table-hover">
+        <thead class="thead-light" style="background: lightgray;">
+            <tr>
+                <td><b>Name</b></td>
+                <td class="text-dark"><b>Level 0 (ป้องกัน 0%)</b></td>
+                <td class="text-success"><b>Level 1 (ป้องกัน 25%)</b></td>
+                <td class="text-warning"><b>Level 2 (ป้องกัน 50%)</b></td>
+                <td class="text-danger"><b>Level 3 (ป้องกัน 100%)</b></td>
+                @*<td><b></b></td>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.RiskData)
+            {
                 <tr>
-                    <td><b>Name</b></td>
-                    <td class="text-dark"><b>Level 0 (ป้องกัน 0%)</b></td>
-                    <td class="text-success"><b>Level 1 (ป้องกัน 25%)</b></td>
-                    <td class="text-warning"><b>Level 2 (ป้องกัน 50%)</b></td>
-                    <td class="text-danger"><b>Level 3 (ป้องกัน 100%)</b></td>
-                    @*<td><b></b></td>*@
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.RiskData)
-                {
-                    <tr>
-                        <td>
-                            <span class="badge badge-pill badge-primary">@item.RiskType</span>
-                            @item.Name
-                            <div><p class="small">@item.RiskDetail</p></div>
-                        </td>
-                        @foreach (var op in item.RiskOption.OrderBy(x => x.RiskLevel))
+                    <td>
+                        <span class="badge badge-pill badge-primary">@item.RiskType</span>
+                        @item.Name
+                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Probability: @item.RiskProbability Impact: @item.RiskImpact">
+                        </i>
+                        <div>
+                            <p class="small">@item.RiskDetail</p>
+                        </div>
+                    </td>
+                    @foreach (var op in item.RiskOption.OrderBy(x => x.RiskLevel))
+                    {
+                        if (op.RiskLevel.GetValueOrDefault() == 0)
                         {
-                            if (op.RiskLevel.GetValueOrDefault() == 0)
-                            {
-                                <td>
-                                    @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")", @checked = true }) @Html.Raw("") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
-                                </td>
-                            }
-                            else
-                            {
-                                <td>
-                                    @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")" }) @Html.Raw("-") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
-                                </td>
-                            }
+                            <td>
+                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")", @checked = true }) @Html.Raw("") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
+                            </td>
                         }
-                        @*<td><button class="btn btn-danger" style="font-size:small" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>*@
-                    </tr>
-                }
+                        else
+                        {
+                            <td>
+                                @Html.RadioButton("RiskId" + op.RiskId, op.RiskOptionId, new { @onclick = "Sum(" + @op.RiskId + "," + @op.ActionEffectValue + ")" }) @Html.Raw("-") @op.ActionEffectValue.GetValueOrDefault().ToString("n0")
+                            </td>
+                        }
+                    }
+                    @*<td><button class="btn btn-danger" style="font-size:small" type="button" onclick="ClearRisk('RiskId'+ @item.RiskId)">Clear</button></td>*@
+                </tr>
+            }
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 
-        <button id="submit" type="submit" class="btn btn-success" style="font-size:large; display:block;margin: 0 auto;">Confirm</button>
+        <button id="submit" type="submit" class="btn btn-success" style="font-size:x-large; display:block;margin: 0 auto;border-radius: 8px;box-shadow: 0 4px darkgrey;">Confirm</button>
     }
     <br />
     <div class="" id="newsBox" style="display:none;">
@@ -74,7 +78,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-
+        $('[data-toggle="tooltip"]').tooltip();
         GetRiskNews(@Singleton.Game().GameRoomId,@Singleton.Game().Turn);
     });
 
