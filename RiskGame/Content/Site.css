@@ -146,3 +146,6 @@
 .lightskyblueBg {
     background-color: lightskyblue;
 }
+.riskToolTips + .tooltip > .tooltip-inner {
+    font-size: 14px;
+}

@@ -1,0 +1,133 @@
+﻿@model RiskGame.Models.RiskData
+@{
+    ViewBag.Title = "Edit Risk";
+
+    var riskNews = Model.RiskNews.Any() ? Model.RiskNews.LastOrDefault() : new RiskGame.Entity.RiskNews();
+
+    var riskNewsContent = string.Empty;
+    var riskNewsImpact = string.Empty;
+    var riskNewsProbability = string.Empty;
+    if (riskNews != null){
+
+        riskNewsContent = riskNews.RiskNewsDetail;
+        riskNewsImpact = riskNews.RiskNewsImpact.ToString();
+        riskNewsProbability = riskNews.RiskNewsProbability.ToString();
+    }
+
+}
+<h2>Edit Risk</h2>
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        @using (Html.BeginForm("EditRisk", "AdminDashboard", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.Hidden("Edit.RiskId", Model.RiskId)
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Risk Info</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+
+                                @Html.Label("Risk Name")
+                                @Html.TextBox("Edit.RiskName", @Model.Name, new { @class = "form-control", required = "required" })
+
+                            </div>
+                            <div class="form-group">
+
+                                @Html.Label("Risk Detail")
+                                @Html.TextBox("Edit.RiskDetail", @Model.RiskDetail, new { @class = "form-control", required = "required" })
+
+                            </div>
+                            <div class="form-group">
+
+                                @Html.Label("Risk Probability")
+                                @Html.TextBox("Edit.RiskProbability", @Model.RiskProbability, new { @class = "form-control", required = "required", type = "number" })
+
+                            </div>
+                            <div class="form-group">
+
+                                @Html.Label("Risk Impact")
+                                @Html.TextBox("Edit.RiskImpact", @Model.RiskImpact, new { @class = "form-control", required = "required", type = "number" })
+
+                            </div>
+                            <div class="form-group">
+
+                                @Html.Label("Risk Type")
+                                @Html.DropDownList("Edit.RiskType", (List<SelectListItem>)ViewBag.SelectRiskType, new { @class = "form-control", required = "required" })
+
+                            </div>
+
+                            <div class="form-group">
+
+                                @Html.Label("Active")
+                                @Html.CheckBox("Edit.RiskActive", true, new { @class = "form-control", style = "width:auto;" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Risk News</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+
+                                @Html.Label("Risk News Content")
+                                @Html.TextArea("Edit.RiskNewsContent", @riskNewsContent, new { @class = "form-control" })
+
+                            </div>
+                            <div class="form-group">
+
+                                @Html.Label("Risk News Probability")
+                                @Html.TextBox("Edit.RiskNewsProbability", @riskNewsProbability, new { @class = "form-control", required = "required", type = "number" })
+
+                            </div>
+                            <div class="form-group">
+
+                                @Html.Label("Risk News Impact")
+                                @Html.TextBox("Edit.RiskNewsImpact", @riskNewsImpact, new { @class = "form-control", required = "required", type = "number" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Risk Level</strong>
+                        </div>
+                        <div class="card-body">
+
+                            @foreach (var item in Model.RiskOption.Where(x => x.RiskLevel != 0))
+                            {
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+
+                                        @Html.Label("Risk Money Level ") @item.RiskLevel
+                                        @Html.TextBox($"Edit.RiskActionEffectValue{item.RiskLevel}", @item.ActionEffectValue, new { @class = "form-control", required = "required", type = "number" })
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <img src="@item.RiskImageUrl" style="max-width: 250px;" />
+                                        @Html.TextBox($"Edit.RiskImageUrl{item.RiskLevel}", item.RiskImageUrl, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-floppy-o"></i> Save</button>
+        }
+
+    </div>
+</div>

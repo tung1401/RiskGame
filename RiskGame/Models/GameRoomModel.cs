@@ -19,17 +19,17 @@ namespace RiskGame.Models
 
         public List<UserGameRoom> UserGameRooms { set; get; }
 
+        public List<Risk> Risks { set; get; }
+
         public GameRoomModel()
         {
             UserGameRooms = new List<UserGameRoom>();
+            Risks = new List<Risk>();
         }
 
         public List<UserGameRoom> GetResult()
         {
             return UserGameRooms.OrderByDescending(x => x.MoneyValue).ToList();
         }
-
-        
-
     }
 }

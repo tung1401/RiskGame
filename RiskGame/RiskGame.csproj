@@ -278,6 +278,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminDashboardController.cs" />
     <Compile Include="Controllers\BaseGameController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\MarketController.cs" />
@@ -1741,6 +1742,9 @@
     <Content Include="SweetAlert2\animations.scss" />
     <Content Include="Views\Shared\_RiskSlideShow.cshtml" />
     <Content Include="Views\GameHistory\Detail.cshtml" />
+    <Content Include="Views\AdminDashboard\Index.cshtml" />
+    <Content Include="Views\AdminDashboard\AddRisk.cshtml" />
+    <Content Include="Views\AdminDashboard\EditRisk.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

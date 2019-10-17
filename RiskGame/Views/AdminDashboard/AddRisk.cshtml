@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Add Risk";
+}
+
+<h2>Add Risk</h2>
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        @using (Html.BeginForm("AddRisk", "AdminDashboard", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Risk Info</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+
+                                @Html.Label("Risk Name")
+                                @Html.TextBox("Add.RiskName", $"", new { @class = "form-control", required = "required" })
+
+                            </div>
+                            <div class="form-group">
+
+                                @Html.Label("Risk Detail")
+                                @Html.TextBox("Add.RiskDetail", $"", new { @class = "form-control", required = "required" })
+
+                            </div>
+
+                            <div class="form-group">
+
+                                @Html.Label("Risk Probability")
+                                @Html.TextBox("Add.RiskProbability", $"", new { @class = "form-control", required = "required", type = "number" })
+
+                            </div>
+
+                            <div class="form-group">
+
+                                @Html.Label("Risk Impact")
+                                @Html.TextBox("Add.RiskImpact", $"", new { @class = "form-control", required = "required", type = "number" })
+
+                            </div>
+
+                            <div class="form-group">
+
+                                @Html.Label("Risk Type")
+                                @Html.DropDownList("Add.RiskType", (List<SelectListItem>)ViewBag.SelectRiskType, new { @class = "form-control", required = "required" })
+
+                            </div>
+
+                            <div class="form-group">
+
+                                @Html.Label("Active")
+                                @Html.CheckBox("Add.RiskActive", true, new { @class = "form-control", style="width:auto;" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+
+                </div>
+            </div>
+
+
+            <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-floppy-o"></i> Save</button>
+        }
+    </div>
+</div>

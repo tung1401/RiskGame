@@ -25,7 +25,26 @@ namespace KPI.Services.Service
             _riskNews = riskNews;
         }
 
-        //
+        public Risk Add(Risk risk)
+        {
+            return _risk.Add(risk);
+        }
+
+        public RiskOption AddRiskOption(RiskOption riskOption)
+        {
+            return _riskOption.Add(riskOption);
+        }
+
+        public IEnumerable<Risk> GetAll()
+        {
+            return _risk.GetAll();
+        }
+
+        public Risk GetById(int id)
+        {
+            return _risk.GetWith(x => x.RiskId == id, inc => inc.RiskOptions, inc => inc.RiskNews);
+        }
+
         public IEnumerable<Risk> GetAllRisk()
         {
             return _risk.GetManyWith(x => x.Active == true, inc => inc.RiskOptions);

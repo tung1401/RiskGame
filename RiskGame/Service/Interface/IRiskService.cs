@@ -9,6 +9,10 @@ namespace KPI.Services.Interface
 {
     public interface IRiskService
     {
+        Risk GetById(int id);
+        Risk Add(Risk risk);
+        RiskOption AddRiskOption(RiskOption riskOption);
+        IEnumerable<Risk> GetAll();
         IEnumerable<Risk> GetAllRisk();
         IEnumerable<Risk> GetRiskByType(int type, bool includeGeneral);
         IEnumerable<Risk> GetRiskById(int id);

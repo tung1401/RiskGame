@@ -110,6 +110,8 @@ namespace RiskGame.Core.BotExpert
             var gameBattleInThisTurn = _service.Game().GetGameBattleOpenRisk(gameRoomId, turn).ToList();
             var userGameRoom = _service.GameRoom().GetUserGameRoom(gameRoomId, true, jobType);
             var userId = userGameRoom.UserId;
+           // var protectBotRate = jobType == (int)JobType.ExpertSpecialist ? 10 : 5;
+
             foreach (var item in userGameRiskInThisTurn)
             {
                 //var riskOptionId = 0;
@@ -160,12 +162,13 @@ namespace RiskGame.Core.BotExpert
                 {
                     //Opportunity to expert Specialist Thinking
                     var expertSpecialistRandomLevel = CommonFunction.RandomNumber(1, 10);
-                    if (expertSpecialistRandomLevel > 2)
+                    if (expertSpecialistRandomLevel > 4) // random 5-10 จะได้ option ที่ถูก
                     {
                         riskOptionId = gameBattle.RiskOptionId;
                     }
                     else
                     {
+                        // ถ้า random 0-4 จะต้องมาสุ่มเลือกว่าจะเลือก level 0 - 2
                         var randomLevel = CommonFunction.RandomNumber(0, 2);
                         var allRiskOption = _service.Risk().GetAllRiskOptionByRiskId(riskId, randomLevel);
                         if (allRiskOption.Any())
@@ -176,7 +179,9 @@ namespace RiskGame.Core.BotExpert
                 }
                 else
                 {
-                    var allRiskOption = _service.Risk().GetAllRiskOptionByRiskId(riskId, 0);
+                    // ถ้าหาไม่เจอ ให้ลองเสี่ยง 0 - 1
+                    var expertRandomLevelIgnore = CommonFunction.RandomNumber(0, 1);
+                    var allRiskOption = _service.Risk().GetAllRiskOptionByRiskId(riskId, expertRandomLevelIgnore);
                     if (allRiskOption.Any())
                     {
                         riskOptionId = allRiskOption.FirstOrDefault().RiskOptionId;

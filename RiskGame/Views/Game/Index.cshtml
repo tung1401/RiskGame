@@ -39,13 +39,13 @@
             </thead>
             <tbody>
 
-                @foreach (var item in Model.RiskData)
+                @foreach (var item in Model.RiskData.OrderBy(o => o.RiskTypeValue))
                 {
                     <tr>
                         <td>
                             <span class="badge badge-pill badge-primary">@item.RiskType</span>
                             @item.Name
-                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Probability: @item.RiskProbability Impact: @item.RiskImpact">
+                            <i class="fa fa-question-circle riskToolTips" data-toggle="tooltip" data-placement="right" title="Probability: @item.RiskProbability Impact: @item.RiskImpact">
                             </i>
                             <div><p class="small">@item.RiskDetail</p></div>
                         </td>
